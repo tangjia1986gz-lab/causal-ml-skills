@@ -12,13 +12,128 @@ triggers:
   - tree model
   - ensemble methods
   - boosting
+  - nuisance function
+  - first stage learner
+  - propensity score model
+  - CatBoost
 ---
 
 # Tree-Based ML Models Skill
 
 ## Overview
 
-Tree-based models are powerful nonparametric methods that excel at capturing complex, nonlinear relationships in data. This skill covers decision trees, random forests, gradient boosting (XGBoost, LightGBM), and their applications in both prediction and causal inference. These models are particularly valuable in causal ML as first-stage learners in Double/Debiased Machine Learning (DDML) and for propensity score estimation.
+Tree-based models are powerful nonparametric methods that excel at capturing complex, nonlinear relationships in data. This skill covers decision trees, random forests, gradient boosting (XGBoost, LightGBM, CatBoost), and their applications in both prediction and causal inference. These models are particularly valuable in causal ML as first-stage learners in Double/Debiased Machine Learning (DDML) and for propensity score estimation.
+
+## K-Dense Structure
+
+This skill follows the K-Dense structure with comprehensive resources:
+
+```
+ml-model-tree/
+├── SKILL.md                    # This file - main documentation
+├── tree_models.py              # Core implementation module
+├── references/                 # Reference documentation
+│   ├── model_selection.md      # Decision trees, RF, XGBoost, LightGBM, CatBoost
+│   ├── hyperparameters.md      # Key parameters and tuning strategies
+│   ├── feature_importance.md   # Impurity, permutation, SHAP methods
+│   └── causal_applications.md  # DDML, honest trees, causal forests
+├── scripts/                    # CLI tools
+│   ├── run_tree_model.py       # Model training with hyperparameter tuning
+│   ├── analyze_importance.py   # Feature importance analysis
+│   └── visualize_trees.py      # Tree and PDP visualization
+└── assets/
+    └── markdown/
+        └── tree_report.md      # Model report template
+```
+
+## Quick Start
+
+### Command Line Interface
+
+```bash
+# Train XGBoost with DDML-optimized settings
+python scripts/run_tree_model.py data.csv --target y --model xgboost --ddml-mode
+
+# Run hyperparameter tuning
+python scripts/run_tree_model.py data.csv --target y --model xgboost --tune --cv 5
+
+# Analyze feature importance (all methods)
+python scripts/analyze_importance.py model.joblib data.csv --target y --method all
+
+# Generate visualizations
+python scripts/visualize_trees.py model.joblib data.csv --target y --pdp income,age --shap-summary
+```
+
+### Python API
+
+```python
+from tree_models import fit_xgboost, fit_random_forest, get_feature_importance
+
+# Train with DDML-optimized parameters
+model = fit_xgboost(
+    X, y, task='regression',
+    params={'max_depth': 5, 'learning_rate': 0.05},
+    n_rounds=200, early_stopping_rounds=30
+)
+
+# Analyze feature importance
+importance = get_feature_importance(model['model'], feature_names, method='permutation', X=X, y=y)
+```
+
+## References
+
+| Reference | Description |
+|-----------|-------------|
+| [model_selection.md](references/model_selection.md) | Model comparison and selection guide for DDML |
+| [hyperparameters.md](references/hyperparameters.md) | Hyperparameter tuning strategies |
+| [feature_importance.md](references/feature_importance.md) | Impurity, permutation, and SHAP methods |
+| [causal_applications.md](references/causal_applications.md) | DDML nuisance estimation, cross-fitting, causal forests |
+
+## DDML Integration
+
+Tree models serve as the workhorses for DDML nuisance function estimation:
+
+### Sample Splitting and Cross-Fitting
+
+```python
+from sklearn.model_selection import KFold
+
+def cross_fit_nuisance(X, Y, D, n_folds=5):
+    """Cross-fitted nuisance estimation for DDML."""
+    kf = KFold(n_splits=n_folds, shuffle=True, random_state=42)
+    Y_hat = np.zeros(len(Y))
+    D_hat = np.zeros(len(D))
+
+    for train_idx, val_idx in kf.split(X):
+        # Train outcome model
+        outcome = fit_xgboost(X[train_idx], Y[train_idx], task='regression',
+                              params={'max_depth': 5, 'learning_rate': 0.05})
+        Y_hat[val_idx] = outcome['model'].predict(X[val_idx])
+
+        # Train propensity model
+        propensity = fit_xgboost(X[train_idx], D[train_idx], task='classification',
+                                  params={'max_depth': 4, 'learning_rate': 0.05})
+        D_hat[val_idx] = propensity['model'].predict_proba(X[val_idx])[:, 1]
+
+    return Y_hat, np.clip(D_hat, 0.05, 0.95)  # Clip propensity scores
+```
+
+### DDML-Optimized Parameters
+
+See [hyperparameters.md](references/hyperparameters.md) for recommended settings:
+
+```python
+DDML_PARAMS = {
+    'xgboost': {
+        'max_depth': 5,
+        'learning_rate': 0.05,
+        'subsample': 0.8,
+        'colsample_bytree': 0.8,
+        'reg_alpha': 0.1,
+        'reg_lambda': 1.0
+    }
+}
+```
 
 ## Decision Trees (CART)
 

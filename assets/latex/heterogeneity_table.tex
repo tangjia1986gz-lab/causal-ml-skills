@@ -1,0 +1,380 @@
+% =============================================================================
+% heterogeneity_table.tex - CATE Heterogeneity Results Table Template
+% =============================================================================
+% Style: AER/NBER publication standards for causal machine learning
+% Features:
+%   - Conditional Average Treatment Effects (CATE) by subgroup
+%   - Causal forest variable importance
+%   - Best linear projection results
+%   - Treatment effect quantiles
+%   - Policy targeting metrics
+%
+% Placeholders (replace with your data):
+%   - {{TITLE}}          : Table title
+%   - {{LABEL}}          : LaTeX label for cross-referencing
+%   - {{CATE_*}}         : Conditional treatment effects
+%   - {{SE_*}}           : Standard errors
+%   - {{VIMP_*}}         : Variable importance scores
+% =============================================================================
+
+\documentclass[12pt]{article}
+\input{common_preamble}
+
+\begin{document}
+
+% =============================================================================
+% Template 1: CATE by Subgroups (Causal Forest or DR-Learner)
+% =============================================================================
+
+\begin{table}[htbp]
+\centering
+\caption{{{TITLE}}: Heterogeneous Treatment Effects by Subgroup}
+\label{tab:{{LABEL}}_cate}
+
+\begin{threeparttable}
+\begin{tabular}{l
+    S[table-format=-1.3]    % CATE
+    S[table-format=1.3]     % SE
+    S[table-format=-1.3]    % CI Lower
+    S[table-format=-1.3]    % CI Upper
+    S[table-format=5.0]     % N
+}
+\toprule
+Subgroup            & {CATE} & {SE} & {95\% CI Lower} & {95\% CI Upper} & {N} \\
+\midrule
+
+\multicolumn{6}{l}{\textit{Panel A: Overall Effect}} \\
+\addlinespace[0.3em]
+Full Sample         & {{CATE_FULL}}  & {{SE_FULL}}  & {{CI_LO_FULL}}  & {{CI_HI_FULL}}  & {{N_FULL}}  \\
+\addlinespace[0.5em]
+
+\multicolumn{6}{l}{\textit{Panel B: By Gender}} \\
+\addlinespace[0.3em]
+Male                & {{CATE_MALE}}  & {{SE_MALE}}  & {{CI_LO_MALE}}  & {{CI_HI_MALE}}  & {{N_MALE}}  \\
+Female              & {{CATE_FEM}}   & {{SE_FEM}}   & {{CI_LO_FEM}}   & {{CI_HI_FEM}}   & {{N_FEM}}   \\
+Difference          & {{CATE_GDIFF}} & {{SE_GDIFF}} & {{CI_LO_GDIFF}} & {{CI_HI_GDIFF}} &             \\
+\addlinespace[0.5em]
+
+\multicolumn{6}{l}{\textit{Panel C: By Age Group}} \\
+\addlinespace[0.3em]
+Young ($<$ 35)      & {{CATE_YOUNG}} & {{SE_YOUNG}} & {{CI_LO_YOUNG}} & {{CI_HI_YOUNG}} & {{N_YOUNG}} \\
+Middle (35--55)     & {{CATE_MID}}   & {{SE_MID}}   & {{CI_LO_MID}}   & {{CI_HI_MID}}   & {{N_MID}}   \\
+Old ($>$ 55)        & {{CATE_OLD}}   & {{SE_OLD}}   & {{CI_LO_OLD}}   & {{CI_HI_OLD}}   & {{N_OLD}}   \\
+$p$-value (joint)   & \multicolumn{5}{c}{{{P_AGE_JOINT}}} \\
+\addlinespace[0.5em]
+
+\multicolumn{6}{l}{\textit{Panel D: By Education}} \\
+\addlinespace[0.3em]
+High School or Less & {{CATE_HS}}    & {{SE_HS}}    & {{CI_LO_HS}}    & {{CI_HI_HS}}    & {{N_HS}}    \\
+Some College        & {{CATE_SC}}    & {{SE_SC}}    & {{CI_LO_SC}}    & {{CI_HI_SC}}    & {{N_SC}}    \\
+College+            & {{CATE_COL}}   & {{SE_COL}}   & {{CI_LO_COL}}   & {{CI_HI_COL}}   & {{N_COL}}   \\
+$p$-value (joint)   & \multicolumn{5}{c}{{{P_EDU_JOINT}}} \\
+\addlinespace[0.5em]
+
+\multicolumn{6}{l}{\textit{Panel E: By Income Quartile}} \\
+\addlinespace[0.3em]
+Q1 (Bottom 25\%)    & {{CATE_Q1}}    & {{SE_Q1}}    & {{CI_LO_Q1}}    & {{CI_HI_Q1}}    & {{N_Q1}}    \\
+Q2                  & {{CATE_Q2}}    & {{SE_Q2}}    & {{CI_LO_Q2}}    & {{CI_HI_Q2}}    & {{N_Q2}}    \\
+Q3                  & {{CATE_Q3}}    & {{SE_Q3}}    & {{CI_LO_Q3}}    & {{CI_HI_Q3}}    & {{N_Q3}}    \\
+Q4 (Top 25\%)       & {{CATE_Q4}}    & {{SE_Q4}}    & {{CI_LO_Q4}}    & {{CI_HI_Q4}}    & {{N_Q4}}    \\
+$p$-value (Q4 vs Q1)& \multicolumn{5}{c}{{{P_INCOME_DIFF}}} \\
+
+\bottomrule
+\end{tabular}
+
+\tablenote{This table reports conditional average treatment effects (CATE) estimated using causal forest.
+Panel A shows the average treatment effect (ATE) for the full sample.
+Panels B--E show CATEs for pre-specified subgroups.
+``Difference'' rows show the difference in CATE between groups.
+Joint $p$-values test the null hypothesis that CATEs are equal across all categories.
+Standard errors computed using the honest inference procedure of Athey and Imbens (2016).
+95\% confidence intervals are constructed using normal approximation.}
+
+\end{threeparttable}
+\end{table}
+
+
+% =============================================================================
+% Template 2: Variable Importance and Best Linear Projection
+% =============================================================================
+
+\begin{table}[htbp]
+\centering
+\caption{Treatment Effect Heterogeneity: Variable Importance}
+\label{tab:vimp}
+
+\small
+\begin{threeparttable}
+\begin{tabular}{l
+    S[table-format=1.4]     % VIMP
+    S[table-format=1.4]     % SE
+    c                       % Rank
+    S[table-format=-1.3]    % BLP Coef
+    S[table-format=1.3]     % BLP SE
+}
+\toprule
+                    & \multicolumn{2}{c}{Variable Importance} & & \multicolumn{2}{c}{Best Linear Projection} \\
+\cmidrule(lr){2-3} \cmidrule(lr){5-6}
+Variable            & {VIMP} & {SE} & {Rank} & {Coef.} & {SE} \\
+\midrule
+
+\multicolumn{6}{l}{\textit{Panel A: Continuous Variables}} \\
+\addlinespace[0.3em]
+Age                 & 0.1234 & 0.0156 & {1} & 0.008\sym{***} & 0.002 \\
+Income (log)        & 0.0987 & 0.0134 & {2} & 0.045\sym{**}  & 0.018 \\
+Education (years)   & 0.0756 & 0.0123 & {3} & 0.012\sym{*}   & 0.006 \\
+Experience          & 0.0534 & 0.0098 & {4} & -0.003         & 0.004 \\
+Hours worked        & 0.0312 & 0.0076 & {6} & 0.002          & 0.001 \\
+\addlinespace[0.5em]
+
+\multicolumn{6}{l}{\textit{Panel B: Categorical Variables}} \\
+\addlinespace[0.3em]
+Female              & 0.0423 & 0.0089 & {5} & -0.089\sym{**} & 0.035 \\
+Married             & 0.0234 & 0.0065 & {7} & 0.056\sym{*}   & 0.028 \\
+Urban               & 0.0198 & 0.0054 & {8} & 0.034          & 0.025 \\
+Has children        & 0.0156 & 0.0043 & {9} & 0.023          & 0.022 \\
+\addlinespace[0.5em]
+
+\multicolumn{6}{l}{\textit{Panel C: Interactions (Top 5)}} \\
+\addlinespace[0.3em]
+Age $\times$ Income & 0.0345 & 0.0078 & {---} &               &       \\
+Female $\times$ Education & 0.0289 & 0.0067 & {---} &        &       \\
+Age $\times$ Education & 0.0234 & 0.0056 & {---} &           &       \\
+Income $\times$ Urban & 0.0198 & 0.0048 & {---} &             &       \\
+Female $\times$ Married & 0.0167 & 0.0042 & {---} &           &       \\
+
+\midrule
+\multicolumn{6}{l}{\textit{Panel D: Summary Statistics}} \\
+\addlinespace[0.3em]
+Total VIMP explained & \multicolumn{5}{c}{0.5543} \\
+Omnibus test for heterogeneity & \multicolumn{5}{c}{$\chi^2(9) = 45.67$, $p < 0.001$} \\
+BLP R-squared       & \multicolumn{5}{c}{0.234} \\
+
+\bottomrule
+\end{tabular}
+
+\tablenote{This table reports variable importance for treatment effect heterogeneity.
+Columns (1)--(2): Variable importance (VIMP) from causal forest, measuring each variable's contribution to CATE variation.
+VIMP is computed as the decrease in out-of-bag prediction accuracy when the variable is permuted.
+Column (3): Rank by VIMP magnitude.
+Columns (4)--(5): Coefficients from best linear projection (BLP) of estimated CATEs on covariates.
+BLP tests whether each variable is linearly associated with treatment effect heterogeneity.
+Standard errors for VIMP are computed using bootstrap. \signote\ for BLP coefficients.}
+
+\end{threeparttable}
+\end{table}
+
+
+% =============================================================================
+% Template 3: CATE Distribution and Quantiles
+% =============================================================================
+
+\begin{table}[htbp]
+\centering
+\caption{Treatment Effect Distribution}
+\label{tab:cate_dist}
+
+\begin{threeparttable}
+\begin{tabular}{l*{6}{S[table-format=-1.3]}}
+\toprule
+                    & {P10}     & {P25}     & {P50}     & {P75}     & {P90}     & {IQR}     \\
+\midrule
+
+\multicolumn{7}{l}{\textit{Panel A: CATE Quantiles}} \\
+\addlinespace[0.3em]
+CATE                & {{P10_CATE}} & {{P25_CATE}} & {{P50_CATE}} & {{P75_CATE}} & {{P90_CATE}} & {{IQR_CATE}} \\
+\addlinespace[0.3em]
+95\% CI (Lower)     & {{P10_LO}} & {{P25_LO}} & {{P50_LO}} & {{P75_LO}} & {{P90_LO}} & \\
+95\% CI (Upper)     & {{P10_HI}} & {{P25_HI}} & {{P50_HI}} & {{P75_HI}} & {{P90_HI}} & \\
+\addlinespace[0.5em]
+
+\multicolumn{7}{l}{\textit{Panel B: Share with Positive/Negative Effects}} \\
+\addlinespace[0.3em]
+Share CATE $>$ 0    & \multicolumn{6}{c}{{{SHARE_POS}} (95\% CI: [{{SHARE_POS_LO}}, {{SHARE_POS_HI}}])} \\
+Share CATE $<$ 0    & \multicolumn{6}{c}{{{SHARE_NEG}} (95\% CI: [{{SHARE_NEG_LO}}, {{SHARE_NEG_HI}}])} \\
+Share $|$CATE$|$ $>$ 0.1 & \multicolumn{6}{c}{{{SHARE_LARGE}}} \\
+
+\midrule
+\multicolumn{7}{l}{\textit{Panel C: Tests for Heterogeneity}} \\
+\addlinespace[0.3em]
+Variance of CATE    & \multicolumn{6}{c}{{{VAR_CATE}} (SE: {{SE_VAR_CATE}})} \\
+$H_0$: No heterogeneity & \multicolumn{6}{c}{$\chi^2 = {{CHI2_HET}}$, $p = {{P_HET}}$} \\
+90-10 percentile gap & \multicolumn{6}{c}{{{P90_P10_GAP}} (SE: {{SE_GAP}})} \\
+
+\bottomrule
+\end{tabular}
+
+\tablenote{This table reports the distribution of estimated conditional average treatment effects (CATE).
+Panel A shows selected quantiles of the CATE distribution across individuals.
+Panel B shows the share of individuals with positive vs. negative estimated effects.
+Panel C tests whether there is significant heterogeneity in treatment effects.
+Variance of CATE is estimated using the decomposition of Athey and Wager (2019).
+The null hypothesis of no heterogeneity is tested using the omnibus test from causal forest.}
+
+\end{threeparttable}
+\end{table}
+
+
+% =============================================================================
+% Template 4: Policy Targeting and Sorted Effects
+% =============================================================================
+
+\begin{table}[htbp]
+\centering
+\caption{Policy Targeting: Treatment Effect by Predicted CATE Quartile}
+\label{tab:targeting}
+
+\begin{threeparttable}
+\begin{tabular}{l*{5}{S[table-format=-1.3]}}
+\toprule
+                    & {Q1 (Lowest)} & {Q2}      & {Q3}      & {Q4 (Highest)} & {Q4$-$Q1} \\
+\midrule
+
+\multicolumn{6}{l}{\textit{Panel A: Treatment Effect by Predicted Benefit Quartile}} \\
+\addlinespace[0.3em]
+Predicted CATE      & -0.045    & 0.123     & 0.245     & 0.412     & 0.457     \\
+                    & (0.018)   & (0.025)   & (0.031)   & (0.042)   & (0.045)   \\
+\addlinespace[0.3em]
+Actual CATE         & -0.023    & 0.098     & 0.198     & 0.356     & 0.379     \\
+                    & (0.045)   & (0.052)   & (0.058)   & (0.067)   & (0.081)   \\
+\addlinespace[0.5em]
+
+\multicolumn{6}{l}{\textit{Panel B: Targeting Gain Metrics}} \\
+\addlinespace[0.3em]
+ATE (Treat All)     & \multicolumn{5}{c}{0.156 (SE: 0.028)} \\
+LATE (Treat Q4 Only)& \multicolumn{5}{c}{0.356 (SE: 0.067)} \\
+Targeting Gain (Q4 vs All) & \multicolumn{5}{c}{0.200 (SE: 0.072)} \\
+\addlinespace[0.3em]
+AUTOC               & \multicolumn{5}{c}{0.234 (SE: 0.056)} \\
+QINI Coefficient    & \multicolumn{5}{c}{0.189 (SE: 0.048)} \\
+
+\midrule
+\multicolumn{6}{l}{\textit{Panel C: Calibration}} \\
+\addlinespace[0.3em]
+Correlation (Pred., Actual) & \multicolumn{5}{c}{0.78} \\
+Calibration slope   & \multicolumn{5}{c}{0.86 (SE: 0.12)} \\
+Calibration intercept & \multicolumn{5}{c}{0.02 (SE: 0.03)} \\
+
+\midrule
+\multicolumn{6}{l}{\textit{Panel D: Sample Characteristics by Quartile}} \\
+\addlinespace[0.3em]
+Mean Age            & 52.3      & 45.6      & 38.2      & 29.8      &           \\
+\% Female           & 0.58      & 0.52      & 0.48      & 0.42      &           \\
+Mean Income (log)   & 9.8       & 10.2      & 10.5      & 10.9      &           \\
+Mean Education (yrs)& 11.2      & 12.5      & 13.8      & 15.2      &           \\
+N                   & 2845      & 2845      & 2845      & 2845      &           \\
+
+\bottomrule
+\end{tabular}
+
+\tablenote{This table evaluates the performance of CATE-based targeting.
+Panel A: Observations are sorted into quartiles by predicted CATE.
+``Predicted CATE'' is the cross-validated forest prediction; ``Actual CATE'' is estimated on held-out folds.
+Panel B: AUTOC is the Area Under the Targeting Operator Characteristic curve.
+QINI coefficient measures cumulative uplift from targeting.
+Panel C: Calibration assesses whether predicted CATEs match actual magnitudes.
+Slope = 1 and intercept = 0 indicate perfect calibration.
+Panel D: Shows covariate means for each quartile to characterize who benefits most.}
+
+\end{threeparttable}
+\end{table}
+
+
+% =============================================================================
+% Template 5: Sorted Group Average Treatment Effects (GATES)
+% =============================================================================
+
+\begin{table}[htbp]
+\centering
+\caption{Sorted Group Average Treatment Effects (GATES)}
+\label{tab:gates}
+
+\begin{threeparttable}
+\begin{tabular}{l*{5}{S[table-format=-1.3]}c}
+\toprule
+                    & {Group 1} & {Group 2} & {Group 3} & {Group 4} & {Group 5} & $p$ (het.) \\
+                    & {(Bottom 20\%)} & & {(Median)} & & {(Top 20\%)} & \\
+\midrule
+
+\multicolumn{7}{l}{\textit{Panel A: GATES Estimates}} \\
+\addlinespace[0.3em]
+$\gamma_k$ (GATE)   & -0.089    & 0.056     & 0.145     & 0.234     & 0.378     & \\
+                    & (0.052)   & (0.048)   & (0.045)   & (0.051)   & (0.062)   & \\
+\addlinespace[0.3em]
+$\beta_k$ (vs. ATE) & -0.234\sym{***} & -0.089\sym{*} & 0.000 & 0.089\sym{*} & 0.233\sym{***} & $<$0.001 \\
+                    & (0.058)   & (0.052)   & {---}     & (0.055)   & (0.068)   & \\
+\addlinespace[0.5em]
+
+\multicolumn{7}{l}{\textit{Panel B: Pairwise Comparisons}} \\
+\addlinespace[0.3em]
+Group 5 $-$ Group 1 & \multicolumn{5}{c}{0.467\sym{***} (SE: 0.081)} & \\
+Group 5 $-$ Group 3 & \multicolumn{5}{c}{0.233\sym{***} (SE: 0.076)} & \\
+Group 4 $-$ Group 2 & \multicolumn{5}{c}{0.178\sym{**} (SE: 0.070)} & \\
+\addlinespace[0.5em]
+
+\multicolumn{7}{l}{\textit{Panel C: ATE in Each Group}} \\
+\addlinespace[0.3em]
+$E[\tau | G=k]$     & -0.089    & 0.056     & 0.145     & 0.234     & 0.378     & \\
+Share of Sample     & {0.200}   & {0.200}   & {0.200}   & {0.200}   & {0.200}   & \\
+
+\midrule
+Overall ATE         & \multicolumn{6}{c}{0.145 (SE: 0.028)} \\
+Observations        & \multicolumn{6}{c}{14,280} \\
+
+\bottomrule
+\end{tabular}
+
+\tablenote{This table reports Sorted Group Average Treatment Effects (GATES) following Chernozhukov et al. (2020).
+Panel A: $\gamma_k$ is the average treatment effect for observations in group $k$ (sorted by predicted CATE).
+$\beta_k$ is the deviation of $\gamma_k$ from the overall ATE; $\beta_3 = 0$ by construction (median group).
+Panel B: Tests for differences between selected groups.
+The $p$-value for heterogeneity tests the null that all $\beta_k = 0$ (no heterogeneity).
+Standard errors are computed using the method of Chernozhukov et al. (2020) with cross-fitting.}
+
+\end{threeparttable}
+\end{table}
+
+\end{document}
+
+% =============================================================================
+% USAGE NOTES:
+% =============================================================================
+%
+% 1. CATE Estimation Methods:
+%    - Causal Forest (Athey & Wager, 2019): grf package in R
+%    - DR-Learner (Kennedy, 2020): econml in Python
+%    - T-Learner, S-Learner, X-Learner: causalml package
+%    - Double Machine Learning: doubleml package
+%
+% 2. Variable Importance Interpretation:
+%    - VIMP measures contribution to CATE variation, not prediction
+%    - Higher VIMP = more treatment effect heterogeneity along that dimension
+%    - BLP provides linear approximation of heterogeneity direction
+%
+% 3. Honest Inference:
+%    - Split sample: training vs. estimation trees
+%    - Cross-fitting for efficiency
+%    - Bootstrap or analytical SEs available
+%
+% 4. Policy Targeting Metrics:
+%    - AUTOC: Area Under Targeting Operating Characteristic
+%    - QINI: Cumulative uplift from targeting
+%    - Targeting gain = LATE(Top K%) - ATE
+%
+% 5. GATES (Chernozhukov et al., 2020):
+%    - Groups formed by sorting predicted CATEs
+%    - Tests for heterogeneity using parametric bootstrap
+%    - Robust to model misspecification via cross-fitting
+%
+% 6. Software Commands:
+%    - R: grf::causal_forest(), grf::average_treatment_effect()
+%    - Python: econml.dml.CausalForestDML
+%    - Python: causalml.inference.meta.XGBTRegressor
+%
+% 7. Reporting Best Practices:
+%    - Always report sample sizes for each subgroup
+%    - Show both predicted and realized CATEs for targeting tables
+%    - Include calibration metrics when claiming targeting value
+%    - Test for pre-specified (theory-driven) heterogeneity
+%    - Report data-driven (ML) heterogeneity separately
+% =============================================================================

@@ -1,0 +1,277 @@
+% =============================================================================
+% DID Results Table Template
+% =============================================================================
+%
+% This LaTeX template provides a publication-quality table format for
+% Difference-in-Differences estimation results.
+%
+% Usage:
+%   1. Copy this template to your LaTeX document
+%   2. Replace placeholder values (indicated by <<<VALUE>>>) with your estimates
+%   3. Adjust column count and labels as needed
+%
+% Required packages:
+%   \usepackage{booktabs}
+%   \usepackage{threeparttable}
+%   \usepackage{multirow}
+%   \usepackage{array}
+%
+% Author: Causal ML Skills
+% Version: 1.0.0
+% =============================================================================
+
+% -----------------------------------------------------------------------------
+% Basic DID Results Table
+% -----------------------------------------------------------------------------
+
+\begin{table}[htbp]
+\centering
+\caption{Difference-in-Differences Estimates}
+\label{tab:did_results}
+\begin{threeparttable}
+\begin{tabular}{l*{4}{c}}
+\toprule
+                              & (1)           & (2)           & (3)           & (4) \\
+                              & Basic         & Controls      & Trends        & Staggered \\
+\midrule
+\multicolumn{5}{l}{\textit{Panel A: Main Results}} \\[0.5em]
+Treatment Effect              & <<<EFFECT1>>>*** & <<<EFFECT2>>>*** & <<<EFFECT3>>>*** & <<<EFFECT4>>>*** \\
+                              & (<<<SE1>>>)   & (<<<SE2>>>)   & (<<<SE3>>>)   & (<<<SE4>>>) \\
+                              &               &               &               & \\
+\multicolumn{5}{l}{\textit{Panel B: Model Specification}} \\[0.5em]
+Controls                      & No            & Yes           & Yes           & Yes \\
+Unit Fixed Effects            & Yes           & Yes           & Yes           & Yes \\
+Time Fixed Effects            & Yes           & Yes           & Yes           & Yes \\
+Unit-Specific Trends          & No            & No            & Yes           & No \\
+Estimator                     & TWFE          & TWFE          & TWFE          & C-S \\
+                              &               &               &               & \\
+\multicolumn{5}{l}{\textit{Panel C: Sample and Fit}} \\[0.5em]
+Observations                  & <<<N1>>>      & <<<N2>>>      & <<<N3>>>      & <<<N4>>> \\
+R-squared                     & <<<R2_1>>>    & <<<R2_2>>>    & <<<R2_3>>>    & --- \\
+Number of Units               & <<<NUNITS>>>  & <<<NUNITS>>>  & <<<NUNITS>>>  & <<<NUNITS>>> \\
+Pre-trend p-value             & <<<PTREND>>>  & <<<PTREND>>>  & <<<PTREND>>>  & <<<PTREND>>> \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]
+\small
+\item \textit{Notes:} Robust standard errors clustered at the unit level in parentheses.
+Column (4) uses the Callaway and Sant'Anna (2021) estimator for staggered adoption.
+*** p$<$0.01, ** p$<$0.05, * p$<$0.1.
+Treatment variable is an indicator equal to 1 for treated units in post-treatment periods.
+Sample period: <<<PERIOD_START>>>-<<<PERIOD_END>>>. Treatment began in <<<TREAT_YEAR>>>.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+
+% -----------------------------------------------------------------------------
+% Extended DID Table with Heterogeneity
+% -----------------------------------------------------------------------------
+
+\begin{table}[htbp]
+\centering
+\caption{Heterogeneous Treatment Effects}
+\label{tab:did_heterogeneity}
+\begin{threeparttable}
+\begin{tabular}{l*{5}{c}}
+\toprule
+                              & (1)           & (2)           & (3)           & (4)           & (5) \\
+                              & Full Sample   & Low X         & High X        & Early         & Late \\
+\midrule
+Treatment Effect              & <<<EFF_ALL>>> & <<<EFF_LOW>>> & <<<EFF_HIGH>>> & <<<EFF_EARLY>>> & <<<EFF_LATE>>> \\
+                              & (<<<SE_ALL>>>) & (<<<SE_LOW>>>) & (<<<SE_HIGH>>>) & (<<<SE_EARLY>>>) & (<<<SE_LATE>>>) \\
+                              &               &               &               &               & \\
+Observations                  & <<<N_ALL>>>   & <<<N_LOW>>>   & <<<N_HIGH>>>  & <<<N_EARLY>>> & <<<N_LATE>>> \\
+Pre-treatment Mean            & <<<MEAN_ALL>>> & <<<MEAN_LOW>>> & <<<MEAN_HIGH>>> & <<<MEAN_EARLY>>> & <<<MEAN_LATE>>> \\
+\% Change                     & <<<PCT_ALL>>>\% & <<<PCT_LOW>>>\% & <<<PCT_HIGH>>>\% & <<<PCT_EARLY>>>\% & <<<PCT_LATE>>>\% \\
+                              &               &               &               &               & \\
+\multicolumn{3}{l}{Test: (2) = (3)}         & \multicolumn{2}{c}{p = <<<P_LOWHI>>>} & \\
+\multicolumn{3}{l}{Test: (4) = (5)}         & \multicolumn{2}{c}{p = <<<P_EARLA>>>} & \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]
+\small
+\item \textit{Notes:} Standard errors clustered at unit level in parentheses.
+Columns (2)-(3) split sample by <<<SPLIT_VAR>>> (median = <<<MEDIAN>>>).
+Columns (4)-(5) split by treatment timing.
+*** p$<$0.01, ** p$<$0.05, * p$<$0.1.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+
+% -----------------------------------------------------------------------------
+% Robustness Table
+% -----------------------------------------------------------------------------
+
+\begin{table}[htbp]
+\centering
+\caption{Robustness Checks}
+\label{tab:did_robustness}
+\begin{threeparttable}
+\begin{tabular}{l*{6}{c}}
+\toprule
+                              & (1)           & (2)           & (3)           & (4)           & (5)           & (6) \\
+                              & Baseline      & Alt. SE       & Balanced      & Placebo       & Alt. Ctrl     & Log \\
+\midrule
+Treatment Effect              & <<<EFF_1>>>   & <<<EFF_2>>>   & <<<EFF_3>>>   & <<<EFF_4>>>   & <<<EFF_5>>>   & <<<EFF_6>>> \\
+                              & (<<<SE_1>>>)  & (<<<SE_2>>>)  & (<<<SE_3>>>)  & (<<<SE_4>>>)  & (<<<SE_5>>>)  & (<<<SE_6>>>) \\
+                              &               &               &               &               &               & \\
+\midrule
+Variation                     & ---           & State cluster & Balanced only & Placebo time  & Extended      & Log outcome \\
+Observations                  & <<<N_1>>>     & <<<N_2>>>     & <<<N_3>>>     & <<<N_4>>>     & <<<N_5>>>     & <<<N_6>>> \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]
+\small
+\item \textit{Notes:} Column (1) reproduces baseline estimate. Column (2) clusters at state level.
+Column (3) restricts to balanced panel. Column (4) uses placebo treatment timing (<<<PLACEBO_YEAR>>>).
+Column (5) includes extended controls. Column (6) uses log outcome (coefficient $\times$ 100 = \% change).
+*** p$<$0.01, ** p$<$0.05, * p$<$0.1.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+
+% -----------------------------------------------------------------------------
+% Event Study Coefficients Table
+% -----------------------------------------------------------------------------
+
+\begin{table}[htbp]
+\centering
+\caption{Event Study Estimates}
+\label{tab:event_study}
+\begin{threeparttable}
+\begin{tabular}{lcc}
+\toprule
+Event Time                    & Coefficient   & 95\% CI \\
+\midrule
+\multicolumn{3}{l}{\textit{Pre-Treatment}} \\[0.3em]
+$t - 4$                       & <<<C_M4>>>    & [<<<CI_M4_L>>>, <<<CI_M4_U>>>] \\
+$t - 3$                       & <<<C_M3>>>    & [<<<CI_M3_L>>>, <<<CI_M3_U>>>] \\
+$t - 2$                       & <<<C_M2>>>    & [<<<CI_M2_L>>>, <<<CI_M2_U>>>] \\
+$t - 1$ (reference)           & 0.000         & --- \\
+                              &               & \\
+\multicolumn{3}{l}{\textit{Post-Treatment}} \\[0.3em]
+$t = 0$                       & <<<C_0>>>     & [<<<CI_0_L>>>, <<<CI_0_U>>>] \\
+$t + 1$                       & <<<C_P1>>>    & [<<<CI_P1_L>>>, <<<CI_P1_U>>>] \\
+$t + 2$                       & <<<C_P2>>>    & [<<<CI_P2_L>>>, <<<CI_P2_U>>>] \\
+$t + 3$                       & <<<C_P3>>>    & [<<<CI_P3_L>>>, <<<CI_P3_U>>>] \\
+$t + 4$                       & <<<C_P4>>>    & [<<<CI_P4_L>>>, <<<CI_P4_U>>>] \\
+                              &               & \\
+\midrule
+Joint F-test (pre-trends)     & \multicolumn{2}{c}{F = <<<F_STAT>>>, p = <<<F_PVAL>>>} \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]
+\small
+\item \textit{Notes:} Event study coefficients from regression with unit and time fixed effects.
+Standard errors clustered at unit level. Coefficients normalized to zero at $t-1$.
+Pre-treatment coefficients should be insignificant if parallel trends holds.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+
+% -----------------------------------------------------------------------------
+% Balance Table
+% -----------------------------------------------------------------------------
+
+\begin{table}[htbp]
+\centering
+\caption{Pre-Treatment Covariate Balance}
+\label{tab:balance}
+\begin{threeparttable}
+\begin{tabular}{l*{4}{c}}
+\toprule
+                              & Treatment     & Control       & Difference    & Std. Diff \\
+\midrule
+\multicolumn{5}{l}{\textit{Panel A: Unit Characteristics}} \\[0.5em]
+<<<VAR1>>>                    & <<<T_M1>>>    & <<<C_M1>>>    & <<<D_M1>>>    & <<<SD_M1>>> \\
+                              & (<<<T_S1>>>)  & (<<<C_S1>>>)  &               & \\
+<<<VAR2>>>                    & <<<T_M2>>>    & <<<C_M2>>>    & <<<D_M2>>>    & <<<SD_M2>>> \\
+                              & (<<<T_S2>>>)  & (<<<C_S2>>>)  &               & \\
+<<<VAR3>>>                    & <<<T_M3>>>    & <<<C_M3>>>    & <<<D_M3>>>    & <<<SD_M3>>> \\
+                              & (<<<T_S3>>>)  & (<<<C_S3>>>)  &               & \\
+                              &               &               &               & \\
+\multicolumn{5}{l}{\textit{Panel B: Pre-Treatment Outcomes}} \\[0.5em]
+$Y_{t-3}$                     & <<<T_Y3>>>    & <<<C_Y3>>>    & <<<D_Y3>>>    & <<<SD_Y3>>> \\
+$Y_{t-2}$                     & <<<T_Y2>>>    & <<<C_Y2>>>    & <<<D_Y2>>>    & <<<SD_Y2>>> \\
+$Y_{t-1}$                     & <<<T_Y1>>>    & <<<C_Y1>>>    & <<<D_Y1>>>    & <<<SD_Y1>>> \\
+                              &               &               &               & \\
+\midrule
+Observations                  & <<<N_T>>>     & <<<N_C>>>     & ---           & --- \\
+Joint F-test                  & \multicolumn{4}{c}{F = <<<F_BAL>>>, p = <<<P_BAL>>>} \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]
+\small
+\item \textit{Notes:} Standard deviations in parentheses. Difference = Treatment $-$ Control.
+Standardized difference = Difference / $\sqrt{(S_T^2 + S_C^2)/2}$.
+Values $<$0.1 indicate negligible imbalance; $<$0.25 indicates small imbalance.
+Joint F-test is from regression of treatment indicator on all covariates.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+
+% -----------------------------------------------------------------------------
+% Goodman-Bacon Decomposition Table
+% -----------------------------------------------------------------------------
+
+\begin{table}[htbp]
+\centering
+\caption{Goodman-Bacon Decomposition}
+\label{tab:bacon}
+\begin{threeparttable}
+\begin{tabular}{lcc}
+\toprule
+Comparison Type               & Weight        & DID Estimate \\
+\midrule
+Earlier Treated vs. Later Treated & <<<W_EL>>> & <<<E_EL>>> \\
+Later Treated vs. Earlier Treated & <<<W_LE>>> & <<<E_LE>>> \\
+Treated vs. Never Treated     & <<<W_TN>>>    & <<<E_TN>>> \\
+                              &               & \\
+\midrule
+TWFE Estimate                 & ---           & <<<TWFE>>> \\
+Callaway-Sant'Anna Estimate   & ---           & <<<CS>>> \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]
+\small
+\item \textit{Notes:} Decomposition following Goodman-Bacon (2021).
+``Later vs. Earlier Treated'' comparisons use already-treated units as controls,
+which can bias TWFE estimates when treatment effects are heterogeneous.
+If weight on this component is large and the estimate differs substantially
+from clean comparisons, consider using Callaway-Sant'Anna or other robust estimators.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+
+% =============================================================================
+% Python Code to Generate Values for This Template
+% =============================================================================
+%
+% from did_estimator import estimate_did_panel
+% from scripts.robustness_checks import RobustnessAnalyzer
+%
+% # Get estimates
+% result = estimate_did_panel(data, outcome, treatment, unit_id, time_id, cluster=cluster)
+%
+% # Format for LaTeX
+% def format_coef(x, stars=True):
+%     abs_x = abs(x)
+%     if stars:
+%         star = '***' if p < 0.01 else '**' if p < 0.05 else '*' if p < 0.1 else ''
+%     else:
+%         star = ''
+%     return f"{x:.3f}{star}"
+%
+% def format_se(x):
+%     return f"({x:.3f})"
+%
+% print(f"Effect: {format_coef(result.effect)}")
+% print(f"SE: {format_se(result.se)}")
+%
+% =============================================================================

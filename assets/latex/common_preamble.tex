@@ -1,0 +1,214 @@
+% =============================================================================
+% common_preamble.tex - Shared LaTeX Preamble for Causal Inference Tables/Figures
+% =============================================================================
+% Usage: \input{common_preamble.tex} at the beginning of your document
+% Compatible with: pdflatex, xelatex, lualatex
+% Style: AER/NBER publication standards
+% =============================================================================
+
+% -----------------------------------------------------------------------------
+% Required Packages
+% -----------------------------------------------------------------------------
+
+% Tables
+\usepackage{booktabs}           % Professional table rules (\toprule, \midrule, \bottomrule)
+\usepackage{threeparttable}     % Tables with notes
+\usepackage{multirow}           % Multi-row cells
+\usepackage{array}              % Enhanced column specifications
+\usepackage{tabularx}           % Auto-width columns
+\usepackage{longtable}          % Multi-page tables
+
+% Number Formatting
+\usepackage{siunitx}            % Consistent number formatting and alignment
+\sisetup{
+    input-symbols = (),         % Allow parentheses in input
+    input-open-uncertainty  = , % No uncertainty notation
+    input-close-uncertainty = ,
+    table-align-text-pre    = false,
+    table-align-text-post   = false,
+    group-separator         = {,},      % Thousands separator
+    group-minimum-digits    = 4,        % Apply grouping for 4+ digits
+    round-mode              = places,   % Round to decimal places
+    round-precision         = 3,        % Default 3 decimal places
+    detect-weight           = true,     % Detect bold
+    detect-family           = true,     % Detect font family
+}
+
+% Graphics and Plots
+\usepackage{graphicx}           % Include graphics
+\usepackage{pgfplots}           % Publication-quality plots
+\pgfplotsset{compat=1.18}       % Use latest pgfplots features
+\usepgfplotslibrary{fillbetween}% For confidence interval shading
+\usetikzlibrary{patterns}       % Pattern fills
+\usetikzlibrary{arrows.meta}    % Arrow styles
+
+% Colors
+\usepackage{xcolor}             % Color support
+
+% Captions
+\usepackage{caption}            % Caption customization
+\captionsetup{
+    font=small,
+    labelfont=bf,
+    skip=10pt
+}
+
+% -----------------------------------------------------------------------------
+% Color Definitions (Publication-Friendly Palette)
+% -----------------------------------------------------------------------------
+
+% Primary colors for plots
+\definecolor{coefblue}{RGB}{31, 119, 180}       % Main coefficient color
+\definecolor{ciblue}{RGB}{174, 199, 232}        % Confidence interval fill
+\definecolor{treatred}{RGB}{214, 39, 40}        % Treatment/significant
+\definecolor{controlgreen}{RGB}{44, 160, 44}    % Control group
+\definecolor{refgray}{RGB}{127, 127, 127}       % Reference lines
+\definecolor{shadegray}{RGB}{220, 220, 220}     % Shaded regions
+
+% Secondary colors
+\definecolor{orange}{RGB}{255, 127, 14}
+\definecolor{purple}{RGB}{148, 103, 189}
+\definecolor{brown}{RGB}{140, 86, 75}
+\definecolor{pink}{RGB}{227, 119, 194}
+
+% -----------------------------------------------------------------------------
+% Significance Stars Commands
+% -----------------------------------------------------------------------------
+
+% Standard significance stars (AER style)
+% Usage: \sym{*}, \sym{**}, \sym{***}
+\newcommand{\sym}[1]{\ensuremath{^{#1}}}
+
+% Significance level commands with standard thresholds
+% Usage: \stars{0.001} produces ***
+\newcommand{\stars}[1]{%
+    \ifnum\pdfstrcmp{#1}{0.01}<0 \sym{***}%
+    \else\ifnum\pdfstrcmp{#1}{0.05}<0 \sym{**}%
+    \else\ifnum\pdfstrcmp{#1}{0.1}<0 \sym{*}%
+    \fi\fi\fi%
+}
+
+% Pre-defined star commands
+\newcommand{\onestar}{\sym{*}}
+\newcommand{\twostar}{\sym{**}}
+\newcommand{\threestar}{\sym{***}}
+
+% -----------------------------------------------------------------------------
+% Table Formatting Commands
+% -----------------------------------------------------------------------------
+
+% Standard error in parentheses
+% Usage: \se{0.123}
+\newcommand{\se}[1]{(#1)}
+
+% Coefficient with standard error
+% Usage: \coefse{1.234}{0.123}
+\newcommand{\coefse}[2]{#1 \\ \se{#2}}
+
+% Coefficient with SE and stars
+% Usage: \coefstars{1.234}{0.123}{**}
+\newcommand{\coefstars}[3]{#1\sym{#3} \\ \se{#2}}
+
+% Yes/No indicators for fixed effects
+\newcommand{\yes}{Yes}
+\newcommand{\no}{No}
+\newcommand{\ymark}{\checkmark}
+
+% Panel headers
+\newcommand{\panelheader}[1]{\multicolumn{\numcols}{l}{\textit{Panel #1}}}
+
+% -----------------------------------------------------------------------------
+% Number Formatting Commands
+% -----------------------------------------------------------------------------
+
+% Format large numbers with comma separators
+% Usage: \numfmt{12345} produces 12,345
+\newcommand{\numfmt}[1]{\num[group-separator={,}]{#1}}
+
+% Format percentages
+% Usage: \pct{45.6} produces 45.6%
+\newcommand{\pct}[1]{#1\%}
+
+% Format p-values
+% Usage: \pval{0.001} produces <0.001 for very small values
+\newcommand{\pval}[1]{%
+    \ifdim #1 pt < 0.001 pt
+        $<$0.001%
+    \else
+        #1%
+    \fi
+}
+
+% -----------------------------------------------------------------------------
+% Note Formatting for Tables
+% -----------------------------------------------------------------------------
+
+% Standard table notes style
+\newcommand{\tablenote}[1]{%
+    \begin{tablenotes}[flushleft]
+        \small
+        \item \textit{Notes:} #1
+    \end{tablenotes}
+}
+
+% Significance note (standard)
+\newcommand{\signote}{%
+    \sym{*} $p<0.10$, \sym{**} $p<0.05$, \sym{***} $p<0.01$%
+}
+
+% Full standard note
+\newcommand{\stdnote}[1]{%
+    \tablenote{#1 Standard errors in parentheses. \signote.}%
+}
+
+% -----------------------------------------------------------------------------
+% PGFPlots Style Definitions
+% -----------------------------------------------------------------------------
+
+\pgfplotsset{
+    % Style for coefficient plots
+    coefplot/.style={
+        width=0.9\textwidth,
+        height=0.6\textwidth,
+        xbar,
+        bar width=3pt,
+        xmin=-2, xmax=2,
+        axis lines=left,
+        ytick=data,
+        enlarge y limits=0.15,
+        xlabel={Coefficient Estimate},
+        every axis x label/.style={
+            at={(ticklabel* cs:1.02)},
+            anchor=west,
+        },
+        x axis line style={-},
+        y axis line style={opacity=0},
+        tickwidth=0pt,
+        clip=false,
+    },
+    % Style for event study plots
+    eventstudy/.style={
+        width=0.9\textwidth,
+        height=0.5\textwidth,
+        axis lines=middle,
+        xlabel={Time Relative to Treatment},
+        ylabel={Coefficient},
+        xmin=-6, xmax=6,
+        xtick={-5,-4,-3,-2,-1,0,1,2,3,4,5},
+        extra x ticks={0},
+        extra x tick style={grid=major, grid style={dashed, red!50}},
+        legend pos=north west,
+        legend style={draw=none, fill=none},
+    },
+    % Common style elements
+    every axis/.append style={
+        font=\small,
+        tick label style={font=\small},
+        label style={font=\small},
+        legend style={font=\small},
+    },
+}
+
+% -----------------------------------------------------------------------------
+% End of Preamble
+% -----------------------------------------------------------------------------

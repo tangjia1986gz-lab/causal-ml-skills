@@ -1,0 +1,37 @@
+{
+    "paper": {
+        "title": "Big Bad Banks? The Winners and Losers from Bank Deregulation in the United States",
+        "authors": [
+            "Thorsten Beck",
+            "Ross Levine",
+            "Alexey Levkov"
+        ],
+        "journal": "The Journal of Finance",
+        "year": 2010,
+        "volume": 65,
+        "issue": 5,
+        "pages": "1637-1667"
+    },
+    "replication_target": {
+        "table": "Table III",
+        "description": "Baseline regression of log income inequality on bank deregulation",
+        "model_spec": {
+            "outcome": "Log Gini Coefficient",
+            "treatment": "Deregulation",
+            "unit_fe": "State",
+            "time_fe": "Year",
+            "clustering": "State"
+        },
+        "expected_results": {
+            "coefficient": -0.021,
+            "se": 0.009,
+            "significance": "**",
+            "n_obs": 1653,
+            "r_squared": 0.58
+        }
+    },
+    "data_source": {
+        "url": "https://onlinelibrary.wiley.com/doi/abs/10.1111/j.1540-6261.2010.01589.x",
+        "description": "State-year level panel data (1976-2006). Key vars: gini, deregulation_year, state_dummy, year_dummy."
+    }
+}

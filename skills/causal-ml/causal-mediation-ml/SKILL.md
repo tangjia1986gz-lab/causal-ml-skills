@@ -5,8 +5,39 @@ description: Use when decomposing treatment effects into direct and indirect (me
 
 # Estimator: ML-Enhanced Causal Mediation Analysis
 
-> **Version**: 1.0.0 | **Type**: Estimator
+> **Version**: 2.0.0 | **Type**: Estimator | **Structure**: K-Dense
 > **Aliases**: Mediation Analysis, ACME, ADE, Direct/Indirect Effects, Mechanism Analysis
+
+## K-Dense Structure
+
+This skill follows the K-Dense organization pattern with modular reference documents and CLI scripts.
+
+### Reference Documents
+
+| Document | Description |
+|----------|-------------|
+| [references/identification_assumptions.md](references/identification_assumptions.md) | Sequential ignorability, cross-world independence, no interaction |
+| [references/diagnostic_tests.md](references/diagnostic_tests.md) | Sensitivity analysis (Imai et al.), confounding tests |
+| [references/estimation_methods.md](references/estimation_methods.md) | Product method, difference method, ML-based approaches |
+| [references/effect_decomposition.md](references/effect_decomposition.md) | ADE, ACME, total effect, proportion mediated |
+| [references/reporting_standards.md](references/reporting_standards.md) | Effect tables, mediation diagrams, LaTeX templates |
+
+### CLI Scripts
+
+| Script | Description | Usage |
+|--------|-------------|-------|
+| [scripts/run_mediation_analysis.py](scripts/run_mediation_analysis.py) | Complete mediation analysis workflow | `python run_mediation_analysis.py data.csv -y outcome -d treatment -m mediator` |
+| [scripts/decompose_effects.py](scripts/decompose_effects.py) | Effect decomposition with bootstrap CIs | `python decompose_effects.py data.csv -y Y -d D -m M --n-bootstrap 1000` |
+| [scripts/sensitivity_analysis.py](scripts/sensitivity_analysis.py) | Imai et al. sensitivity analysis | `python sensitivity_analysis.py data.csv -y Y -d D -m M --plot sens.png` |
+| [scripts/visualize_pathways.py](scripts/visualize_pathways.py) | Mediation pathway diagrams | `python visualize_pathways.py data.csv -y Y -d D -m M -o pathway.png` |
+
+### Report Templates
+
+| Template | Description |
+|----------|-------------|
+| [assets/markdown/mediation_report.md](assets/markdown/mediation_report.md) | Full analysis report template |
+
+---
 
 ## Overview
 
@@ -696,3 +727,72 @@ The breakpoint $\rho^*$ where $ACME(\rho^*) = 0$:
 $$
 \rho^* = \frac{ACME(0)}{\sigma_M \cdot \sigma_{Y|D,M,X}}
 $$
+
+---
+
+## Quick Start with CLI Scripts
+
+### Run Complete Analysis
+
+```bash
+# Basic mediation analysis
+python scripts/run_mediation_analysis.py data.csv \
+    --outcome earnings --treatment training --mediator skills \
+    --controls age education experience \
+    --method auto --n-bootstrap 1000 \
+    --report analysis_report.md --output results.json
+```
+
+### Decompose Effects with Bootstrap CIs
+
+```bash
+# Get effect decomposition with 1000 bootstrap replications
+python scripts/decompose_effects.py data.csv \
+    -y earnings -d training -m skills \
+    --controls age education \
+    --n-bootstrap 1000 --ci-method percentile \
+    --latex
+```
+
+### Run Sensitivity Analysis
+
+```bash
+# Assess robustness to unmeasured confounding
+python scripts/sensitivity_analysis.py data.csv \
+    -y earnings -d training -m skills \
+    --controls age education \
+    --rho-min -0.7 --rho-max 0.7 --rho-step 0.02 \
+    --plot sensitivity_plot.png
+```
+
+### Create Pathway Visualizations
+
+```bash
+# Generate publication-quality pathway diagram
+python scripts/visualize_pathways.py data.csv \
+    -y earnings -d training -m skills \
+    --controls age education \
+    --plot-type combined --style academic \
+    --treatment-label "Job Training" \
+    --mediator-label "Skill Score" \
+    --outcome-label "Earnings" \
+    -o mediation_diagram.png --dpi 300
+```
+
+---
+
+## K-Dense Reference Guide
+
+For detailed documentation on specific topics, see:
+
+| Topic | Reference Document |
+|-------|-------------------|
+| **Assumptions** | `references/identification_assumptions.md` - Full treatment of sequential ignorability, cross-world independence, positivity, SUTVA |
+| **Diagnostics** | `references/diagnostic_tests.md` - Sensitivity analysis implementation, balance tests, first-stage tests, model specification tests |
+| **Methods** | `references/estimation_methods.md` - Baron-Kenny, difference method, simulation-based (Imai), DDML-style, causal forests |
+| **Effects** | `references/effect_decomposition.md` - Formal definitions, formulas, proportion mediated, interpretation guidelines |
+| **Reporting** | `references/reporting_standards.md` - LaTeX templates, pathway diagrams, narrative generation |
+
+---
+
+*Skill upgraded to K-Dense structure: 2026-01-21*

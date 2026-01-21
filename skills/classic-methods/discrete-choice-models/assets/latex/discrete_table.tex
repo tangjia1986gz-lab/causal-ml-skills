@@ -1,0 +1,271 @@
+% Discrete Choice Model Results Table Template
+% For use with marginal effects from logit, probit, ordered, multinomial, and count models
+%
+% Usage:
+%   1. Fill in the placeholders with your results
+%   2. Adjust column widths and number of models as needed
+%   3. Compile with pdflatex or xelatex
+%
+% Required packages: booktabs, siunitx, threeparttable, caption
+
+\documentclass{article}
+\usepackage{booktabs}
+\usepackage{siunitx}
+\usepackage{threeparttable}
+\usepackage{caption}
+\usepackage{geometry}
+\geometry{margin=1in}
+
+% Configure siunitx for consistent number formatting
+\sisetup{
+    table-format = -1.4,
+    table-number-alignment = center,
+    detect-weight = true,
+    detect-family = true
+}
+
+\begin{document}
+
+% =============================================================================
+% Template 1: Binary Choice Models (Logit/Probit) with Marginal Effects
+% =============================================================================
+
+\begin{table}[htbp]
+\centering
+\caption{Binary Choice Model Results: Average Marginal Effects}
+\label{tab:binary_choice}
+\begin{threeparttable}
+\begin{tabular}{@{}l S[table-format=-1.4] S[table-format=1.4] S[table-format=-1.4] S[table-format=1.4]@{}}
+\toprule
+                    & \multicolumn{2}{c}{Logit} & \multicolumn{2}{c}{Probit} \\
+\cmidrule(lr){2-3} \cmidrule(lr){4-5}
+Variable            & {AME} & {Std. Err.} & {AME} & {Std. Err.} \\
+\midrule
+Treatment           & 0.0523 & (0.0089) & 0.0518 & (0.0091) \\
+Age                 & 0.0012 & (0.0004) & 0.0011 & (0.0004) \\
+Education           & 0.0234 & (0.0056) & 0.0229 & (0.0055) \\
+Income (log)        & 0.0456 & (0.0123) & 0.0448 & (0.0121) \\
+Female              & -0.0178 & (0.0098) & -0.0182 & (0.0097) \\
+\midrule
+Observations        & \multicolumn{2}{c}{5,234} & \multicolumn{2}{c}{5,234} \\
+Pseudo $R^2$        & \multicolumn{2}{c}{0.142} & \multicolumn{2}{c}{0.141} \\
+Log-Likelihood      & \multicolumn{2}{c}{-2,847.3} & \multicolumn{2}{c}{-2,849.1} \\
+AIC                 & \multicolumn{2}{c}{5,706.6} & \multicolumn{2}{c}{5,710.2} \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]
+\small
+\item Notes: Average marginal effects (AME) reported. Standard errors in parentheses,
+computed via delta method. *** p$<$0.01, ** p$<$0.05, * p$<$0.1.
+AME represents the average change in probability for a unit change in the covariate.
+For binary variables (Treatment, Female), this is the discrete change effect.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+% =============================================================================
+% Template 2: Ordered Choice Models with Category-Specific Effects
+% =============================================================================
+
+\begin{table}[htbp]
+\centering
+\caption{Ordered Logit Model: Marginal Effects by Category}
+\label{tab:ordered_choice}
+\begin{threeparttable}
+\begin{tabular}{@{}l S S S S S@{}}
+\toprule
+                    & {$P(Y=1)$} & {$P(Y=2)$} & {$P(Y=3)$} & {$P(Y=4)$} & {$P(Y=5)$} \\
+\midrule
+Treatment           & -0.023 & -0.018 & -0.005 & 0.019 & 0.027 \\
+                    & (0.008) & (0.006) & (0.002) & (0.007) & (0.009) \\[0.5em]
+Age                 & -0.002 & -0.001 & -0.000 & 0.001 & 0.002 \\
+                    & (0.001) & (0.000) & (0.000) & (0.000) & (0.001) \\[0.5em]
+Education           & -0.015 & -0.011 & -0.003 & 0.012 & 0.017 \\
+                    & (0.005) & (0.004) & (0.001) & (0.004) & (0.006) \\
+\midrule
+\multicolumn{6}{l}{\textit{Threshold Parameters}} \\
+$\mu_1$             & \multicolumn{5}{c}{-2.341 (0.234)} \\
+$\mu_2$             & \multicolumn{5}{c}{-0.892 (0.187)} \\
+$\mu_3$             & \multicolumn{5}{c}{0.456 (0.176)} \\
+$\mu_4$             & \multicolumn{5}{c}{1.823 (0.198)} \\
+\midrule
+Observations        & \multicolumn{5}{c}{3,456} \\
+Log-Likelihood      & \multicolumn{5}{c}{-4,123.5} \\
+Parallel Lines Test & \multicolumn{5}{c}{$\chi^2(12) = 18.7$, p = 0.096} \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]
+\small
+\item Notes: Marginal effects show change in probability of each category for a unit change
+in the covariate. Effects sum to zero across categories. Standard errors in parentheses.
+Brant test for parallel lines assumption reported.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+% =============================================================================
+% Template 3: Count Models (Poisson and Negative Binomial)
+% =============================================================================
+
+\begin{table}[htbp]
+\centering
+\caption{Count Model Results: Incidence Rate Ratios and Marginal Effects}
+\label{tab:count_models}
+\begin{threeparttable}
+\begin{tabular}{@{}l S S S S@{}}
+\toprule
+                    & \multicolumn{2}{c}{Poisson} & \multicolumn{2}{c}{Negative Binomial} \\
+\cmidrule(lr){2-3} \cmidrule(lr){4-5}
+Variable            & {IRR} & {AME} & {IRR} & {AME} \\
+\midrule
+Treatment           & 1.234 & 0.892 & 1.228 & 0.867 \\
+                    & (0.045) & (0.156) & (0.052) & (0.178) \\[0.5em]
+Age                 & 1.012 & 0.045 & 1.011 & 0.043 \\
+                    & (0.003) & (0.012) & (0.004) & (0.014) \\[0.5em]
+Experience          & 1.089 & 0.324 & 1.085 & 0.312 \\
+                    & (0.018) & (0.067) & (0.021) & (0.078) \\[0.5em]
+R\&D Intensity      & 1.567 & 2.145 & 1.542 & 2.089 \\
+                    & (0.123) & (0.432) & (0.134) & (0.456) \\
+\midrule
+Mean Count          & \multicolumn{2}{c}{3.78} & \multicolumn{2}{c}{3.78} \\
+Overdispersion ($\alpha$) & \multicolumn{2}{c}{---} & \multicolumn{2}{c}{0.234 (0.045)} \\
+Observations        & \multicolumn{2}{c}{2,890} & \multicolumn{2}{c}{2,890} \\
+Log-Likelihood      & \multicolumn{2}{c}{-5,678.2} & \multicolumn{2}{c}{-5,432.1} \\
+AIC                 & \multicolumn{2}{c}{11,366.4} & \multicolumn{2}{c}{10,876.2} \\
+LR Test (vs Poisson) & \multicolumn{2}{c}{---} & \multicolumn{2}{c}{$\chi^2(1) = 492.2$***} \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]
+\small
+\item Notes: IRR = Incidence Rate Ratio ($e^\beta$). AME = Average Marginal Effect on expected count.
+Standard errors in parentheses. *** p$<$0.01, ** p$<$0.05, * p$<$0.1.
+LR test compares negative binomial to Poisson; significant result indicates overdispersion.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+% =============================================================================
+% Template 4: Multinomial Logit with Relative Risk Ratios
+% =============================================================================
+
+\begin{table}[htbp]
+\centering
+\caption{Multinomial Logit Results: Relative Risk Ratios}
+\label{tab:multinomial}
+\begin{threeparttable}
+\begin{tabular}{@{}l S S S@{}}
+\toprule
+                    & {Choice 2 vs 1} & {Choice 3 vs 1} & {Choice 4 vs 1} \\
+\midrule
+Price               & 0.892 & 0.756 & 0.678 \\
+                    & (0.034) & (0.041) & (0.045) \\[0.5em]
+Quality             & 1.234 & 1.567 & 1.789 \\
+                    & (0.089) & (0.123) & (0.156) \\[0.5em]
+Brand Awareness     & 1.123 & 0.987 & 1.045 \\
+                    & (0.067) & (0.072) & (0.081) \\[0.5em]
+Income              & 1.045 & 1.089 & 1.234 \\
+                    & (0.023) & (0.028) & (0.034) \\
+\midrule
+\multicolumn{4}{l}{\textit{Average Marginal Effects on Choice Probabilities}} \\
+\midrule
+                    & {$\Delta P_1$} & {$\Delta P_2$} & {$\Delta P_3$} \\
+Price               & 0.023 & -0.012 & -0.011 \\
+Quality             & -0.045 & 0.012 & 0.033 \\
+\midrule
+Observations        & \multicolumn{3}{c}{4,567} \\
+Log-Likelihood      & \multicolumn{3}{c}{-5,234.8} \\
+Pseudo $R^2$        & \multicolumn{3}{c}{0.178} \\
+IIA Test (Hausman)  & \multicolumn{3}{c}{$\chi^2(8) = 12.3$, p = 0.138} \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]
+\small
+\item Notes: Relative risk ratios (RRR) reported; RRR $>$ 1 indicates higher relative
+probability of that choice vs base category (Choice 1). Standard errors in parentheses.
+Hausman-McFadden test for IIA assumption reported; non-rejection supports MNL.
+*** p$<$0.01, ** p$<$0.05, * p$<$0.1.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+% =============================================================================
+% Template 5: Treatment Effect Summary (Causal Focus)
+% =============================================================================
+
+\begin{table}[htbp]
+\centering
+\caption{Treatment Effect Estimates: Comparison of Models}
+\label{tab:treatment_effects}
+\begin{threeparttable}
+\begin{tabular}{@{}l S[table-format=-1.4] S[table-format=1.4] c c@{}}
+\toprule
+Model               & {ATE} & {Std. Err.} & {95\% CI} & {Outcome} \\
+\midrule
+\multicolumn{5}{l}{\textit{Binary Outcome (Employment)}} \\
+LPM                 & 0.0534 & 0.0092 & [0.035, 0.071] & Employment \\
+Logit (AME)         & 0.0523 & 0.0089 & [0.035, 0.070] & Employment \\
+Probit (AME)        & 0.0518 & 0.0091 & [0.034, 0.069] & Employment \\
+\midrule
+\multicolumn{5}{l}{\textit{Ordered Outcome (Job Satisfaction, 1-5)}} \\
+Ordered Logit       & 0.0456 & 0.0123 & [0.022, 0.069] & $\Delta P(Y \geq 4)$ \\
+Ordered Probit      & 0.0448 & 0.0121 & [0.021, 0.068] & $\Delta P(Y \geq 4)$ \\
+\midrule
+\multicolumn{5}{l}{\textit{Count Outcome (Absences)}} \\
+Poisson             & -0.892 & 0.234 & [-1.35, -0.43] & Days \\
+Negative Binomial   & -0.867 & 0.256 & [-1.37, -0.37] & Days \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]
+\small
+\item Notes: ATE = Average Treatment Effect. For binary outcomes, this is the change in
+probability. For ordered outcomes, this is the change in probability of exceeding a threshold.
+For count outcomes, this is the change in expected count. All models control for age, education,
+experience, and industry fixed effects. Standard errors clustered at firm level.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+% =============================================================================
+% Template 6: Model Diagnostics and Specification Tests
+% =============================================================================
+
+\begin{table}[htbp]
+\centering
+\caption{Model Diagnostics and Specification Tests}
+\label{tab:diagnostics}
+\begin{threeparttable}
+\begin{tabular}{@{}l l l l@{}}
+\toprule
+Test                        & Statistic & p-value & Conclusion \\
+\midrule
+\multicolumn{4}{l}{\textit{Binary Models}} \\
+Hosmer-Lemeshow (Logit)     & $\chi^2(8) = 9.23$ & 0.324 & Good fit \\
+Link Test (Probit)          & $\hat{y}^2$: t = 1.23 & 0.218 & Correct link \\
+\midrule
+\multicolumn{4}{l}{\textit{Ordered Models}} \\
+Brant Test (Parallel Lines) & $\chi^2(12) = 18.7$ & 0.096 & Parallel lines OK \\
+Score Test                  & $\chi^2(12) = 17.2$ & 0.142 & Parallel lines OK \\
+\midrule
+\multicolumn{4}{l}{\textit{Multinomial Models}} \\
+Hausman-McFadden (IIA)      & $\chi^2(8) = 12.3$ & 0.138 & IIA holds \\
+Small-Hsiao (IIA)           & $\chi^2(8) = 10.8$ & 0.214 & IIA holds \\
+\midrule
+\multicolumn{4}{l}{\textit{Count Models}} \\
+Overdispersion (Cameron-Trivedi) & t = 4.56 & 0.000 & Overdispersed \\
+Dispersion Statistic        & $\hat{\phi} = 2.34$ & --- & Overdispersed \\
+LR Test (Poisson vs NB)     & $\chi^2(1) = 492.2$ & 0.000 & Prefer NB \\
+Zero-Inflation Test         & Score = 3.45 & 0.001 & Excess zeros \\
+Vuong Test (Poisson vs ZIP) & z = 4.23 & 0.000 & Prefer ZIP \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]
+\small
+\item Notes: Diagnostic tests for model specification. For binary models, Hosmer-Lemeshow
+tests goodness of fit. For ordered models, Brant tests the parallel lines assumption.
+For multinomial models, Hausman-McFadden and Small-Hsiao test IIA. For count models,
+various tests assess overdispersion and zero-inflation.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\end{document}

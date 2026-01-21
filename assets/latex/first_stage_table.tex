@@ -1,0 +1,382 @@
+% =============================================================================
+% first_stage_table.tex - IV First Stage Results Table Template
+% =============================================================================
+% Style: AER/NBER publication standards for instrumental variables
+% Features:
+%   - First stage coefficient and diagnostics
+%   - Weak instrument tests (Cragg-Donald, Kleibergen-Paap)
+%   - Stock-Yogo critical values
+%   - Multiple instruments support
+%   - Reduced form estimates
+%
+% Placeholders (replace with your data):
+%   - {{TITLE}}          : Table title
+%   - {{LABEL}}          : LaTeX label for cross-referencing
+%   - {{COEF_*}}         : Coefficient estimates
+%   - {{SE_*}}           : Standard errors
+%   - {{F_STAT}}         : First-stage F-statistic
+%   - {{KP_STAT}}        : Kleibergen-Paap F-statistic
+% =============================================================================
+
+\documentclass[12pt]{article}
+\input{common_preamble}
+
+\begin{document}
+
+% =============================================================================
+% Template 1: Comprehensive First Stage Table
+% =============================================================================
+
+\begin{table}[htbp]
+\centering
+\caption{{{TITLE}}: First Stage Results}
+\label{tab:{{LABEL}}_firststage}
+
+\begin{threeparttable}
+\begin{tabular}{l*{4}{c}}
+\toprule
+                        & (1)       & (2)       & (3)       & (4)       \\
+                        & \multicolumn{4}{c}{Dependent Variable: {{ENDOGENOUS}}} \\
+\midrule
+
+\multicolumn{5}{l}{\textit{Panel A: First Stage Estimates}} \\
+\addlinespace[0.5em]
+
+% Primary instrument
+{{INSTRUMENT_1}}        & {{COEF_Z1_1}}{{STARS_Z1_1}} & {{COEF_Z1_2}}{{STARS_Z1_2}} & {{COEF_Z1_3}}{{STARS_Z1_3}} & {{COEF_Z1_4}}{{STARS_Z1_4}} \\
+                        & \se{{{SE_Z1_1}}} & \se{{{SE_Z1_2}}} & \se{{{SE_Z1_3}}} & \se{{{SE_Z1_4}}} \\
+\addlinespace[0.3em]
+
+% Additional instruments (if applicable)
+{{INSTRUMENT_2}}        &           & {{COEF_Z2_2}}{{STARS_Z2_2}} & {{COEF_Z2_3}}{{STARS_Z2_3}} & {{COEF_Z2_4}}{{STARS_Z2_4}} \\
+                        &           & \se{{{SE_Z2_2}}} & \se{{{SE_Z2_3}}} & \se{{{SE_Z2_4}}} \\
+\addlinespace[0.3em]
+
+{{INSTRUMENT_3}}        &           &           & {{COEF_Z3_3}}{{STARS_Z3_3}} & {{COEF_Z3_4}}{{STARS_Z3_4}} \\
+                        &           &           & \se{{{SE_Z3_3}}} & \se{{{SE_Z3_4}}} \\
+
+\midrule
+\multicolumn{5}{l}{\textit{Panel B: Weak Instrument Diagnostics}} \\
+\addlinespace[0.5em]
+
+First-stage F-stat      & {{F_1}}   & {{F_2}}   & {{F_3}}   & {{F_4}}   \\
+Kleibergen-Paap F       & {{KP_1}}  & {{KP_2}}  & {{KP_3}}  & {{KP_4}}  \\
+Stock-Yogo 10\% c.v.    & {16.38}   & {19.93}   & {22.30}   & {22.30}   \\
+Stock-Yogo 15\% c.v.    & {8.96}    & {11.59}   & {12.83}   & {12.83}   \\
+\addlinespace[0.3em]
+
+Partial $R^2$ of Z      & {{PARTIALR2_1}} & {{PARTIALR2_2}} & {{PARTIALR2_3}} & {{PARTIALR2_4}} \\
+Shea Partial $R^2$      & {{SHEA_1}} & {{SHEA_2}} & {{SHEA_3}} & {{SHEA_4}} \\
+
+\midrule
+\multicolumn{5}{l}{\textit{Panel C: Specification}} \\
+\addlinespace[0.3em]
+
+Controls                & \no       & \yes      & \yes      & \yes      \\
+Year FE                 & \no       & \no       & \yes      & \yes      \\
+Region FE               & \no       & \no       & \no       & \yes      \\
+\addlinespace[0.3em]
+
+Observations            & {{N_1}}   & {{N_2}}   & {{N_3}}   & {{N_4}}   \\
+R-squared               & {{R2_1}}  & {{R2_2}}  & {{R2_3}}  & {{R2_4}}  \\
+Number of instruments   & {1}       & {2}       & {3}       & {3}       \\
+
+\bottomrule
+\end{tabular}
+
+\tablenote{This table reports first-stage estimates for the instrumental variables regression.
+The dependent variable is the endogenous regressor {{ENDOGENOUS}}.
+Rows show the effect of each instrument on the endogenous variable.
+The Kleibergen-Paap F-statistic is robust to heteroskedasticity and clustering.
+Stock-Yogo critical values are for the null that 2SLS bias exceeds 10\% or 15\% of OLS bias.
+A first-stage F $> 10$ is the conventional threshold for instrument relevance (Staiger \& Stock, 1997).
+Standard errors clustered at the {{CLUSTER_LEVEL}} level in parentheses. \signote.}
+
+\end{threeparttable}
+\end{table}
+
+
+% =============================================================================
+% Template 2: Single Instrument with Detailed Diagnostics
+% =============================================================================
+
+\begin{table}[htbp]
+\centering
+\caption{First Stage: Detailed Diagnostics}
+\label{tab:firststage_detailed}
+
+\begin{threeparttable}
+\begin{tabular}{lcc}
+\toprule
+                                & Estimate      & Std. Error \\
+\midrule
+
+\multicolumn{3}{l}{\textit{Panel A: First Stage Regression}} \\
+\addlinespace[0.5em]
+
+{{INSTRUMENT}}                  & 0.456\sym{***}& (0.045) \\
+\addlinespace[0.3em]
+
+Control 1                       & 0.123\sym{**} & (0.052) \\
+Control 2                       & -0.089        & (0.061) \\
+Control 3                       & 0.234\sym{***}& (0.078) \\
+Constant                        & 1.567\sym{***}& (0.234) \\
+
+\midrule
+\multicolumn{3}{l}{\textit{Panel B: Instrument Strength}} \\
+\addlinespace[0.5em]
+
+First-stage F-statistic         & \multicolumn{2}{c}{102.76} \\
+Kleibergen-Paap rk Wald F       & \multicolumn{2}{c}{98.45} \\
+Anderson-Rubin Wald test        & \multicolumn{2}{c}{$\chi^2(1) = 45.6$ ($p < 0.001$)} \\
+Stock-Wright LM S statistic     & \multicolumn{2}{c}{$\chi^2(1) = 43.2$ ($p < 0.001$)} \\
+\addlinespace[0.3em]
+
+\multicolumn{3}{l}{\textit{Critical Values (Stock-Yogo)}} \\
+10\% maximal IV size            & \multicolumn{2}{c}{16.38} \\
+15\% maximal IV size            & \multicolumn{2}{c}{8.96} \\
+20\% maximal IV size            & \multicolumn{2}{c}{6.66} \\
+25\% maximal IV size            & \multicolumn{2}{c}{5.53} \\
+
+\midrule
+\multicolumn{3}{l}{\textit{Panel C: Fit Statistics}} \\
+\addlinespace[0.5em]
+
+Observations                    & \multicolumn{2}{c}{12,456} \\
+R-squared                       & \multicolumn{2}{c}{0.345} \\
+Adjusted R-squared              & \multicolumn{2}{c}{0.342} \\
+Partial R-squared (instrument)  & \multicolumn{2}{c}{0.156} \\
+Shea partial R-squared          & \multicolumn{2}{c}{0.148} \\
+
+\bottomrule
+\end{tabular}
+
+\stdnote{This table reports detailed first-stage results for IV estimation.
+The instrument is {{INSTRUMENT}}, and the endogenous variable is {{ENDOGENOUS}}.
+Anderson-Rubin and Stock-Wright statistics are weak-instrument-robust tests of the null that the coefficient on the endogenous variable is zero.
+Partial R-squared measures the explanatory power of the instrument after partialling out other covariates.}
+
+\end{threeparttable}
+\end{table}
+
+
+% =============================================================================
+% Template 3: Multiple Endogenous Variables
+% =============================================================================
+
+\begin{table}[htbp]
+\centering
+\caption{First Stage: Multiple Endogenous Variables}
+\label{tab:firststage_multi}
+
+\small
+\begin{threeparttable}
+\begin{tabular}{l*{2}{S[table-format=-1.3]}*{2}{S[table-format=-1.3]}}
+\toprule
+                    & \multicolumn{2}{c}{Endogenous Var. 1} & \multicolumn{2}{c}{Endogenous Var. 2} \\
+\cmidrule(lr){2-3} \cmidrule(lr){4-5}
+                    & {Coef.}   & {SE}      & {Coef.}   & {SE}      \\
+\midrule
+
+Instrument 1 ($Z_1$)& 0.456\sym{***} & 0.052   & 0.089     & 0.065     \\
+Instrument 2 ($Z_2$)& 0.123\sym{*}   & 0.068   & 0.378\sym{***} & 0.072 \\
+Instrument 3 ($Z_3$)& 0.067     & 0.045     & 0.234\sym{***} & 0.058   \\
+
+\midrule
+\multicolumn{5}{l}{\textit{Diagnostic Tests}} \\
+\addlinespace[0.3em]
+
+Partial F-stat      & {85.67}   &           & {67.89}   &           \\
+Shea partial $R^2$  & {0.145}   &           & {0.128}   &           \\
+\addlinespace[0.3em]
+
+\multicolumn{5}{l}{Cragg-Donald Wald F-statistic: 52.34} \\
+\multicolumn{5}{l}{Kleibergen-Paap rk Wald F-statistic: 48.76} \\
+\multicolumn{5}{l}{Stock-Yogo 10\% maximal IV size: 13.43 (3 instruments, 2 endogenous)} \\
+\addlinespace[0.3em]
+
+Hansen J statistic  & \multicolumn{4}{c}{$\chi^2(1) = 0.856$ ($p = 0.355$)} \\
+
+\midrule
+Observations        & \multicolumn{4}{c}{15,678} \\
+Controls            & \multicolumn{4}{c}{Yes} \\
+Fixed Effects       & \multicolumn{4}{c}{Year, Region} \\
+
+\bottomrule
+\end{tabular}
+
+\tablenote{This table reports first-stage results with multiple endogenous variables.
+Columns (1)--(2) show effects of instruments on the first endogenous variable.
+Columns (3)--(4) show effects on the second endogenous variable.
+The model is exactly identified (3 instruments for 2 endogenous variables), so Hansen J has 1 degree of freedom.
+A non-significant Hansen J suggests instrument validity (orthogonality to the error term).
+Standard errors clustered at the unit level. \signote.}
+
+\end{threeparttable}
+\end{table}
+
+
+% =============================================================================
+% Template 4: First Stage with Reduced Form
+% =============================================================================
+
+\begin{table}[htbp]
+\centering
+\caption{IV Estimation: First Stage and Reduced Form}
+\label{tab:iv_stages}
+
+\begin{threeparttable}
+\begin{tabular}{l*{3}{S[table-format=-1.3]}}
+\toprule
+                    & {(1)}         & {(2)}         & {(3)}         \\
+                    & {First Stage} & {Reduced Form}& {2SLS}        \\
+                    & {{{ENDOG}}}   & {{{OUTCOME}}} & {{{OUTCOME}}} \\
+\midrule
+
+{{INSTRUMENT}}      & 0.456\sym{***}&               &               \\
+                    & (0.052)       &               &               \\
+\addlinespace[0.3em]
+
+{{INSTRUMENT}} (RF) &               & 0.178\sym{***}&               \\
+                    &               & (0.045)       &               \\
+\addlinespace[0.3em]
+
+{{ENDOG}} (2SLS)    &               &               & 0.390\sym{***}\\
+                    &               &               & (0.098)       \\
+
+\midrule
+\multicolumn{4}{l}{\textit{Implied IV Estimate from RF/FS}} \\
+\addlinespace[0.3em]
+$\hat{\beta}_{IV} = \frac{\text{RF}}{\text{FS}}$ & \multicolumn{3}{c}{$\frac{0.178}{0.456} = 0.390$} \\
+
+\midrule
+\multicolumn{4}{l}{\textit{Diagnostics}} \\
+\addlinespace[0.3em]
+First-stage F       & {76.92}       &               &               \\
+Reduced-form F      &               & {15.68}       &               \\
+\addlinespace[0.3em]
+
+Controls            & {\yes}        & {\yes}        & {\yes}        \\
+Fixed Effects       & {\yes}        & {\yes}        & {\yes}        \\
+Observations        & {12,456}      & {12,456}      & {12,456}      \\
+R-squared           & {0.345}       & {0.289}       & {---}         \\
+
+\bottomrule
+\end{tabular}
+
+\tablenote{This table reports first stage (column 1), reduced form (column 2), and 2SLS (column 3) estimates.
+Column (1): Effect of instrument on endogenous variable.
+Column (2): Effect of instrument directly on outcome (reduced form).
+Column (3): IV estimate of endogenous variable effect on outcome.
+The IV estimate equals the ratio of reduced form to first stage coefficients.
+A significant reduced form indicates the instrument affects the outcome through the endogenous channel.
+Standard errors clustered at the unit level in parentheses. \signote.}
+
+\end{threeparttable}
+\end{table}
+
+
+% =============================================================================
+% Template 5: Overidentification and Exclusion Tests
+% =============================================================================
+
+\begin{table}[htbp]
+\centering
+\caption{Instrument Validity Tests}
+\label{tab:iv_validity}
+
+\begin{threeparttable}
+\begin{tabular}{lccc}
+\toprule
+Test                            & Statistic     & $p$-value & Interpretation \\
+\midrule
+
+\multicolumn{4}{l}{\textit{Panel A: Overidentification Tests}} \\
+\addlinespace[0.3em]
+Sargan $\chi^2$                 & 2.345         & 0.504     & Pass \\
+Hansen J $\chi^2$               & 2.156         & 0.541     & Pass \\
+Basmann $\chi^2$                & 2.234         & 0.525     & Pass \\
+\addlinespace[0.3em]
+Degrees of freedom              & \multicolumn{3}{c}{2 (3 instruments $-$ 1 endogenous)} \\
+
+\midrule
+\multicolumn{4}{l}{\textit{Panel B: Weak Instrument Tests}} \\
+\addlinespace[0.3em]
+Cragg-Donald Wald F             & 85.67         & ---       & Strong ($>$ 10) \\
+Kleibergen-Paap rk LM           & 78.45         & $<$0.001  & Identified \\
+Kleibergen-Paap rk Wald F       & 82.34         & ---       & Strong ($>$ 10) \\
+\addlinespace[0.3em]
+Anderson canon. corr. LM        & 75.23         & $<$0.001  & Identified \\
+
+\midrule
+\multicolumn{4}{l}{\textit{Panel C: Endogeneity Test}} \\
+\addlinespace[0.3em]
+Durbin $\chi^2$                 & 12.45         & $<$0.001  & Endogenous \\
+Wu-Hausman F                    & 12.38         & $<$0.001  & Endogenous \\
+\addlinespace[0.3em]
+Interpretation                  & \multicolumn{3}{c}{OLS inconsistent; IV preferred} \\
+
+\midrule
+\multicolumn{4}{l}{\textit{Panel D: Instrument Exogeneity (Falsification)}} \\
+\addlinespace[0.3em]
+Instrument on placebo outcome   & 0.012         & 0.456     & Pass (no effect) \\
+Instrument on pre-treatment Y   & -0.008        & 0.678     & Pass (no effect) \\
+
+\bottomrule
+\end{tabular}
+
+\tablenote{This table reports diagnostic tests for IV validity.
+Panel A: Overidentification tests assess whether excluded instruments are uncorrelated with the error term.
+A non-significant test suggests instruments are valid (fail to reject the null of validity).
+Panel B: Weak instrument tests assess relevance. F $>$ 10 is the conventional threshold.
+Panel C: Endogeneity tests assess whether IV is necessary (vs. OLS).
+A significant test suggests OLS is inconsistent and IV is preferred.
+Panel D: Falsification tests examine whether instruments affect outcomes they should not affect.}
+
+\end{threeparttable}
+\end{table}
+
+\end{document}
+
+% =============================================================================
+% USAGE NOTES:
+% =============================================================================
+%
+% 1. Weak Instrument Thresholds:
+%    - Rule of thumb: First-stage F > 10 (Staiger & Stock, 1997)
+%    - Formal: Compare to Stock-Yogo critical values for bias/size
+%    - With clustering: Use Kleibergen-Paap, not Cragg-Donald
+%
+% 2. Stock-Yogo Critical Values (for maximal IV bias):
+%    - Single endogenous, 1 instrument: 16.38 (10%), 8.96 (15%)
+%    - Single endogenous, 2 instruments: 19.93 (10%), 11.59 (15%)
+%    - Single endogenous, 3 instruments: 22.30 (10%), 12.83 (15%)
+%    - See Stock & Yogo (2005) for full tables
+%
+% 3. Overidentification Tests:
+%    - Only valid when instruments > endogenous variables
+%    - Sargan: Assumes homoskedasticity
+%    - Hansen J: Robust to heteroskedasticity
+%    - Null: Instruments are valid (exogenous)
+%
+% 4. Reporting Best Practices:
+%    - Always report first-stage F or Kleibergen-Paap F
+%    - Show instrument coefficients, not just test statistics
+%    - Include both first stage and reduced form if space permits
+%    - Report partial R-squared for instrument contribution
+%
+% 5. Multiple Instruments:
+%    - Report Shea partial R-squared for each endogenous variable
+%    - Higher Shea R2 suggests less multicollinearity among instruments
+%    - With overidentification, report Hansen J test
+%
+% 6. Software Commands:
+%    - Stata: ivreg2, ivregress 2sls with estat firststage
+%    - R: ivreg (AER), felm (lfe), feols (fixest)
+%    - Python: linearmodels.IV2SLS
+%
+% 7. Weak IV Robust Inference:
+%    - If F < 10, use Anderson-Rubin confidence intervals
+%    - LIML is median-unbiased with weak instruments
+%    - Fuller(1) or Fuller(4) for further bias reduction
+% =============================================================================

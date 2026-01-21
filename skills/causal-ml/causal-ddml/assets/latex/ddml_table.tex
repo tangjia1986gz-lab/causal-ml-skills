@@ -1,0 +1,182 @@
+% DDML Results Table Template
+% Double/Debiased Machine Learning Estimation Results
+%
+% Usage:
+%   \input{ddml_table.tex}
+%   Or copy and customize the table structure below
+%
+% Required packages:
+%   \usepackage{booktabs}
+%   \usepackage{tabularx}
+%   \usepackage{multirow}
+%   \usepackage{siunitx}
+
+\begin{table}[htbp]
+\centering
+\caption{Double/Debiased Machine Learning Estimates}
+\label{tab:ddml_results}
+
+% Standard DDML results table with learner comparison
+\begin{tabular}{l*{4}{S[table-format=1.4]}}
+\toprule
+& {(1)} & {(2)} & {(3)} & {(4)} \\
+& {Lasso} & {Ridge} & {RF} & {XGBoost} \\
+\midrule
+
+% Treatment effect row
+\multirow{3}{*}{Treatment Effect}
+& 0.0820 & 0.0785 & 0.0792 & 0.0810 \\
+& (0.0080) & (0.0085) & (0.0090) & (0.0082) \\
+& {[0.066, 0.098]} & {[0.062, 0.095]} & {[0.061, 0.097]} & {[0.065, 0.097]} \\
+
+\midrule
+
+% Specification details
+Model & {PLR} & {PLR} & {PLR} & {PLR} \\
+ML Learner ($Y|X$) & {Lasso} & {Ridge} & {RF} & {XGBoost} \\
+ML Learner ($D|X$) & {Lasso} & {Ridge} & {RF} & {XGBoost} \\
+Cross-fitting folds & 5 & 5 & 5 & 5 \\
+Repetitions & 10 & 10 & 10 & 10 \\
+
+\midrule
+
+Observations & 15000 & 15000 & 15000 & 15000 \\
+Controls & 50 & 50 & 50 & 50 \\
+
+\bottomrule
+\end{tabular}
+
+\begin{tablenotes}
+\small
+\item \textit{Notes}: Standard errors in parentheses. 95\% confidence intervals in brackets.
+Significance levels: *** $p<0.01$, ** $p<0.05$, * $p<0.1$.
+All specifications use 5-fold cross-fitting with 10 repetitions.
+\end{tablenotes}
+
+\end{table}
+
+%% =============================================================================
+%% Alternative: PLR vs IRM Comparison Table
+%% =============================================================================
+
+\begin{table}[htbp]
+\centering
+\caption{PLR vs IRM Model Comparison}
+\label{tab:plr_irm_comparison}
+
+\begin{tabular}{l*{2}{c}}
+\toprule
+& (1) PLR & (2) IRM \\
+& Partially Linear & Interactive \\
+\midrule
+
+Treatment Effect & $0.082^{***}$ & $0.079^{***}$ \\
+& $(0.008)$ & $(0.010)$ \\
+& $[0.066, 0.098]$ & $[0.059, 0.099]$ \\
+
+\midrule
+
+\multicolumn{3}{l}{\textit{Model Characteristics}} \\
+Effect assumption & Constant & Heterogeneous \\
+Estimand & ATE & ATE \\
+ML Learner & Lasso & Lasso / LogitLasso \\
+Score function & Partialling out & AIPW \\
+
+\midrule
+
+\multicolumn{3}{l}{\textit{Nuisance Model Performance}} \\
+$R^2$ outcome model & 0.42 & 0.38 \\
+$R^2$ treatment model & 0.31 & 0.31 \\
+
+\midrule
+
+Observations & 15,000 & 15,000 \\
+Controls & 50 & 50 \\
+
+\bottomrule
+\end{tabular}
+
+\begin{tablenotes}
+\small
+\item \textit{Notes}: Standard errors in parentheses. 95\% CI in brackets.
+*** $p<0.01$. PLR assumes constant treatment effect; IRM allows heterogeneity.
+Both use 5-fold cross-fitting.
+\end{tablenotes}
+
+\end{table}
+
+%% =============================================================================
+%% Alternative: Sensitivity Analysis Summary Table
+%% =============================================================================
+
+\begin{table}[htbp]
+\centering
+\caption{DDML Sensitivity Analysis}
+\label{tab:ddml_sensitivity}
+
+\begin{tabular}{lcccc}
+\toprule
+Specification & Effect & SE & 95\% CI & Significant \\
+\midrule
+
+\multicolumn{5}{l}{\textit{Panel A: Learner Sensitivity}} \\
+Lasso & 0.082 & 0.008 & [0.066, 0.098] & Yes \\
+Ridge & 0.079 & 0.009 & [0.062, 0.095] & Yes \\
+Random Forest & 0.079 & 0.009 & [0.061, 0.097] & Yes \\
+XGBoost & 0.081 & 0.008 & [0.065, 0.097] & Yes \\
+
+\midrule
+
+\multicolumn{5}{l}{\textit{Panel B: Cross-Fitting Folds}} \\
+K = 2 & 0.083 & 0.010 & [0.063, 0.103] & Yes \\
+K = 5 & 0.082 & 0.008 & [0.066, 0.098] & Yes \\
+K = 10 & 0.081 & 0.008 & [0.065, 0.097] & Yes \\
+
+\midrule
+
+\multicolumn{5}{l}{\textit{Panel C: Trimming Threshold (IRM)}} \\
+No trimming & 0.079 & 0.011 & [0.057, 0.101] & Yes \\
+0.01 & 0.079 & 0.010 & [0.059, 0.099] & Yes \\
+0.05 & 0.080 & 0.009 & [0.062, 0.098] & Yes \\
+0.10 & 0.081 & 0.009 & [0.063, 0.099] & Yes \\
+
+\midrule
+
+\multicolumn{5}{l}{\textit{Summary Statistics}} \\
+Mean effect & \multicolumn{4}{c}{0.080} \\
+Effect range & \multicolumn{4}{c}{[0.079, 0.083]} \\
+Coefficient of variation & \multicolumn{4}{c}{2.1\%} \\
+
+\bottomrule
+\end{tabular}
+
+\begin{tablenotes}
+\small
+\item \textit{Notes}: Results are robust across specifications.
+All estimates significant at 5\% level with consistent sign.
+\end{tablenotes}
+
+\end{table}
+
+%% =============================================================================
+%% Macros for common DDML formatting
+%% =============================================================================
+
+% Significance stars
+\newcommand{\sigstars}[1]{%
+  \ifnum#1=1 $^{*}$\fi%
+  \ifnum#1=2 $^{**}$\fi%
+  \ifnum#1=3 $^{***}$\fi%
+}
+
+% Standard error formatting
+\newcommand{\se}[1]{(#1)}
+
+% Confidence interval formatting
+\newcommand{\ci}[2]{[#1, #2]}
+
+% DDML-specific notation
+\newcommand{\EYX}{E[Y|X]}
+\newcommand{\EDX}{E[D|X]}
+\newcommand{\propensity}{m_0(X)}
+\newcommand{\outcomemodel}{g_0(X)}

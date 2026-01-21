@@ -140,3 +140,53 @@ print(result.summary_table)
 |-------|-------------|
 | `[related-skill-1]` | [How they relate] |
 | `[related-skill-2]` | [How they relate] |
+
+---
+
+## K-Dense Directory Structure
+
+This skill follows the K-Dense structure standard:
+
+```
+skill-name/
+├── SKILL.md                 # This file (main documentation)
+│
+├── references/              # Reference documents (required)
+│   ├── [topic_1].md         # Detailed topic documentation
+│   ├── [topic_2].md         # Additional reference material
+│   └── common_errors.md     # Common mistakes and fixes
+│
+├── scripts/                 # Support scripts (optional)
+│   └── skill_name.py        # Python implementation
+│
+└── assets/                  # Resource files (optional)
+    ├── latex/               # LaTeX templates
+    └── markdown/            # Markdown templates
+```
+
+### Required Files for K-Dense Compliance
+
+| File | Required | Purpose |
+|------|----------|---------|
+| `SKILL.md` | Yes | Main skill documentation |
+| `references/` directory | Yes | Contains detailed reference docs |
+| `references/common_errors.md` | Recommended | Common mistakes and solutions |
+| `scripts/` directory | Optional | Python/R implementation files |
+| `assets/` directory | Optional | Templates and resources |
+
+### Creating This Skill
+
+Use the scaffold generator for K-Dense compliant structure:
+
+```bash
+python scripts/generate_skill_scaffold.py \
+    --name skill-name \
+    --category [category] \
+    --type [knowledge|tool|estimator|workflow]
+```
+
+### Validating This Skill
+
+```bash
+python scripts/validate_skill.py skills/[category]/skill-name
+```

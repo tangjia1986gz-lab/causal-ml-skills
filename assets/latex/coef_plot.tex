@@ -1,0 +1,346 @@
+% =============================================================================
+% coef_plot.tex - Coefficient Plot Template using PGFPlots
+% =============================================================================
+% Style: Publication-quality horizontal bar plots with confidence intervals
+% Features:
+%   - Horizontal bars with 95% confidence intervals
+%   - Reference line at zero
+%   - Support for multiple models/specifications
+%   - Customizable labels and axis formatting
+%
+% Placeholders (replace with your data):
+%   - {{TITLE}}          : Figure title
+%   - {{LABEL}}          : LaTeX label for cross-referencing
+%   - {{COEF_*}}         : Coefficient estimates
+%   - {{CI_LO_*}}        : Lower bound of confidence interval
+%   - {{CI_HI_*}}        : Upper bound of confidence interval
+%   - {{VAR_*}}          : Variable names/labels
+% =============================================================================
+
+\documentclass[12pt]{article}
+\input{common_preamble}
+
+\begin{document}
+
+% =============================================================================
+% Template 1: Single Model Coefficient Plot
+% =============================================================================
+
+\begin{figure}[htbp]
+\centering
+\caption{{{TITLE}}: Coefficient Estimates with 95\% Confidence Intervals}
+\label{fig:{{LABEL}}_coef}
+
+\begin{tikzpicture}
+\begin{axis}[
+    % Layout
+    width=0.85\textwidth,
+    height=0.5\textwidth,
+    xbar,
+    bar width=4pt,
+    % Axis settings
+    xmin=-1.5, xmax=1.5,
+    xlabel={Coefficient Estimate},
+    % Y-axis labels (variable names)
+    ytick={1,2,3,4,5,6},
+    yticklabels={
+        {{VAR_6}},
+        {{VAR_5}},
+        {{VAR_4}},
+        {{VAR_3}},
+        {{VAR_2}},
+        {{VAR_1}}
+    },
+    ymin=0.5, ymax=6.5,
+    enlarge y limits=0.1,
+    % Axis styling
+    axis lines=left,
+    x axis line style={-},
+    y axis line style={opacity=0},
+    tickwidth=0pt,
+    % Grid
+    xmajorgrids=true,
+    grid style={dashed, gray!30},
+    % Reference line at zero
+    extra x ticks={0},
+    extra x tick style={
+        grid=major,
+        grid style={solid, black, line width=0.5pt},
+        tick label style={opacity=0}
+    },
+    % Labels
+    every axis x label/.style={at={(ticklabel* cs:1.02)}, anchor=west},
+    clip=false,
+]
+
+% Coefficient bars
+\addplot[
+    fill=coefblue,
+    draw=coefblue!80!black,
+] coordinates {
+    ({{COEF_1}}, 6)
+    ({{COEF_2}}, 5)
+    ({{COEF_3}}, 4)
+    ({{COEF_4}}, 3)
+    ({{COEF_5}}, 2)
+    ({{COEF_6}}, 1)
+};
+
+% Confidence interval error bars
+\addplot[
+    only marks,
+    mark=none,
+    error bars/.cd,
+    x dir=both,
+    x explicit,
+    error bar style={line width=1pt, coefblue!80!black},
+    error mark options={rotate=90, mark size=3pt, line width=1pt, coefblue!80!black}
+] coordinates {
+    ({{COEF_1}}, 6) +- ({{CI_LO_1}}, {{CI_HI_1}})
+    ({{COEF_2}}, 5) +- ({{CI_LO_2}}, {{CI_HI_2}})
+    ({{COEF_3}}, 4) +- ({{CI_LO_3}}, {{CI_HI_3}})
+    ({{COEF_4}}, 3) +- ({{CI_LO_4}}, {{CI_HI_4}})
+    ({{COEF_5}}, 2) +- ({{CI_LO_5}}, {{CI_HI_5}})
+    ({{COEF_6}}, 1) +- ({{CI_LO_6}}, {{CI_HI_6}})
+};
+
+\end{axis}
+\end{tikzpicture}
+
+\begin{minipage}{0.85\textwidth}
+\small
+\textit{Notes:} This figure displays coefficient estimates and 95\% confidence intervals
+from [MODEL DESCRIPTION]. The vertical line at zero represents no effect.
+Confidence intervals that do not cross zero indicate statistical significance at the 5\% level.
+Standard errors are [clustered at the X level / heteroskedasticity-robust].
+\end{minipage}
+
+\end{figure}
+
+
+% =============================================================================
+% Template 2: Multiple Models Comparison
+% =============================================================================
+
+\begin{figure}[htbp]
+\centering
+\caption{Coefficient Comparison Across Specifications}
+\label{fig:coef_comparison}
+
+\begin{tikzpicture}
+\begin{axis}[
+    width=0.85\textwidth,
+    height=0.6\textwidth,
+    xbar,
+    bar width=3pt,
+    xmin=-2, xmax=2,
+    xlabel={Coefficient Estimate},
+    ytick={1.2, 1, 0.8, 2.2, 2, 1.8, 3.2, 3, 2.8, 4.2, 4, 3.8},
+    yticklabels={
+        {}, Variable 1, {},
+        {}, Variable 2, {},
+        {}, Variable 3, {},
+        {}, Variable 4, {}
+    },
+    ymin=0.5, ymax=4.5,
+    enlarge y limits=0.1,
+    axis lines=left,
+    x axis line style={-},
+    y axis line style={opacity=0},
+    tickwidth=0pt,
+    xmajorgrids=true,
+    grid style={dashed, gray!30},
+    extra x ticks={0},
+    extra x tick style={
+        grid=major,
+        grid style={solid, black, line width=0.5pt},
+        tick label style={opacity=0}
+    },
+    legend style={
+        at={(0.98,0.98)},
+        anchor=north east,
+        draw=none,
+        fill=white,
+        fill opacity=0.8,
+        text opacity=1,
+    },
+    clip=false,
+]
+
+% Model 1 (Baseline)
+\addplot[
+    fill=coefblue,
+    draw=coefblue!80!black,
+] coordinates {
+    (0.45, 4.2)   % Variable 1
+    (0.32, 3.2)   % Variable 2
+    (-0.15, 2.2)  % Variable 3
+    (0.78, 1.2)   % Variable 4
+};
+\addlegendentry{Baseline}
+
+% Model 2 (With Controls)
+\addplot[
+    fill=treatred,
+    draw=treatred!80!black,
+] coordinates {
+    (0.38, 4)     % Variable 1
+    (0.28, 3)     % Variable 2
+    (-0.12, 2)    % Variable 3
+    (0.65, 1)     % Variable 4
+};
+\addlegendentry{With Controls}
+
+% Model 3 (Full Specification)
+\addplot[
+    fill=controlgreen,
+    draw=controlgreen!80!black,
+] coordinates {
+    (0.35, 3.8)   % Variable 1
+    (0.25, 2.8)   % Variable 2
+    (-0.08, 1.8)  % Variable 3
+    (0.58, 0.8)   % Variable 4
+};
+\addlegendentry{Full Specification}
+
+% Add confidence interval whiskers for each model
+% (Shown for Model 1 only for clarity; replicate for others)
+\draw[coefblue!80!black, line width=1pt] (axis cs:0.25,4.2) -- (axis cs:0.65,4.2);
+\draw[coefblue!80!black, line width=1pt] (axis cs:0.12,3.2) -- (axis cs:0.52,3.2);
+\draw[coefblue!80!black, line width=1pt] (axis cs:-0.35,2.2) -- (axis cs:0.05,2.2);
+\draw[coefblue!80!black, line width=1pt] (axis cs:0.58,1.2) -- (axis cs:0.98,1.2);
+
+\end{axis}
+\end{tikzpicture}
+
+\begin{minipage}{0.85\textwidth}
+\small
+\textit{Notes:} This figure compares coefficient estimates across three specifications:
+(1) Baseline with no controls, (2) With demographic controls, (3) Full specification with all controls and fixed effects.
+Horizontal bars show point estimates; whiskers show 95\% confidence intervals (shown for baseline only).
+\end{minipage}
+
+\end{figure}
+
+
+% =============================================================================
+% Template 3: Vertical Coefficient Plot with Confidence Bands
+% =============================================================================
+
+\begin{figure}[htbp]
+\centering
+\caption{Treatment Effects by Subgroup}
+\label{fig:coef_vertical}
+
+\begin{tikzpicture}
+\begin{axis}[
+    width=0.8\textwidth,
+    height=0.5\textwidth,
+    ybar,
+    bar width=12pt,
+    ymin=-0.5, ymax=1.2,
+    ylabel={Treatment Effect},
+    xtick={1,2,3,4,5},
+    xticklabels={
+        {Overall},
+        {Male},
+        {Female},
+        {Urban},
+        {Rural}
+    },
+    xmin=0.5, xmax=5.5,
+    enlarge x limits=0.1,
+    axis lines=left,
+    ymajorgrids=true,
+    grid style={dashed, gray!30},
+    % Reference line at zero
+    extra y ticks={0},
+    extra y tick style={
+        grid=major,
+        grid style={solid, black, line width=0.5pt},
+        tick label style={opacity=0}
+    },
+    nodes near coords,
+    every node near coord/.append style={
+        font=\scriptsize,
+        yshift=8pt,
+    },
+    clip=false,
+]
+
+% Coefficient bars
+\addplot[
+    fill=coefblue,
+    draw=coefblue!80!black,
+] coordinates {
+    (1, 0.45)
+    (2, 0.52)
+    (3, 0.38)
+    (4, 0.61)
+    (5, 0.28)
+};
+
+% Confidence interval error bars
+\addplot[
+    only marks,
+    mark=none,
+    error bars/.cd,
+    y dir=both,
+    y explicit,
+    error bar style={line width=1.5pt, black},
+    error mark options={mark size=4pt, line width=1.5pt}
+] coordinates {
+    (1, 0.45) +- (0, 0.15)
+    (2, 0.52) +- (0, 0.18)
+    (3, 0.38) +- (0, 0.16)
+    (4, 0.61) +- (0, 0.22)
+    (5, 0.28) +- (0, 0.14)
+};
+
+\end{axis}
+\end{tikzpicture}
+
+\begin{minipage}{0.8\textwidth}
+\small
+\textit{Notes:} This figure shows heterogeneous treatment effects across subgroups.
+Bars represent point estimates; vertical lines show 95\% confidence intervals.
+Estimates that do not include zero are statistically significant at the 5\% level.
+\end{minipage}
+
+\end{figure}
+
+\end{document}
+
+% =============================================================================
+% USAGE NOTES:
+% =============================================================================
+%
+% 1. Error Bar Syntax in PGFPlots:
+%    - For symmetric CIs: (coef, y) +- (error, 0) where error = CI_width/2
+%    - For asymmetric CIs: use x explicit with separate +- values
+%
+% 2. Color Customization:
+%    - Main colors defined in common_preamble.tex
+%    - Use coefblue for single model, different colors for comparisons
+%    - Use treatred for treatment, controlgreen for control
+%
+% 3. Programmatic Data Input:
+%    Option A: Replace placeholders in template
+%    Option B: Use \pgfplotstableread to read from CSV:
+%      \pgfplotstableread[col sep=comma]{data.csv}\datatable
+%      \addplot table[x=coef, y=ypos]{\datatable};
+%
+% 4. Adding Significance Markers:
+%    - Use nodes near coords for adding stars
+%    - Or add manual annotations with \node commands
+%
+% 5. For many variables (>10):
+%    - Split into multiple panels (subplots)
+%    - Use groupplots library: \usepgfplotslibrary{groupplots}
+%    - Consider horizontal layout for space efficiency
+%
+% 6. Exporting for other programs:
+%    - tikzexternalize can export to PDF
+%    - Use standalone document class for figure-only PDFs
+%    - pgfplots can export data to external files
+% =============================================================================

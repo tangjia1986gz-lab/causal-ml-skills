@@ -11,6 +11,9 @@ triggers:
   - reproduce findings
   - original paper
   - published results
+  - AEA data editor
+  - replication package
+  - computational reproducibility
 ---
 
 # Paper Replication Workflow
@@ -25,6 +28,41 @@ This skill provides a systematic workflow for replicating empirical economics pa
 4. **Teaching**: Demonstrate methods with real applications
 
 This workflow guides you from paper analysis through result comparison, integrating with all estimator skills in the causal-ml toolkit.
+
+## K-Dense Structure
+
+This skill follows the K-Dense knowledge architecture:
+
+```
+paper-replication-workflow/
+├── SKILL.md                    # This file - main documentation
+├── replication_workflow.py     # Core implementation
+├── references/                 # Methodological references
+│   ├── replication_standards.md      # AEA policy, journal requirements
+│   ├── data_management.md            # Data acquisition, versioning
+│   ├── code_organization.md          # Directory structure, master scripts
+│   └── documentation_checklist.md    # README requirements, checklists
+├── scripts/                    # Utility scripts
+│   ├── setup_replication_project.py  # Initialize project structure
+│   ├── validate_replication.py       # Check package completeness
+│   └── generate_comparison.py        # Compare results to original
+└── assets/
+    └── markdown/               # Templates
+        ├── replication_readme.md     # README template
+        └── data_dictionary.md        # Variable documentation template
+```
+
+### Quick Reference
+
+| Resource | Purpose |
+|----------|---------|
+| [replication_standards.md](references/replication_standards.md) | AEA Data Editor requirements |
+| [data_management.md](references/data_management.md) | Data versioning and documentation |
+| [code_organization.md](references/code_organization.md) | Code structure best practices |
+| [documentation_checklist.md](references/documentation_checklist.md) | Pre-submission checklist |
+| [setup_replication_project.py](scripts/setup_replication_project.py) | Create new replication project |
+| [validate_replication.py](scripts/validate_replication.py) | Validate package completeness |
+| [generate_comparison.py](scripts/generate_comparison.py) | Generate comparison reports |
 
 ## Workflow Stages
 
@@ -734,3 +772,131 @@ For each replication, the workflow:
 3. Executes analysis using skill's validated implementation
 4. Compares results systematically
 5. Generates professional report
+
+## Utility Scripts
+
+### Initialize Replication Project
+
+Create a new replication project with proper AEA-compliant structure:
+
+```bash
+python scripts/setup_replication_project.py "LaLonde_1986_Replication" \
+    --author "Your Name" \
+    --title "Job Training Effects" \
+    --original-paper "LaLonde (1986)"
+```
+
+This creates:
+- Standard directory structure (code/, data/, output/)
+- README.md template following AEA guidelines
+- Master script for one-click reproducibility
+- requirements.txt with pinned dependencies
+- .gitignore with appropriate patterns
+
+### Validate Replication Package
+
+Check package completeness before submission:
+
+```bash
+python scripts/validate_replication.py /path/to/replication_package
+
+# Strict mode (warnings become errors)
+python scripts/validate_replication.py --strict
+
+# JSON output for CI/CD
+python scripts/validate_replication.py --format json --output report.json
+```
+
+Validates:
+- Required directories and files
+- README content (data availability, instructions)
+- Master script existence
+- No hardcoded absolute paths
+- Dependency version pinning
+
+### Generate Comparison Report
+
+Compare replicated results to original paper:
+
+```bash
+# From JSON specification files
+python scripts/generate_comparison.py \
+    --spec paper_spec.json \
+    --results results.json \
+    --format latex \
+    --output comparison_table.tex
+
+# Interactive mode
+python scripts/generate_comparison.py --interactive
+```
+
+Outputs:
+- Side-by-side comparison tables
+- Discrepancy analysis
+- Replication success classification
+- LaTeX/Markdown/text formats
+
+## AEA Data Editor Requirements
+
+This skill is designed to meet [AEA Data and Code Availability Policy](https://www.aeaweb.org/journals/data/data-code-policy) requirements. Key elements:
+
+### Required Documentation
+
+1. **README.md** with:
+   - Data availability statement
+   - Computational requirements
+   - Step-by-step instructions
+   - Output mapping to paper
+
+2. **Data provenance**:
+   - Download scripts for public data
+   - Access instructions for restricted data
+   - Data citations
+
+3. **Reproducibility**:
+   - Master script for one-click replication
+   - Pinned package versions
+   - Random seeds for stochastic methods
+
+See [references/replication_standards.md](references/replication_standards.md) for complete requirements.
+
+## Templates
+
+### README Template
+
+Use `assets/markdown/replication_readme.md` as a starting point:
+
+```bash
+cp assets/markdown/replication_readme.md /path/to/project/README.md
+# Edit placeholders ({{PAPER_TITLE}}, {{AUTHORS}}, etc.)
+```
+
+### Data Dictionary Template
+
+Use `assets/markdown/data_dictionary.md` for variable documentation:
+
+```bash
+cp assets/markdown/data_dictionary.md /path/to/project/docs/
+# Document all variables with types, sources, and notes
+```
+
+## References
+
+### Replication Methodology
+
+- Christensen, G., & Miguel, E. (2018). "Transparency, Reproducibility, and the Credibility of Economics Research." *Journal of Economic Literature*.
+- Vilhuber, L. (2020). "Reproducibility and Replicability in Economics." *Harvard Data Science Review*.
+
+### AEA Resources
+
+- [AEA Data Editor](https://aeadataeditor.github.io/)
+- [Template README](https://social-science-data-editors.github.io/template_README/)
+- [openICPSR](https://www.openicpsr.org/)
+
+### Related Skills
+
+- [estimator-did](../estimator-did/) - Difference-in-Differences
+- [estimator-rd](../estimator-rd/) - Regression Discontinuity
+- [estimator-iv](../estimator-iv/) - Instrumental Variables
+- [estimator-psm](../estimator-psm/) - Propensity Score Matching
+- [causal-ddml](../causal-ddml/) - Double/Debiased Machine Learning

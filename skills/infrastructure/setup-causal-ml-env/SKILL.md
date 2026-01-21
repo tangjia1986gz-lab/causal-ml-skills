@@ -14,270 +14,232 @@ triggers:
 
 This skill helps you set up, validate, and troubleshoot your causal inference machine learning environment. It covers Python packages, R integration, and optional Stata connectivity.
 
-## Overview
+## Quick Reference
 
-Causal inference work requires a comprehensive stack of specialized packages across multiple languages:
-
-- **Python**: Core ML and causal inference libraries
-- **R**: Statistical packages for advanced causal methods (via rpy2 bridge)
-- **Stata**: Optional, for econometric workflows
+| Resource | Description |
+|----------|-------------|
+| [Python Packages](references/python_packages.md) | Detailed package documentation |
+| [R Packages](references/r_packages.md) | R integration via rpy2 |
+| [Stata Integration](references/stata_integration.md) | Optional Stata setup |
+| [Troubleshooting](references/troubleshooting.md) | Common issues and solutions |
 
 ## Quick Start
 
-### Check Current Environment
+### 1. Check Current Environment
 
-Run the diagnostic script to see what's installed and what's missing:
+Run the comprehensive diagnostic script:
 
 ```bash
-python env_check.py
+python scripts/check_environment.py
 ```
 
-### Install All Python Dependencies
+Options:
+- `--verbose` - Show detailed information
+- `--json` - Output in JSON format
+- `--fix` - Show fix commands for issues
 
+### 2. Install Dependencies
+
+**Automated Installation (Recommended):**
+```bash
+python scripts/install_dependencies.py
+```
+
+Options:
+- `--minimal` - Core packages only
+- `--full` - All packages (default)
+- `--with-r` - Include R packages
+- `--dry-run` - Preview without installing
+
+**Manual Installation:**
 ```bash
 pip install -r requirements.txt
 ```
 
-## Python Environment Requirements
+### 3. Verify Installation
 
-### Minimum Version
-- **Python 3.10+** (required for modern type hints and package compatibility)
+```python
+# Quick verification
+from econml.dml import DML
+from doubleml import DoubleMLData
+from causalml.inference.meta import BaseSRegressor
+from statsmodels.regression.linear_model import OLS
+print("All critical packages imported successfully!")
+```
 
-### Core Causal Inference Packages
+## Environment Overview
 
-| Package | Version | Purpose |
-|---------|---------|---------|
-| econml | >=0.15.0 | Microsoft's causal ML library (DML, IV, policy learning) |
-| doubleml | >=0.7.0 | Double/Debiased ML for causal effects |
-| causalml | >=0.15.0 | Uber's uplift modeling and causal inference |
-| dowhy | >=0.11.0 | Microsoft's causal inference framework |
+### Required Components
 
-### Statistical & Econometric Packages
+| Component | Version | Status |
+|-----------|---------|--------|
+| Python | 3.10+ | Required |
+| Core Causal Packages | See below | Required |
+| R + rpy2 | 4.0+ | Optional |
+| Stata | 17+ | Optional |
 
-| Package | Version | Purpose |
-|---------|---------|---------|
-| statsmodels | >=0.14.0 | Statistical models, tests, and data exploration |
-| linearmodels | >=6.0 | Panel data, IV, and system estimation |
+### Core Python Packages
 
-### Machine Learning Packages
+| Package | Purpose | Min Version |
+|---------|---------|-------------|
+| econml | DML, Causal Forests, IV | 0.15.0 |
+| doubleml | Double/Debiased ML | 0.7.0 |
+| causalml | Uplift modeling, Meta-learners | 0.15.0 |
+| dowhy | Causal graphs, Refutation | 0.11.0 |
+| statsmodels | Statistical models | 0.14.0 |
+| linearmodels | Panel data, IV | 6.0 |
 
-| Package | Version | Purpose |
-|---------|---------|---------|
-| scikit-learn | >=1.3.0 | Core ML algorithms |
-| xgboost | >=2.0.0 | Gradient boosting for heterogeneous effects |
-| lightgbm | >=4.0.0 | Fast gradient boosting |
+See [references/python_packages.md](references/python_packages.md) for complete details.
 
-### Data & Visualization
-
-| Package | Version | Purpose |
-|---------|---------|---------|
-| pandas | >=2.0.0 | Data manipulation |
-| numpy | >=1.24.0 | Numerical computing |
-| matplotlib | >=3.7.0 | Plotting |
-| seaborn | >=0.13.0 | Statistical visualization |
-
-## R Environment Requirements
-
-### Minimum Version
-- **R 4.0+** (required for modern tidyverse compatibility)
-
-### Required R Packages
+### R Packages (via rpy2)
 
 | Package | Purpose |
 |---------|---------|
-| grf | Generalized Random Forests for causal effects |
+| grf | Generalized Random Forests |
 | mediation | Causal mediation analysis |
 | rdrobust | Robust RDD estimation |
-| rddensity | RDD density tests (McCrary) |
+| rddensity | RDD density tests |
 
-### Installing R Packages
+See [references/r_packages.md](references/r_packages.md) for setup and usage.
 
-Open R or RStudio and run:
+## Installation Paths
 
-```r
-install.packages(c("grf", "mediation", "rdrobust", "rddensity"))
-```
-
-## rpy2 Bridge Configuration
-
-The rpy2 package allows calling R from Python. This is essential for using R's causal inference packages within Python workflows.
-
-### Installation
+### Full Installation (Python + R)
 
 ```bash
-pip install rpy2>=3.5.0
-```
-
-### Configuration Requirements
-
-1. **R must be installed and on PATH**
-2. **R_HOME environment variable must be set** (if not auto-detected)
-
-#### Windows Setup
-
-```powershell
-# Check R installation
-where R
-
-# Set R_HOME if needed (example path)
-$env:R_HOME = "C:\Program Files\R\R-4.3.0"
-```
-
-#### Linux/macOS Setup
-
-```bash
-# Check R installation
-which R
-
-# Set R_HOME if needed (example path)
-export R_HOME=/usr/lib/R
-```
-
-### Testing rpy2 Bridge
-
-```python
-import rpy2.robjects as ro
-
-# Test basic R execution
-result = ro.r('1 + 1')
-print(f"R returned: {result[0]}")
-
-# Test loading grf
-ro.r('library(grf)')
-print("grf loaded successfully")
-```
-
-## Stata Integration (Optional)
-
-Stata integration is optional but useful for replicating traditional econometric workflows.
-
-### Detection
-
-The environment check will look for:
-- `stata` or `stata-mp` on PATH
-- Common installation directories
-
-### Python-Stata Bridge Options
-
-1. **pystata** (Stata 17+): Official Python integration
-2. **stata_setup**: Configuration helper for pystata
-
-```python
-# Example: Using pystata
-import stata_setup
-stata_setup.config("C:/Program Files/Stata17", "mp")
-
-from pystata import stata
-stata.run("sysuse auto")
-```
-
-## Installation Commands
-
-### Full Installation (Recommended)
-
-```bash
-# Create virtual environment (recommended)
+# 1. Create virtual environment
 python -m venv causal-env
-# Windows
-causal-env\Scripts\activate
-# Linux/macOS
-source causal-env/bin/activate
+# Windows: causal-env\Scripts\activate
+# Linux/macOS: source causal-env/bin/activate
 
-# Install Python packages
-pip install -r requirements.txt
+# 2. Install Python packages
+python scripts/install_dependencies.py --with-r
 
-# Install R packages (run in R)
-# install.packages(c("grf", "mediation", "rdrobust", "rddensity"))
+# 3. Install R packages (in R console)
+install.packages(c("grf", "mediation", "rdrobust", "rddensity"))
+
+# 4. Verify
+python scripts/check_environment.py
 ```
 
 ### Minimal Installation (Python Only)
 
 ```bash
-pip install econml doubleml statsmodels scikit-learn pandas numpy matplotlib
+python scripts/install_dependencies.py --minimal
 ```
 
-### With GPU Support (CUDA)
+### Conda Installation
 
 ```bash
-# XGBoost with GPU
-pip install xgboost --upgrade
-
-# LightGBM with GPU (requires build from source on some platforms)
-pip install lightgbm --config-settings=cmake.define.USE_GPU=ON
+conda create -n causal-ml python=3.11
+conda activate causal-ml
+pip install -r requirements.txt
 ```
+
+## Platform-Specific Notes
+
+### Windows
+
+1. **Visual C++ Build Tools** required for some packages
+   - Download from: https://visualstudio.microsoft.com/visual-cpp-build-tools/
+
+2. **R Setup:**
+   ```powershell
+   $env:R_HOME = "C:\Program Files\R\R-4.3.0"
+   $env:PATH = "$env:R_HOME\bin\x64;$env:PATH"
+   ```
+
+3. **Long paths:** Enable in registry for deep directory structures
+
+### macOS
+
+1. **Apple Silicon (M1/M2):**
+   ```bash
+   brew install libomp  # Required for LightGBM
+   ```
+
+2. **R Setup:**
+   ```bash
+   export R_HOME=/Library/Frameworks/R.framework/Resources
+   ```
+
+### Linux
+
+1. **System dependencies:**
+   ```bash
+   # Ubuntu/Debian
+   sudo apt-get install r-base-dev libcurl4-openssl-dev libssl-dev
+
+   # Fedora/RHEL
+   sudo dnf install R-devel libcurl-devel openssl-devel
+   ```
+
+2. **R Setup:**
+   ```bash
+   export R_HOME=/usr/lib/R
+   ```
 
 ## Troubleshooting
 
 ### Common Issues
 
-#### 1. econml Installation Fails
+| Issue | Solution |
+|-------|----------|
+| econml build fails | Pre-install: `pip install cython numpy scipy` |
+| causalml SHAP conflict | Install in order: `pip install shap==0.42.1` then `causalml` |
+| rpy2 R not found | Set `R_HOME` environment variable |
+| LightGBM macOS error | Run: `brew install libomp` |
+| NumPy 2.0 conflicts | Pin: `pip install "numpy<2.0"` |
 
-econml has complex dependencies. Try:
+See [references/troubleshooting.md](references/troubleshooting.md) for detailed solutions.
 
-```bash
-pip install cython numpy scipy
-pip install econml --no-build-isolation
-```
-
-#### 2. rpy2 Cannot Find R
-
-Ensure R_HOME is set correctly:
-
-```python
-import os
-os.environ['R_HOME'] = '/path/to/R'  # Set before importing rpy2
-import rpy2.robjects as ro
-```
-
-#### 3. causalml SHAP Conflicts
-
-causalml may have version conflicts with SHAP. Install in order:
+### Getting Diagnostic Info
 
 ```bash
-pip install shap==0.42.1
-pip install causalml
+# Full environment report
+python scripts/check_environment.py --verbose
+
+# JSON output for debugging
+python scripts/check_environment.py --json > env_report.json
 ```
 
-#### 4. LightGBM on macOS (Apple Silicon)
+## Directory Structure
 
-```bash
-brew install libomp
-pip install lightgbm
 ```
-
-### Getting Help
-
-If the diagnostic script reports issues:
-
-1. Check the specific error messages
-2. Ensure you're using Python 3.10+
-3. Try installing in a fresh virtual environment
-4. Check package GitHub issues for known problems
-
-## Environment Verification
-
-After setup, verify everything works:
-
-```python
-# Quick verification script
-from econml.dml import DML
-from doubleml import DoubleMLData
-from causalml.inference.meta import BaseSRegressor
-from statsmodels.regression.linear_model import OLS
-from linearmodels.iv import IV2SLS
-import sklearn
-import xgboost
-import lightgbm
-import pandas as pd
-import numpy as np
-
-print("All critical packages imported successfully!")
+setup-causal-ml-env/
+├── SKILL.md                 # This file
+├── requirements.txt         # Python dependencies
+├── env_check.py            # Legacy check script
+├── references/
+│   ├── python_packages.md  # Python package details
+│   ├── r_packages.md       # R package details
+│   ├── stata_integration.md # Stata setup
+│   └── troubleshooting.md  # Common issues
+└── scripts/
+    ├── check_environment.py    # Comprehensive diagnostics
+    └── install_dependencies.py # Automated installer
 ```
 
 ## Next Steps
 
-Once your environment is set up:
+After environment setup:
 
-1. Run `python env_check.py` to verify installation
-2. Check out the causal inference tutorials in this project
-3. Start with simple examples before complex analyses
+1. **Verify installation:** `python scripts/check_environment.py`
+2. **Check out estimator skills** in `skills/estimators/`
+3. **Start with simple examples** before complex analyses
+
+## Version Compatibility
+
+| Python | Status | Notes |
+|--------|--------|-------|
+| 3.10 | Fully Supported | Recommended |
+| 3.11 | Fully Supported | Recommended |
+| 3.12 | Partial | Some packages may not support |
+| 3.9 | Legacy | May work but not tested |
+
+## Related Skills
+
+- `causal-ddml` - Double Machine Learning workflows
+- `estimator-iv` - Instrumental Variables estimation
+- `estimator-rd` - Regression Discontinuity designs
+- `causal-mediation-ml` - Mediation analysis

@@ -1,0 +1,274 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Economics Research Paper Template (AER Style)
+%%
+%% Usage: Replace [BRACKETED] content with your text
+%% Compile with: pdflatex -> bibtex -> pdflatex -> pdflatex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[12pt]{article}
+
+%% ===== Packages =====
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{booktabs}           % Professional tables
+\usepackage{threeparttable}     % Table notes
+\usepackage{natbib}             % Author-year citations
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage{geometry}
+\usepackage{float}
+\usepackage{subcaption}
+\usepackage{appendix}
+\usepackage{xcolor}
+
+%% ===== Page Setup =====
+\geometry{
+    letterpaper,
+    left=1in,
+    right=1in,
+    top=1in,
+    bottom=1in
+}
+
+%% ===== Spacing =====
+\doublespacing
+\setlength{\parskip}{0pt}
+\setlength{\parindent}{0.5in}
+
+%% ===== Citation Style =====
+\bibliographystyle{aer}
+% Alternative: \bibliographystyle{chicago}
+
+%% ===== Custom Commands =====
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Var}{\text{Var}}
+\newcommand{\Cov}{\text{Cov}}
+\newcommand{\plim}{\text{plim}}
+
+%% ===== Table/Figure Notes Environment =====
+\newenvironment{tablenotes}{\footnotesize\par\medskip}{\par}
+
+%% ===== Title Information =====
+\title{[TITLE: Clear, Specific, Informative]\\[1ex]
+\large [Subtitle if needed]}
+
+\author{
+    [First Author]\thanks{[Affiliation]. Email: [email].
+    [Acknowledgments can go here or in separate section.]}
+    \and
+    [Second Author]\thanks{[Affiliation]. Email: [email].}
+}
+
+\date{[Month Year]\\[1ex]
+\small Preliminary and Incomplete}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\maketitle
+
+%% ===== Abstract =====
+\begin{abstract}
+\noindent
+[CONTEXT: 1-2 sentences on why this matters.]
+[GAP: What's missing from existing research?]
+[THIS PAPER: What do you do and how?]
+[RESULTS: Main finding with specific numbers.]
+[IMPLICATION: Why should readers care?]
+
+\bigskip
+\noindent
+\textbf{JEL Codes:} [C21, J31, etc.]
+
+\noindent
+\textbf{Keywords:} [keyword1], [keyword2], [keyword3]
+\end{abstract}
+
+\thispagestyle{empty}
+\newpage
+\setcounter{page}{1}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% INTRODUCTION
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+\label{sec:intro}
+
+% Paragraph 1: Motivation
+[Open with the big question or a striking fact that hooks the reader. Why does this matter for policy, theory, or practice? What's at stake?]
+
+% Paragraph 2: This paper
+[What specifically do you do? What is your identification strategy? One sentence on data, one on method.]
+
+% Paragraph 3: Results preview
+[State your main quantitative finding. Include specific numbers with standard errors or confidence intervals. Give magnitude context.]
+
+% Paragraph 4: Contribution
+[How does this advance the literature? What do you do that others haven't? Be specific about your value-add. Consider: ``Our contribution is threefold. First,... Second,... Third,...'']
+
+% Roadmap paragraph
+The remainder of this paper is organized as follows. Section \ref{sec:background} describes the institutional background and data. Section \ref{sec:methods} presents our empirical strategy. Section \ref{sec:results} reports results. Section \ref{sec:conclusion} concludes.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% INSTITUTIONAL BACKGROUND AND DATA
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Background and Data}
+\label{sec:background}
+
+\subsection{Institutional Setting}
+\label{subsec:setting}
+
+[Describe the policy, institution, or setting. Why is this useful for identification? What features does the reader need to understand?]
+
+\subsection{Data}
+\label{subsec:data}
+
+[Data source, coverage, sample construction. Key variable definitions. Any data limitations and how you address them.]
+
+% Summary statistics table
+\begin{table}[htbp]
+\centering
+\caption{Summary Statistics}
+\label{tab:sumstats}
+\begin{threeparttable}
+\begin{tabular}{lccccc}
+\toprule
+ & Mean & SD & Min & Max & N \\
+\midrule
+\multicolumn{6}{l}{\textit{Panel A: Outcome Variables}} \\
+[Outcome 1] & [X.XX] & ([X.XX]) & [X.XX] & [X.XX] & [N] \\
+[Outcome 2] & [X.XX] & ([X.XX]) & [X.XX] & [X.XX] & [N] \\
+& & & & & \\
+\multicolumn{6}{l}{\textit{Panel B: Treatment and Controls}} \\
+[Treatment] & [X.XX] & ([X.XX]) & [X.XX] & [X.XX] & [N] \\
+[Control 1] & [X.XX] & ([X.XX]) & [X.XX] & [X.XX] & [N] \\
+[Control 2] & [X.XX] & ([X.XX]) & [X.XX] & [X.XX] & [N] \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}
+Notes: Standard deviations in parentheses. Sample restricted to [sample definition]. Data source: [source].
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% EMPIRICAL STRATEGY
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Empirical Strategy}
+\label{sec:methods}
+
+\subsection{Identification}
+\label{subsec:identification}
+
+[What variation do you exploit? Why is this variation plausibly exogenous?]
+
+Our estimating equation is:
+\begin{equation}
+\label{eq:main}
+Y_{it} = \alpha + \beta D_{it} + X'_{it}\gamma + \mu_i + \lambda_t + \varepsilon_{it}
+\end{equation}
+
+\noindent where $Y_{it}$ is [outcome] for individual $i$ in period $t$, $D_{it}$ is [treatment indicator], $X_{it}$ is a vector of controls including [list], $\mu_i$ are [individual/firm] fixed effects, $\lambda_t$ are [year/period] fixed effects, and $\varepsilon_{it}$ is the error term.
+
+The parameter of interest is $\beta$, which captures [interpretation under identifying assumption].
+
+\subsection{Identifying Assumptions}
+\label{subsec:assumptions}
+
+[State your key identifying assumption clearly. What must be true for $\beta$ to have a causal interpretation?]
+
+\subsection{Threats to Identification}
+\label{subsec:threats}
+
+[What could bias your estimates? Address selection, reverse causality, omitted variables. Be proactive.]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% RESULTS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Results}
+\label{sec:results}
+
+\subsection{Main Results}
+\label{subsec:main_results}
+
+[Walk through your main table. Interpret the economic magnitude, not just statistical significance.]
+
+% Main results table
+\begin{table}[htbp]
+\centering
+\caption{[Descriptive Title: Effect of X on Y]}
+\label{tab:main}
+\begin{threeparttable}
+\begin{tabular}{lccc}
+\toprule
+ & (1) & (2) & (3) \\
+ & [Spec 1] & [Spec 2] & [Spec 3] \\
+\midrule
+[Treatment Variable] & [X.XXX]*** & [X.XXX]*** & [X.XXX]*** \\
+ & ([X.XXX]) & ([X.XXX]) & ([X.XXX]) \\
+ & & & \\
+[Control 1] & & [X.XXX]** & [X.XXX]** \\
+ & & ([X.XXX]) & ([X.XXX]) \\
+\midrule
+Controls & No & Yes & Yes \\
+[Type] FE & No & No & Yes \\
+Observations & [N] & [N] & [N] \\
+R-squared & [0.XXX] & [0.XXX] & [0.XXX] \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}
+Notes: Standard errors clustered at [level] in parentheses. *** p$<$0.01, ** p$<$0.05, * p$<$0.1. Dependent variable is [outcome]. [Additional notes about specification.]
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\subsection{Robustness}
+\label{subsec:robustness}
+
+[Alternative specifications, placebo tests, sensitivity to key choices. Can be brief if results are in appendix.]
+
+\subsection{Heterogeneity}
+\label{subsec:heterogeneity}
+
+[Subgroup analysis if applicable. What drives the effect?]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% CONCLUSION
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusion}
+\label{sec:conclusion}
+
+[Paragraph 1: Summarize the question and main finding.]
+
+[Paragraph 2: Policy/theoretical implications.]
+
+[Paragraph 3: Limitations and future research. Be honest but don't undermine your findings.]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% REFERENCES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\bibliography{references}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% APPENDIX
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\appendix
+
+\section{Additional Results}
+\label{app:additional}
+
+[Additional tables, robustness checks, details on data construction, etc.]
+
+\section{Proofs and Derivations}
+\label{app:proofs}
+
+[Mathematical details if applicable.]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

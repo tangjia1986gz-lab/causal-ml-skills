@@ -28,11 +28,34 @@ This skill provides conceptual guidance for causal inference analysis. It helps 
 
 ---
 
+## Skill Contents
+
+### Reference Documents
+
+| Document | Description |
+|----------|-------------|
+| `references/potential_outcomes.md` | Rubin causal model, counterfactuals, ATE/ATT/LATE definitions |
+| `references/dags_and_graphs.md` | DAGs, d-separation, backdoor/frontdoor criteria |
+| `references/selection_guide.md` | Decision trees for choosing estimators |
+| `references/common_pitfalls.md` | Bad controls, collider bias, selection bias |
+| `references/econometrics_vs_ml.md` | Traditional vs. ML approaches |
+| `references/glossary.md` | Key terms and definitions |
+
+### Assets
+
+| Asset | Description |
+|-------|-------------|
+| `assets/markdown/method_comparison.md` | Side-by-side method comparison tables |
+
+---
+
 ## Core Concepts
 
 ### 1. The Fundamental Problem of Causal Inference
 
 We can never observe both potential outcomes for the same unit at the same time. If unit $i$ receives treatment ($D_i = 1$), we observe $Y_i(1)$ but not $Y_i(0)$. This is why causal inference requires assumptions.
+
+**See**: `references/potential_outcomes.md` for detailed treatment.
 
 ### 2. Confounding
 
@@ -61,6 +84,8 @@ We can never observe both potential outcomes for the same unit at the same time.
 Treatment -> Outcome
    (D)        (Y)
 ```
+
+**See**: `references/dags_and_graphs.md` for graphical models.
 
 ### 3. Reverse Causality
 
@@ -91,6 +116,8 @@ Treatment -> Outcome
 | Survivorship bias | Only "survivors" observed in sample | Successful companies studied; failed ones ignored |
 | Attrition bias | Differential dropout between groups | Sicker patients drop out of clinical trials |
 
+**See**: `references/common_pitfalls.md` for detailed examples.
+
 ### 5. Potential Outcomes Framework (Rubin Causal Model)
 
 **Notation**:
@@ -103,6 +130,8 @@ Treatment -> Outcome
 $$\tau_i = Y_i(1) - Y_i(0)$$
 
 This is fundamentally unobservable for any single unit.
+
+**See**: `references/potential_outcomes.md` for complete framework.
 
 ### 6. Treatment Effect Estimands
 
@@ -118,6 +147,8 @@ This is fundamentally unobservable for any single unit.
 - ATE = ATT when treatment is randomly assigned
 - ATT > ATE when those who benefit most self-select into treatment
 - LATE may not equal ATE if compliers are different from always-takers/never-takers
+
+**See**: `references/glossary.md` for all estimand definitions.
 
 ---
 
@@ -136,57 +167,100 @@ This is fundamentally unobservable for any single unit.
 | **Matching/PSM** | Observable characteristics | Selection on observables only | Unobserved confounders |
 | **Synthetic Control** | Weighted combination of controls | Pre-treatment fit implies good counterfactual | Poor pre-treatment fit |
 
+**See**: `references/selection_guide.md` for detailed decision trees.
+**See**: `assets/markdown/method_comparison.md` for side-by-side comparisons.
+
 ---
 
-## Method Selection Decision Tree
+## Master Method Selection Flowchart
 
 ```
-START: What type of variation in treatment do you have?
+START: What is your research question?
 │
-├─► Random assignment by design?
-│   └─► YES → Use RCT analysis (randomization inference, ITT/LATE)
-│       └─► Check: Was randomization actually random? Non-compliance issues?
+├─► What causal effect do you want to estimate?
+│   │
+│   ├─► Effect for entire population (ATE)
+│   │   └─► Methods: RCT, DDML (with overlap), DID (homogeneous effects)
+│   │
+│   ├─► Effect for those treated (ATT)
+│   │   └─► Methods: PSM, Matching, DID, Synthetic Control
+│   │
+│   ├─► Effect for compliers (LATE)
+│   │   └─► Methods: IV, Fuzzy RD
+│   │
+│   └─► Heterogeneous effects (CATE)
+│       └─► Methods: Causal Forest, Subgroup analysis
 │
-├─► Policy/intervention at a specific time affecting some units?
-│   └─► YES → Consider Difference-in-Differences (DID)
-│       ├─► Check: Can you test parallel pre-trends?
-│       ├─► Check: Was treatment timing exogenous?
-│       └─► Check: No anticipation effects?
+├─► What variation in treatment do you have?
+│   │
+│   ├─► RANDOM ASSIGNMENT by design?
+│   │   │
+│   │   └─► YES → RCT Analysis
+│   │       ├─► Full compliance? → Simple difference in means
+│   │       ├─► Non-compliance? → IV/LATE with randomization as instrument
+│   │       ├─► Clustering? → Cluster-robust standard errors
+│   │       └─► Check: Balance tests, attrition analysis
+│   │
+│   ├─► POLICY/INTERVENTION at specific time?
+│   │   │
+│   │   └─► YES → Consider Difference-in-Differences (DID)
+│   │       ├─► Two groups, one treatment time? → Classic 2x2 DID
+│   │       ├─► Staggered adoption? → Callaway-Sant'Anna, Sun-Abraham
+│   │       ├─► Single treated unit? → Synthetic Control
+│   │       ├─► Continuous treatment? → Generalized DID
+│   │       ├─► Check: Pre-trends parallel?
+│   │       ├─► Check: No anticipation effects?
+│   │       └─► Check: No composition changes?
+│   │
+│   ├─► THRESHOLD/CUTOFF-based assignment?
+│   │   │
+│   │   └─► YES → Consider Regression Discontinuity (RD)
+│   │       ├─► Deterministic at threshold? → Sharp RD
+│   │       ├─► Probabilistic at threshold? → Fuzzy RD
+│   │       ├─► Multiple cutoffs? → Multi-cutoff RD
+│   │       ├─► Geographic boundary? → Geographic RD
+│   │       ├─► Check: McCrary density test (no bunching)
+│   │       ├─► Check: Covariate balance at cutoff
+│   │       └─► Check: Sufficient observations near cutoff
+│   │
+│   ├─► EXTERNAL INSTRUMENT available?
+│   │   │
+│   │   └─► YES → Consider Instrumental Variables (IV)
+│   │       ├─► Single instrument? → 2SLS
+│   │       ├─► Multiple instruments? → GMM, overidentification tests
+│   │       ├─► Weak first stage (F < 10)? → LIML, Anderson-Rubin
+│   │       ├─► Check: Relevance (first-stage F-stat)
+│   │       ├─► Check: Exclusion restriction (argue from theory)
+│   │       └─► Check: Monotonicity for LATE interpretation
+│   │
+│   ├─► SELECTION based on observable characteristics?
+│   │   │
+│   │   └─► YES → Consider Matching / Propensity Score Methods
+│   │       ├─► Low-dimensional covariates? → Nearest-neighbor, PSM
+│   │       ├─► High-dimensional covariates? → DDML, Causal Forest
+│   │       ├─► Need doubly robust? → AIPW
+│   │       ├─► Check: Conditional independence plausible?
+│   │       ├─► Check: Overlap in propensity scores?
+│   │       └─► WARNING: Cannot address unobserved confounders
+│   │
+│   └─► HETEROGENEOUS EFFECTS needed?
+│       │
+│       └─► YES → Consider Causal ML Methods
+│           ├─► Exploratory heterogeneity? → Causal Forest / GRF
+│           ├─► Pre-specified subgroups? → Interaction models
+│           ├─► Policy targeting? → Optimal treatment regimes
+│           ├─► Check: Unconfoundedness must hold
+│           └─► Check: Sufficient sample size (1000+)
 │
-├─► Assignment based on a threshold/cutoff?
-│   └─► YES → Consider Regression Discontinuity (RD)
-│       ├─► Continuous running variable? → Sharp or Fuzzy RD
-│       ├─► Check: Can units manipulate the running variable?
-│       └─► Check: Is there sufficient density around cutoff?
-│
-├─► External variable that affects treatment but not outcome directly?
-│   └─► YES → Consider Instrumental Variables (IV)
-│       ├─► Check: Is instrument relevant (strong first stage)?
-│       ├─► Check: Can you argue exclusion restriction?
-│       └─► Check: Monotonicity for LATE interpretation?
-│
-├─► Treatment selection based on observable characteristics?
-│   └─► YES → Consider Matching/Propensity Score Methods
-│       ├─► Check: Is conditional independence plausible?
-│       ├─► Check: Is there overlap in propensity scores?
-│       └─► Warning: Cannot address unobserved confounders
-│
-├─► High-dimensional controls + need for ML flexibility?
-│   └─► YES → Consider Double/Debiased ML (DDML)
-│       ├─► Many potential confounders to control
-│       ├─► Want data-driven variable selection
-│       └─► Check: Still requires conditional independence
-│
-├─► Heterogeneous effects across subgroups?
-│   └─► YES → Consider Causal Forest / GRF
-│       ├─► Interested in treatment effect heterogeneity
-│       ├─► Have sufficient sample size
-│       └─► Check: Random/quasi-random treatment assignment
-│
-└─► Single treated unit, multiple controls, long pre-treatment?
-    └─► YES → Consider Synthetic Control Method
-        ├─► Check: Good pre-treatment fit achievable?
-        └─► Check: No interference between units?
+└─► UNKNOWN or COMPLEX selection?
+    │
+    └─► Consider:
+        ├─► Can you find an instrument? → IV
+        ├─► Can you find a discontinuity? → RD
+        ├─► Can you exploit timing? → DID
+        ├─► Can you collect better data? → Richer covariates for PSM
+        ├─► Sensitivity analysis → How much confounding to change results?
+        └─► Bounds analysis → What can be learned with weaker assumptions?
 ```
 
 ---
@@ -227,11 +301,15 @@ START: What type of variation in treatment do you have?
 |--------------|--------------|---------------------|
 | Regress Y on D without controls | Omitted variable bias | Add confounders or find better identification |
 | Control for post-treatment variables | Collider bias, removes causal pathway | Only control for pre-treatment confounders |
+| Control for mediators (unless intended) | Removes indirect effect | Decide if you want total or direct effect |
 | Difference-in-differences without testing pre-trends | Violates parallel trends | Plot and test pre-trends |
-| IV with weak instrument | Bias toward OLS | Check first-stage F-stat > 10 (or use weak-IV robust methods) |
+| IV with weak instrument | Bias toward OLS | Check first-stage F-stat > 10 |
 | Matching on outcome-related variables | Conditions on outcome | Match only on pre-treatment confounders |
 | Claim causality from correlation | Confounding, reverse causality | Use proper identification strategy |
-| Over-control (kitchen sink regression) | May include colliders or mediators | Think carefully about causal DAG |
+| Over-control (kitchen sink regression) | May include colliders or mediators | Draw DAG, think about each variable |
+| Report only significant specifications | P-hacking | Pre-register, report all specifications |
+
+**See**: `references/common_pitfalls.md` for comprehensive pitfall guide.
 
 ### Common Pitfalls in Causal Claims
 
@@ -339,6 +417,8 @@ RESEARCH QUESTION: Effect of Minimum Wage on Employment
 | **Synthetic Control** | Single treated unit | Pre-treatment fit | Long pre-treatment period | Policy effects on single country/state |
 | **Bounds** | When point identification fails | Minimal assumptions | Varies | Partial identification under selection |
 
+**See**: `assets/markdown/method_comparison.md` for detailed comparison tables.
+
 ---
 
 ## Key References
@@ -388,6 +468,31 @@ RESEARCH QUESTION: Effect of Minimum Wage on Employment
 
 ---
 
+## Related Skills
+
+### Implementation Skills
+
+For code implementation, see the method-specific skills:
+
+| Skill | Method | Description |
+|-------|--------|-------------|
+| `estimator-did` | Difference-in-Differences | DID implementation in R/Python/Stata |
+| `estimator-rd` | Regression Discontinuity | RD implementation with rdrobust |
+| `estimator-iv` | Instrumental Variables | 2SLS and weak-IV robust methods |
+| `estimator-psm` | Propensity Score Matching | PSM and matching estimators |
+| `causal-ddml` | Double/Debiased ML | High-dimensional causal inference |
+| `causal-mediation-ml` | Mediation Analysis | Direct/indirect effect decomposition |
+
+### Complementary Skills
+
+| Skill | Purpose |
+|-------|---------|
+| `ml-preprocessing` | Data preparation for causal analysis |
+| `ml-model-tree` | Tree-based methods (including Causal Forest) |
+| `setup-causal-ml-env` | Environment setup for causal ML |
+
+---
+
 ## Usage Notes
 
 This skill is designed to be consulted BEFORE implementing causal methods. It provides:
@@ -397,10 +502,8 @@ This skill is designed to be consulted BEFORE implementing causal methods. It pr
 3. **Assumption checking** - Knowing what must hold for identification
 4. **Pitfall avoidance** - Recognizing common mistakes
 
-For implementation guidance, see the method-specific skills:
-- `did-skill` - Difference-in-Differences implementation
-- `rd-skill` - Regression Discontinuity implementation
-- `iv-skill` - Instrumental Variables implementation
-- `psm-skill` - Propensity Score Matching implementation
-- `ddml-skill` - Double/Debiased Machine Learning implementation
-- `causal-forest-skill` - Causal Forest implementation
+**Workflow recommendation**:
+1. Start here to understand concepts and choose method
+2. Consult `references/` documents for deeper understanding
+3. Use `assets/markdown/method_comparison.md` for method selection
+4. Move to implementation skill (e.g., `estimator-did`) for code

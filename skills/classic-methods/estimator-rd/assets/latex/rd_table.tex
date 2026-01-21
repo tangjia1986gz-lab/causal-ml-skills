@@ -1,0 +1,277 @@
+% RD Results Table Template
+% Author: Causal ML Skills
+% Version: 1.0.0
+%
+% Usage:
+% 1. Replace [EFFECT], [SE], etc. with actual values
+% 2. Uncomment/modify rows as needed for your specifications
+% 3. Adjust column alignment and spacing as needed
+%
+% Required packages:
+% \usepackage{booktabs}
+% \usepackage{threeparttable}
+% \usepackage{multirow}
+
+% =============================================================================
+% SINGLE-COLUMN RD TABLE
+% =============================================================================
+\begin{table}[htbp]
+\centering
+\begin{threeparttable}
+\caption{Regression Discontinuity Estimates}
+\label{tab:rd_results}
+
+\begin{tabular}{lc}
+\toprule
+& (1) \\
+& Sharp RD \\
+\midrule
+
+\multicolumn{2}{l}{\textit{Panel A: Main Estimate}} \\[0.5em]
+RD Effect & [EFFECT]*** \\
+& ([SE]) \\
+& \\
+95\% Robust CI & [[CI_LOWER], [CI_UPPER]] \\
+& \\
+
+\midrule
+\multicolumn{2}{l}{\textit{Panel B: Specification}} \\[0.5em]
+Bandwidth & [BANDWIDTH] \\
+Kernel & Triangular \\
+Polynomial Order & 1 \\
+& \\
+
+\midrule
+\multicolumn{2}{l}{\textit{Panel C: Sample}} \\[0.5em]
+N (below cutoff) & [N_LEFT] \\
+N (above cutoff) & [N_RIGHT] \\
+Effective N & [N_EFF] \\
+& \\
+
+\midrule
+\multicolumn{2}{l}{\textit{Panel D: Diagnostics}} \\[0.5em]
+McCrary p-value & [MCCRARY_PVAL] \\
+Placebo tests & Pass ([X]/[Y]) \\
+
+\bottomrule
+\end{tabular}
+
+\begin{tablenotes}
+\small
+\item \textit{Notes:} Robust bias-corrected standard errors in parentheses (Calonico, Cattaneo, and Titiunik, 2014). Bandwidth selected using MSE-optimal criterion. *** p$<$0.01, ** p$<$0.05, * p$<$0.1
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+
+% =============================================================================
+% MULTI-COLUMN RD TABLE (Robustness)
+% =============================================================================
+\begin{table}[htbp]
+\centering
+\begin{threeparttable}
+\caption{Regression Discontinuity Estimates: Robustness}
+\label{tab:rd_robustness}
+
+\begin{tabular}{lcccc}
+\toprule
+& (1) & (2) & (3) & (4) \\
+& Baseline & Quadratic & Half BW & Double BW \\
+\midrule
+
+RD Effect & [EFFECT_1]*** & [EFFECT_2]*** & [EFFECT_3]*** & [EFFECT_4]*** \\
+& ([SE_1]) & ([SE_2]) & ([SE_3]) & ([SE_4]) \\
+& & & & \\
+
+95\% Robust CI & [[CI_1]] & [[CI_2]] & [[CI_3]] & [[CI_4]] \\
+& & & & \\
+
+\midrule
+Bandwidth & [BW_1] & [BW_2] & [BW_3] & [BW_4] \\
+Polynomial Order & 1 & 2 & 1 & 1 \\
+Effective N & [N_1] & [N_2] & [N_3] & [N_4] \\
+
+\bottomrule
+\end{tabular}
+
+\begin{tablenotes}
+\small
+\item \textit{Notes:} Robust bias-corrected standard errors in parentheses. Column (1) presents the baseline specification using MSE-optimal bandwidth and local linear regression. Column (2) uses a local quadratic specification. Columns (3) and (4) use half and double the optimal bandwidth, respectively. *** p$<$0.01, ** p$<$0.05, * p$<$0.1
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+
+% =============================================================================
+% COVARIATE BALANCE TABLE
+% =============================================================================
+\begin{table}[htbp]
+\centering
+\begin{threeparttable}
+\caption{Covariate Balance at the Cutoff}
+\label{tab:rd_balance}
+
+\begin{tabular}{lccccc}
+\toprule
+Covariate & Mean Below & Mean Above & Difference & SE & p-value \\
+\midrule
+
+[COV_1] & [MEAN_B_1] & [MEAN_A_1] & [DIFF_1] & ([SE_1]) & [PVAL_1] \\
+[COV_2] & [MEAN_B_2] & [MEAN_A_2] & [DIFF_2] & ([SE_2]) & [PVAL_2] \\
+[COV_3] & [MEAN_B_3] & [MEAN_A_3] & [DIFF_3] & ([SE_3]) & [PVAL_3] \\
+[COV_4] & [MEAN_B_4] & [MEAN_A_4] & [DIFF_4] & ([SE_4]) & [PVAL_4] \\
+[COV_5] & [MEAN_B_5] & [MEAN_A_5] & [DIFF_5] & ([SE_5]) & [PVAL_5] \\
+
+\midrule
+\multicolumn{5}{l}{Joint test (Fisher's method)} & [JOINT_PVAL] \\
+
+\bottomrule
+\end{tabular}
+
+\begin{tablenotes}
+\small
+\item \textit{Notes:} This table tests for discontinuities in pre-treatment covariates at the cutoff. Under a valid RD design, we expect no significant discontinuities. Differences estimated using local linear regression with MSE-optimal bandwidth. Standard errors are robust bias-corrected.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+
+% =============================================================================
+% BANDWIDTH SENSITIVITY TABLE
+% =============================================================================
+\begin{table}[htbp]
+\centering
+\begin{threeparttable}
+\caption{Bandwidth Sensitivity Analysis}
+\label{tab:rd_bw_sensitivity}
+
+\begin{tabular}{ccccccc}
+\toprule
+Bandwidth & Ratio & Effect & SE & 95\% CI & p-value & N$_{eff}$ \\
+\midrule
+
+[BW_1] & 0.50$\times$ & [EFF_1] & [SE_1] & [[CI_1]] & [PVAL_1] & [N_1] \\
+[BW_2] & 0.75$\times$ & [EFF_2] & [SE_2] & [[CI_2]] & [PVAL_2] & [N_2] \\
+[BW_3]$^\dagger$ & 1.00$\times$ & [EFF_3]*** & [SE_3] & [[CI_3]] & [PVAL_3] & [N_3] \\
+[BW_4] & 1.25$\times$ & [EFF_4] & [SE_4] & [[CI_4]] & [PVAL_4] & [N_4] \\
+[BW_5] & 1.50$\times$ & [EFF_5] & [SE_5] & [[CI_5]] & [PVAL_5] & [N_5] \\
+[BW_6] & 2.00$\times$ & [EFF_6] & [SE_6] & [[CI_6]] & [PVAL_6] & [N_6] \\
+
+\bottomrule
+\end{tabular}
+
+\begin{tablenotes}
+\small
+\item \textit{Notes:} $^\dagger$ indicates MSE-optimal bandwidth. This table shows the sensitivity of the RD estimate to bandwidth choice. Robust bias-corrected standard errors and confidence intervals. *** p$<$0.01, ** p$<$0.05, * p$<$0.1
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+
+% =============================================================================
+% FUZZY RD TABLE
+% =============================================================================
+\begin{table}[htbp]
+\centering
+\begin{threeparttable}
+\caption{Fuzzy Regression Discontinuity Estimates}
+\label{tab:fuzzy_rd}
+
+\begin{tabular}{lcc}
+\toprule
+& (1) & (2) \\
+& Reduced Form & Fuzzy RD (LATE) \\
+\midrule
+
+\multicolumn{3}{l}{\textit{Panel A: Estimates}} \\[0.5em]
+Effect & [RF_EFFECT]*** & [LATE_EFFECT]*** \\
+& ([RF_SE]) & ([LATE_SE]) \\
+& & \\
+95\% Robust CI & [[RF_CI]] & [[LATE_CI]] \\
+& & \\
+
+\midrule
+\multicolumn{3}{l}{\textit{Panel B: First Stage}} \\[0.5em]
+Treatment discontinuity & \multicolumn{2}{c}{[FIRST_STAGE]} \\
+& \multicolumn{2}{c}{([FS_SE])} \\
+F-statistic & \multicolumn{2}{c}{[F_STAT]} \\
+& & \\
+
+\midrule
+\multicolumn{3}{l}{\textit{Panel C: Specification}} \\[0.5em]
+Bandwidth & [BANDWIDTH] & [BANDWIDTH] \\
+Effective N & [N_EFF] & [N_EFF] \\
+
+\bottomrule
+\end{tabular}
+
+\begin{tablenotes}
+\small
+\item \textit{Notes:} Column (1) shows the reduced form (intent-to-treat) effect. Column (2) shows the fuzzy RD estimate, which is the local Wald estimator (reduced form / first stage). This identifies the Local Average Treatment Effect (LATE) for compliers at the cutoff. Robust bias-corrected standard errors in parentheses. *** p$<$0.01, ** p$<$0.05, * p$<$0.1
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+
+% =============================================================================
+% PLACEBO CUTOFF TESTS TABLE
+% =============================================================================
+\begin{table}[htbp]
+\centering
+\begin{threeparttable}
+\caption{Placebo Cutoff Tests}
+\label{tab:rd_placebo}
+
+\begin{tabular}{ccccc}
+\toprule
+Placebo Cutoff & Effect & SE & p-value & Result \\
+\midrule
+
+[PC_1] & [EFF_1] & ([SE_1]) & [PVAL_1] & [RESULT_1] \\
+[PC_2] & [EFF_2] & ([SE_2]) & [PVAL_2] & [RESULT_2] \\
+[PC_3] & [EFF_3] & ([SE_3]) & [PVAL_3] & [RESULT_3] \\
+[PC_4] & [EFF_4] & ([SE_4]) & [PVAL_4] & [RESULT_4] \\
+
+\midrule
+True cutoff ([CUTOFF]) & [TRUE_EFF]*** & ([TRUE_SE]) & [TRUE_PVAL] & -- \\
+
+\bottomrule
+\end{tabular}
+
+\begin{tablenotes}
+\small
+\item \textit{Notes:} This table tests for effects at placebo (fake) cutoffs where no treatment effect should exist. Placebo cutoffs are chosen at quantiles of the running variable, separately on each side of the true cutoff. Under a valid RD specification, we expect no significant effects at placebo cutoffs. Pass indicates p $>$ 0.10.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+
+% =============================================================================
+% DONUT HOLE SENSITIVITY TABLE
+% =============================================================================
+\begin{table}[htbp]
+\centering
+\begin{threeparttable}
+\caption{Donut Hole Robustness Analysis}
+\label{tab:rd_donut}
+
+\begin{tabular}{cccccc}
+\toprule
+Donut Radius & Effect & SE & 95\% CI & N Excluded & p-value \\
+\midrule
+
+0 (none) & [EFF_0]*** & ([SE_0]) & [[CI_0]] & 0 & [PVAL_0] \\
+[RAD_1] & [EFF_1]*** & ([SE_1]) & [[CI_1]] & [N_EX_1] & [PVAL_1] \\
+[RAD_2] & [EFF_2]*** & ([SE_2]) & [[CI_2]] & [N_EX_2] & [PVAL_2] \\
+[RAD_3] & [EFF_3]** & ([SE_3]) & [[CI_3]] & [N_EX_3] & [PVAL_3] \\
+[RAD_4] & [EFF_4]* & ([SE_4]) & [[CI_4]] & [N_EX_4] & [PVAL_4] \\
+
+\bottomrule
+\end{tabular}
+
+\begin{tablenotes}
+\small
+\item \textit{Notes:} This table presents donut hole RD estimates, which exclude observations within the specified radius of the cutoff. This robustness check is useful when there are concerns about manipulation very close to the cutoff. All specifications use the MSE-optimal bandwidth. *** p$<$0.01, ** p$<$0.05, * p$<$0.1
+\end{tablenotes}
+\end{threeparttable}
+\end{table}

@@ -1,0 +1,399 @@
+% =============================================================================
+% balance_table.tex - PSM Balance Table Template
+% =============================================================================
+% Style: AER/NBER publication standards for propensity score matching
+% Features:
+%   - Before/after matching comparison
+%   - Standardized mean differences
+%   - Variance ratios
+%   - Balance diagnostics (normalized differences, t-tests)
+%   - Multiple matching methods comparison
+%
+% Placeholders (replace with your data):
+%   - {{TITLE}}          : Table title
+%   - {{LABEL}}          : LaTeX label for cross-referencing
+%   - {{VAR_*}}          : Variable names
+%   - {{*_BEFORE}}       : Pre-matching statistics
+%   - {{*_AFTER}}        : Post-matching statistics
+%   - {{NORMDIFF_*}}     : Normalized differences
+%   - {{PVAL_*}}         : Balance test p-values
+% =============================================================================
+
+\documentclass[12pt]{article}
+\input{common_preamble}
+
+\begin{document}
+
+% =============================================================================
+% Template 1: Comprehensive Balance Table (Before/After Matching)
+% =============================================================================
+
+\begin{table}[htbp]
+\centering
+\caption{{{TITLE}}: Covariate Balance Before and After Matching}
+\label{tab:{{LABEL}}_balance}
+
+\small
+\begin{threeparttable}
+\begin{tabular}{l
+    S[table-format=2.3]     % Treated Mean (Before)
+    S[table-format=2.3]     % Control Mean (Before)
+    S[table-format=-1.3]    % Std. Diff (Before)
+    S[table-format=2.3]     % Treated Mean (After)
+    S[table-format=2.3]     % Control Mean (After)
+    S[table-format=-1.3]    % Std. Diff (After)
+    S[table-format=1.2]     % Variance Ratio (After)
+}
+\toprule
+                    & \multicolumn{3}{c}{Before Matching} & \multicolumn{4}{c}{After Matching} \\
+\cmidrule(lr){2-4} \cmidrule(lr){5-8}
+Variable            & {Treated} & {Control} & {Std. Diff} & {Treated} & {Control} & {Std. Diff} & {Var. Ratio} \\
+\midrule
+
+% Demographic characteristics
+\multicolumn{8}{l}{\textit{Panel A: Demographics}} \\
+\addlinespace[0.3em]
+Age                 & {{T_MEAN_AGE_BEFORE}}  & {{C_MEAN_AGE_BEFORE}}  & {{STDDIFF_AGE_BEFORE}}  & {{T_MEAN_AGE_AFTER}}  & {{C_MEAN_AGE_AFTER}}  & {{STDDIFF_AGE_AFTER}}  & {{VARRATIO_AGE}}  \\
+Female              & {{T_MEAN_FEM_BEFORE}}  & {{C_MEAN_FEM_BEFORE}}  & {{STDDIFF_FEM_BEFORE}}  & {{T_MEAN_FEM_AFTER}}  & {{C_MEAN_FEM_AFTER}}  & {{STDDIFF_FEM_AFTER}}  & {{VARRATIO_FEM}}  \\
+Education (years)   & {{T_MEAN_EDU_BEFORE}}  & {{C_MEAN_EDU_BEFORE}}  & {{STDDIFF_EDU_BEFORE}}  & {{T_MEAN_EDU_AFTER}}  & {{C_MEAN_EDU_AFTER}}  & {{STDDIFF_EDU_AFTER}}  & {{VARRATIO_EDU}}  \\
+Married             & {{T_MEAN_MAR_BEFORE}}  & {{C_MEAN_MAR_BEFORE}}  & {{STDDIFF_MAR_BEFORE}}  & {{T_MEAN_MAR_AFTER}}  & {{C_MEAN_MAR_AFTER}}  & {{STDDIFF_MAR_AFTER}}  & {{VARRATIO_MAR}}  \\
+\addlinespace[0.5em]
+
+% Economic characteristics
+\multicolumn{8}{l}{\textit{Panel B: Economic Characteristics}} \\
+\addlinespace[0.3em]
+Income (log)        & {{T_MEAN_INC_BEFORE}}  & {{C_MEAN_INC_BEFORE}}  & {{STDDIFF_INC_BEFORE}}  & {{T_MEAN_INC_AFTER}}  & {{C_MEAN_INC_AFTER}}  & {{STDDIFF_INC_AFTER}}  & {{VARRATIO_INC}}  \\
+Employed            & {{T_MEAN_EMP_BEFORE}}  & {{C_MEAN_EMP_BEFORE}}  & {{STDDIFF_EMP_BEFORE}}  & {{T_MEAN_EMP_AFTER}}  & {{C_MEAN_EMP_AFTER}}  & {{STDDIFF_EMP_AFTER}}  & {{VARRATIO_EMP}}  \\
+Wealth index        & {{T_MEAN_WLT_BEFORE}}  & {{C_MEAN_WLT_BEFORE}}  & {{STDDIFF_WLT_BEFORE}}  & {{T_MEAN_WLT_AFTER}}  & {{C_MEAN_WLT_AFTER}}  & {{STDDIFF_WLT_AFTER}}  & {{VARRATIO_WLT}}  \\
+\addlinespace[0.5em]
+
+% Pre-treatment outcomes
+\multicolumn{8}{l}{\textit{Panel C: Pre-Treatment Outcomes}} \\
+\addlinespace[0.3em]
+Outcome$_{t-1}$     & {{T_MEAN_LAG_BEFORE}}  & {{C_MEAN_LAG_BEFORE}}  & {{STDDIFF_LAG_BEFORE}}  & {{T_MEAN_LAG_AFTER}}  & {{C_MEAN_LAG_AFTER}}  & {{STDDIFF_LAG_AFTER}}  & {{VARRATIO_LAG}}  \\
+Outcome$_{t-2}$     & {{T_MEAN_LAG2_BEFORE}} & {{C_MEAN_LAG2_BEFORE}} & {{STDDIFF_LAG2_BEFORE}} & {{T_MEAN_LAG2_AFTER}} & {{C_MEAN_LAG2_AFTER}} & {{STDDIFF_LAG2_AFTER}} & {{VARRATIO_LAG2}} \\
+
+\midrule
+\multicolumn{8}{l}{\textit{Sample Size}} \\
+\addlinespace[0.3em]
+Treated             & \multicolumn{3}{c}{{{N_TREATED_BEFORE}}} & \multicolumn{4}{c}{{{N_TREATED_AFTER}}} \\
+Control             & \multicolumn{3}{c}{{{N_CONTROL_BEFORE}}} & \multicolumn{4}{c}{{{N_CONTROL_AFTER}}} \\
+
+\midrule
+\multicolumn{8}{l}{\textit{Overall Balance}} \\
+\addlinespace[0.3em]
+Mean $|$Std. Diff$|$  & \multicolumn{3}{c}{{{MEAN_STDDIFF_BEFORE}}} & \multicolumn{4}{c}{{{MEAN_STDDIFF_AFTER}}} \\
+Median $|$Std. Diff$|$  & \multicolumn{3}{c}{{{MED_STDDIFF_BEFORE}}} & \multicolumn{4}{c}{{{MED_STDDIFF_AFTER}}} \\
+Rubin's B           & \multicolumn{3}{c}{{{RUBIN_B_BEFORE}}} & \multicolumn{4}{c}{{{RUBIN_B_AFTER}}} \\
+Rubin's R           & \multicolumn{3}{c}{{{RUBIN_R_BEFORE}}} & \multicolumn{4}{c}{{{RUBIN_R_AFTER}}} \\
+
+\bottomrule
+\end{tabular}
+
+\tablenote{This table presents covariate balance before and after propensity score matching.
+Standardized differences are calculated as $(\bar{X}_T - \bar{X}_C) / \sqrt{(s_T^2 + s_C^2)/2}$.
+Variance ratios are the ratio of treated to control group variances after matching.
+Balance thresholds: $|\text{Std. Diff}| < 0.1$ (Rosenbaum \& Rubin, 1985); Variance Ratio $\in [0.5, 2]$.
+Rubin's B measures the absolute standardized difference of the linear index of the propensity score.
+Rubin's R is the ratio of treated to control variances of the propensity score index; $B < 25$ and $0.5 < R < 2$ indicate sufficient balance.}
+
+\end{threeparttable}
+\end{table}
+
+
+% =============================================================================
+% Template 2: Matching Method Comparison Table
+% =============================================================================
+
+\begin{table}[htbp]
+\centering
+\caption{Balance Comparison Across Matching Methods}
+\label{tab:balance_methods}
+
+\small
+\begin{threeparttable}
+\begin{tabular}{l
+    S[table-format=-1.3]    % Unmatched
+    S[table-format=-1.3]    % Nearest Neighbor
+    S[table-format=-1.3]    % Caliper
+    S[table-format=-1.3]    % Kernel
+    S[table-format=-1.3]    % IPW
+}
+\toprule
+                    & {Unmatched} & {Nearest} & {Caliper} & {Kernel} & {IPW} \\
+                    &             & {Neighbor} & {(0.05)}  &          &       \\
+\midrule
+
+\multicolumn{6}{l}{\textit{Standardized Mean Differences}} \\
+\addlinespace[0.3em]
+Age                 & 0.352  & 0.045  & 0.032  & 0.028  & 0.041  \\
+Female              & 0.128  & 0.018  & 0.015  & 0.012  & 0.022  \\
+Education           & 0.456  & 0.062  & 0.048  & 0.035  & 0.058  \\
+Income (log)        & 0.523  & 0.078  & 0.056  & 0.042  & 0.071  \\
+Employed            & 0.234  & 0.028  & 0.021  & 0.018  & 0.032  \\
+\addlinespace[0.5em]
+
+\multicolumn{6}{l}{\textit{Summary Statistics}} \\
+\addlinespace[0.3em]
+Mean $|$Std. Diff$|$  & {0.339}  & {0.046}  & {0.034}  & {0.027}  & {0.045}  \\
+Max $|$Std. Diff$|$   & {0.523}  & {0.078}  & {0.056}  & {0.042}  & {0.071}  \\
+Covariates $> 0.1$    & {5}      & {0}      & {0}      & {0}      & {0}      \\
+\addlinespace[0.3em]
+
+N (Treated)         & {1245}   & {1245}   & {1198}   & {1245}   & {1245}   \\
+N (Control)         & {3567}   & {1245}   & {1198}   & {3567}   & {3567}   \\
+\% Treated Matched  & {100.0}  & {100.0}  & {96.2}   & {100.0}  & {100.0}  \\
+
+\bottomrule
+\end{tabular}
+
+\tablenote{This table compares covariate balance across different matching/weighting methods.
+Nearest Neighbor: 1:1 matching without replacement.
+Caliper: 1:1 matching with 0.05 caliper on propensity score.
+Kernel: Epanechnikov kernel with bandwidth 0.06.
+IPW: Inverse probability weighting with normalized weights.
+All methods use the same propensity score model: logit with all covariates.}
+
+\end{threeparttable}
+\end{table}
+
+
+% =============================================================================
+% Template 3: Love Plot (Coefficient Plot Style for Balance)
+% =============================================================================
+
+\begin{figure}[htbp]
+\centering
+\caption{Covariate Balance: Love Plot}
+\label{fig:love_plot}
+
+\begin{tikzpicture}
+\begin{axis}[
+    width=0.85\textwidth,
+    height=0.55\textwidth,
+    xbar,
+    bar width=0pt,  % No bars, just points
+    xmin=-0.6, xmax=0.6,
+    xlabel={Standardized Mean Difference},
+    ytick={1,2,3,4,5,6,7,8},
+    yticklabels={
+        {Outcome$_{t-2}$},
+        {Outcome$_{t-1}$},
+        {Wealth index},
+        {Employed},
+        {Income (log)},
+        {Education},
+        {Female},
+        {Age}
+    },
+    ymin=0.5, ymax=8.5,
+    enlarge y limits=0.08,
+    axis lines=left,
+    x axis line style={-},
+    y axis line style={opacity=0},
+    tickwidth=0pt,
+    xmajorgrids=true,
+    grid style={dashed, gray!30},
+    % Threshold bands
+    extra x ticks={-0.1, 0.1},
+    extra x tick style={
+        grid=major,
+        grid style={solid, controlgreen!50, line width=1pt},
+        tick label style={opacity=0}
+    },
+    % Reference line at zero
+    extra x ticks={0},
+    extra x tick style={
+        grid=major,
+        grid style={solid, black, line width=0.5pt},
+        tick label style={opacity=0}
+    },
+    legend style={
+        at={(0.98,0.02)},
+        anchor=south east,
+        draw=none,
+        fill=white,
+        fill opacity=0.9,
+    },
+    clip=false,
+]
+
+% Threshold region shading
+\fill[controlgreen, opacity=0.1] (axis cs:-0.1,0.5) rectangle (axis cs:0.1,8.5);
+
+% Before matching (squares)
+\addplot[
+    only marks,
+    mark=square*,
+    mark size=4pt,
+    treatred,
+] coordinates {
+    (0.35, 8)   % Age
+    (0.13, 7)   % Female
+    (0.46, 6)   % Education
+    (0.52, 5)   % Income
+    (0.23, 4)   % Employed
+    (0.38, 3)   % Wealth
+    (0.28, 2)   % Outcome t-1
+    (0.31, 1)   % Outcome t-2
+};
+\addlegendentry{Before Matching}
+
+% After matching (circles)
+\addplot[
+    only marks,
+    mark=*,
+    mark size=4pt,
+    coefblue,
+] coordinates {
+    (0.04, 8)   % Age
+    (0.02, 7)   % Female
+    (0.06, 6)   % Education
+    (0.08, 5)   % Income
+    (0.03, 4)   % Employed
+    (0.04, 3)   % Wealth
+    (0.02, 2)   % Outcome t-1
+    (0.03, 1)   % Outcome t-2
+};
+\addlegendentry{After Matching}
+
+% Connecting lines
+\foreach \y/\xbefore/\xafter in {8/0.35/0.04, 7/0.13/0.02, 6/0.46/0.06, 5/0.52/0.08, 4/0.23/0.03, 3/0.38/0.04, 2/0.28/0.02, 1/0.31/0.03} {
+    \draw[gray, opacity=0.5, line width=0.5pt] (axis cs:\xbefore,\y) -- (axis cs:\xafter,\y);
+}
+
+% Threshold annotations
+\node[anchor=south, font=\scriptsize, controlgreen!70!black] at (axis cs:0.1,8.7) {0.1};
+\node[anchor=south, font=\scriptsize, controlgreen!70!black] at (axis cs:-0.1,8.7) {-0.1};
+
+\end{axis}
+\end{tikzpicture}
+
+\begin{minipage}{0.85\textwidth}
+\small
+\textit{Notes:} This figure displays standardized mean differences before (red squares) and after (blue circles) propensity score matching.
+The shaded region indicates the $\pm 0.1$ balance threshold recommended by Rosenbaum and Rubin (1985).
+Connecting lines show the improvement in balance for each covariate.
+All post-matching differences fall within the acceptable range.
+\end{minipage}
+
+\end{figure}
+
+
+% =============================================================================
+% Template 4: Propensity Score Distribution
+% =============================================================================
+
+\begin{figure}[htbp]
+\centering
+\caption{Propensity Score Distribution by Treatment Status}
+\label{fig:pscore_dist}
+
+\begin{tikzpicture}
+\begin{axis}[
+    width=0.85\textwidth,
+    height=0.5\textwidth,
+    xmin=0, xmax=1,
+    ymin=0, ymax=5,
+    xlabel={Propensity Score},
+    ylabel={Density},
+    axis lines=left,
+    legend style={
+        at={(0.98,0.98)},
+        anchor=north east,
+        draw=none,
+        fill=white,
+        fill opacity=0.9,
+    },
+    area style,
+    clip=false,
+]
+
+% Control group (mirrored below)
+\addplot[
+    controlgreen,
+    fill=controlgreen,
+    fill opacity=0.3,
+    line width=1pt,
+    smooth,
+] coordinates {
+    (0.00, 0) (0.05, 0.5) (0.10, 1.2) (0.15, 2.0) (0.20, 2.8)
+    (0.25, 3.2) (0.30, 3.0) (0.35, 2.5) (0.40, 1.8) (0.45, 1.2)
+    (0.50, 0.7) (0.55, 0.4) (0.60, 0.2) (0.65, 0.1) (0.70, 0.05)
+    (0.75, 0.02) (0.80, 0.01) (0.85, 0) (1.00, 0)
+} \closedcycle;
+\addlegendentry{Control}
+
+% Treatment group
+\addplot[
+    treatred,
+    fill=treatred,
+    fill opacity=0.3,
+    line width=1pt,
+    smooth,
+] coordinates {
+    (0.00, 0) (0.15, 0) (0.20, 0.05) (0.25, 0.2) (0.30, 0.5)
+    (0.35, 1.0) (0.40, 1.6) (0.45, 2.2) (0.50, 2.8) (0.55, 3.2)
+    (0.60, 3.0) (0.65, 2.5) (0.70, 1.8) (0.75, 1.2) (0.80, 0.6)
+    (0.85, 0.3) (0.90, 0.1) (0.95, 0.02) (1.00, 0)
+} \closedcycle;
+\addlegendentry{Treated}
+
+% Common support region annotation
+\draw[black, dashed, line width=1pt] (axis cs:0.20,0) -- (axis cs:0.20,5);
+\draw[black, dashed, line width=1pt] (axis cs:0.85,0) -- (axis cs:0.85,5);
+\node[anchor=south, font=\small] at (axis cs:0.525,4.5) {Common Support};
+
+\end{axis}
+\end{tikzpicture}
+
+\begin{minipage}{0.85\textwidth}
+\small
+\textit{Notes:} This figure shows the distribution of estimated propensity scores for treated (red) and control (green) groups.
+The dashed vertical lines indicate the common support region $[0.20, 0.85]$.
+Observations outside this region are trimmed from the matched sample.
+The overlap suggests the positivity assumption is reasonably satisfied within the common support.
+\end{minipage}
+
+\end{figure}
+
+\end{document}
+
+% =============================================================================
+% USAGE NOTES:
+% =============================================================================
+%
+% 1. Balance Diagnostics Thresholds:
+%    - Standardized difference: |d| < 0.1 (stringent), |d| < 0.25 (lenient)
+%    - Variance ratio: 0.5 < VR < 2 (acceptable range)
+%    - Rubin's B < 25, Rubin's R in [0.5, 2]
+%
+% 2. Common Matching Methods:
+%    - Nearest Neighbor: Simple, but may have poor balance
+%    - Caliper: Better balance, may lose observations
+%    - Kernel: Uses all controls, good for continuous treatment
+%    - IPW: No observations lost, sensitive to extreme weights
+%
+% 3. Reporting Best Practices:
+%    - Always show pre-matching imbalance to motivate matching
+%    - Report sample sizes before and after matching
+%    - Include propensity score model specification in notes
+%    - Consider showing propensity score overlap graphically
+%
+% 4. Sensitivity Analysis:
+%    - Vary caliper width (0.01, 0.05, 0.1, 0.25)
+%    - Compare matching with replacement vs. without
+%    - Test different propensity score models
+%    - Report Rosenbaum bounds for hidden bias
+%
+% 5. Programmatic Generation:
+%    - Python: Use causalml or pymatch for balance tables
+%    - R: Use MatchIt package's summary() and cobalt::love.plot()
+%    - Stata: Use psmatch2 and pstest commands
+%
+% 6. Publication Tips:
+%    - Top journals expect Love plots for visual balance assessment
+%    - Report all covariates used in matching, not just selected ones
+%    - Include pre-treatment outcome lags if available
+%    - Discuss any variables with remaining imbalance
+% =============================================================================

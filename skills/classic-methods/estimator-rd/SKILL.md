@@ -5,7 +5,7 @@ description: Use when estimating causal effects using Regression Discontinuity d
 
 # Estimator: Regression Discontinuity (RD)
 
-> **Version**: 1.0.0 | **Type**: Estimator
+> **Version**: 2.0.0 | **Type**: Estimator | **Structure**: K-Dense
 > **Aliases**: RD, RDD, Regression Discontinuity Design, Sharp RD, Fuzzy RD
 
 ## Overview
@@ -13,6 +13,32 @@ description: Use when estimating causal effects using Regression Discontinuity d
 Regression Discontinuity (RD) estimates causal effects by exploiting threshold-based treatment assignment rules. When treatment is determined by whether a running variable crosses a known cutoff, we can estimate the causal effect by comparing outcomes just above and just below the threshold.
 
 **Key Identification Assumption**: Potential outcomes are continuous functions of the running variable at the cutoff (no other discontinuity exists at the threshold).
+
+## Quick Navigation
+
+### Reference Documents
+| Document | Description |
+|----------|-------------|
+| [references/identification_assumptions.md](references/identification_assumptions.md) | Continuity, no manipulation, local randomization assumptions |
+| [references/diagnostic_tests.md](references/diagnostic_tests.md) | McCrary density test, covariate smoothness, placebo cutoffs |
+| [references/estimation_methods.md](references/estimation_methods.md) | Local polynomial, bandwidth selection, rdrobust |
+| [references/reporting_standards.md](references/reporting_standards.md) | RD plots, tables, report templates |
+| [references/common_errors.md](references/common_errors.md) | Bandwidth selection, polynomial order, manipulation errors |
+| [references/extensions.md](references/extensions.md) | Fuzzy RD, kink RD, geographic RD, multi-cutoff |
+
+### CLI Scripts
+| Script | Usage |
+|--------|-------|
+| [scripts/run_rd_analysis.py](scripts/run_rd_analysis.py) | `python run_rd_analysis.py data.csv --running score --outcome y --cutoff 0` |
+| [scripts/test_manipulation.py](scripts/test_manipulation.py) | `python test_manipulation.py data.csv --running score --cutoff 0` |
+| [scripts/visualize_rd_plot.py](scripts/visualize_rd_plot.py) | `python visualize_rd_plot.py data.csv --running score --outcome y --cutoff 0` |
+| [scripts/bandwidth_sensitivity.py](scripts/bandwidth_sensitivity.py) | `python bandwidth_sensitivity.py data.csv --running score --outcome y --cutoff 0` |
+
+### Templates
+| Template | Description |
+|----------|-------------|
+| [assets/latex/rd_table.tex](assets/latex/rd_table.tex) | LaTeX templates for RD tables |
+| [assets/markdown/rd_report.md](assets/markdown/rd_report.md) | Markdown report template |
 
 ## When to Use
 
@@ -93,6 +119,34 @@ This is the Local Average Treatment Effect (LATE) for compliers at the cutoff.
 |  5. REPORTING      -> RD plot, tables, interpretation         |
 +-------------------------------------------------------------+
 ```
+
+### Quick Start with CLI
+
+For a complete analysis pipeline, use the CLI scripts:
+
+```bash
+# Full RD analysis with all diagnostics
+python scripts/run_rd_analysis.py data.csv \
+    --running score --outcome y --cutoff 0 \
+    --covariates age gender income \
+    --output-dir results/ --verbose
+
+# Manipulation testing
+python scripts/test_manipulation.py data.csv \
+    --running score --cutoff 0 --plot
+
+# Generate RD plot
+python scripts/visualize_rd_plot.py data.csv \
+    --running score --outcome y --cutoff 0 \
+    --style publication --output rd_plot --format png
+
+# Bandwidth sensitivity analysis
+python scripts/bandwidth_sensitivity.py data.csv \
+    --running score --outcome y --cutoff 0 \
+    --plot --format markdown
+```
+
+See [references/diagnostic_tests.md](references/diagnostic_tests.md) for detailed test descriptions and [references/reporting_standards.md](references/reporting_standards.md) for output formatting.
 
 ### Phase 1: Setup
 
@@ -655,6 +709,15 @@ This represents a 7.8 percentage point incumbency advantage.
 
 ## References
 
+### Skill Documentation
+For detailed coverage of specific topics, see:
+- **Identification**: [references/identification_assumptions.md](references/identification_assumptions.md)
+- **Diagnostics**: [references/diagnostic_tests.md](references/diagnostic_tests.md)
+- **Estimation**: [references/estimation_methods.md](references/estimation_methods.md)
+- **Reporting**: [references/reporting_standards.md](references/reporting_standards.md)
+- **Errors**: [references/common_errors.md](references/common_errors.md)
+- **Extensions**: [references/extensions.md](references/extensions.md)
+
 ### Seminal Papers
 - Thistlethwaite, D. L., & Campbell, D. T. (1960). Regression-discontinuity analysis: An alternative to the ex post facto experiment. *Journal of Educational Psychology*, 51(6), 309-317.
 - Lee, D. S. (2008). Randomized experiments from non-random selection in US House elections. *Journal of Econometrics*, 142(2), 675-697.
@@ -664,6 +727,7 @@ This represents a 7.8 percentage point incumbency advantage.
 - Calonico, S., Cattaneo, M. D., & Titiunik, R. (2014). Robust nonparametric confidence intervals for regression-discontinuity designs. *Econometrica*, 82(6), 2295-2326.
 - Cattaneo, M. D., Idrobo, N., & Titiunik, R. (2020). *A Practical Introduction to Regression Discontinuity Designs*. Cambridge University Press.
 - McCrary, J. (2008). Manipulation of the running variable in the regression discontinuity design: A density test. *Journal of Econometrics*, 142(2), 698-714.
+- Gelman, A., & Imbens, G. (2019). Why high-order polynomials should not be used in regression discontinuity designs. *Journal of Business & Economic Statistics*, 37(3), 447-456.
 
 ### Textbook Treatments
 - Angrist, J. D., & Pischke, J. S. (2009). *Mostly Harmless Econometrics*. Princeton University Press. Chapter 6.

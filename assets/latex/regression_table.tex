@@ -1,0 +1,152 @@
+% =============================================================================
+% regression_table.tex - Regression Results Table Template
+% =============================================================================
+% Style: AER/NBER publication standards with booktabs
+% Features:
+%   - Multiple specification columns
+%   - Standard errors in parentheses
+%   - Significance stars
+%   - Fixed effects indicator rows
+%   - Sample statistics (N, R-squared)
+%
+% Placeholders (replace with your data):
+%   - {{TITLE}}          : Table title
+%   - {{LABEL}}          : LaTeX label for cross-referencing
+%   - {{DEPVAR}}         : Dependent variable name
+%   - {{COEF_*}}         : Coefficient estimates
+%   - {{SE_*}}           : Standard errors
+%   - {{STARS_*}}        : Significance stars (*, **, ***)
+%   - {{N_*}}            : Sample sizes
+%   - {{R2_*}}           : R-squared values
+%   - {{FE_*}}           : Fixed effects indicators (Yes/No)
+% =============================================================================
+
+\documentclass[12pt]{article}
+\input{common_preamble}
+
+\begin{document}
+
+\begin{table}[htbp]
+\centering
+\caption{{{TITLE}}}
+\label{tab:{{LABEL}}}
+
+\begin{threeparttable}
+\begin{tabular}{l*{5}{c}}
+\toprule
+                        & (1)       & (2)       & (3)       & (4)       & (5)       \\
+                        & OLS       & OLS       & OLS       & 2SLS      & 2SLS      \\
+\midrule
+\multicolumn{6}{l}{\textit{Dependent Variable: {{DEPVAR}}}} \\
+\addlinespace[0.5em]
+
+% Main coefficient of interest
+Treatment               & {{COEF_1}}{{STARS_1}} & {{COEF_2}}{{STARS_2}} & {{COEF_3}}{{STARS_3}} & {{COEF_4}}{{STARS_4}} & {{COEF_5}}{{STARS_5}} \\
+                        & \se{{{SE_1}}} & \se{{{SE_2}}} & \se{{{SE_3}}} & \se{{{SE_4}}} & \se{{{SE_5}}} \\
+\addlinespace[0.3em]
+
+% Additional covariates
+Control Variable 1      & {{COEF_C1_1}}{{STARS_C1_1}} & {{COEF_C1_2}}{{STARS_C1_2}} & {{COEF_C1_3}}{{STARS_C1_3}} & {{COEF_C1_4}}{{STARS_C1_4}} & {{COEF_C1_5}}{{STARS_C1_5}} \\
+                        & \se{{{SE_C1_1}}} & \se{{{SE_C1_2}}} & \se{{{SE_C1_3}}} & \se{{{SE_C1_4}}} & \se{{{SE_C1_5}}} \\
+\addlinespace[0.3em]
+
+Control Variable 2      & {{COEF_C2_1}}{{STARS_C2_1}} & {{COEF_C2_2}}{{STARS_C2_2}} & {{COEF_C2_3}}{{STARS_C2_3}} & {{COEF_C2_4}}{{STARS_C2_4}} & {{COEF_C2_5}}{{STARS_C2_5}} \\
+                        & \se{{{SE_C2_1}}} & \se{{{SE_C2_2}}} & \se{{{SE_C2_3}}} & \se{{{SE_C2_4}}} & \se{{{SE_C2_5}}} \\
+\addlinespace[0.3em]
+
+% Constant term (optional)
+Constant                & {{COEF_CONST_1}}{{STARS_CONST_1}} & {{COEF_CONST_2}}{{STARS_CONST_2}} & {{COEF_CONST_3}}{{STARS_CONST_3}} & {{COEF_CONST_4}}{{STARS_CONST_4}} & {{COEF_CONST_5}}{{STARS_CONST_5}} \\
+                        & \se{{{SE_CONST_1}}} & \se{{{SE_CONST_2}}} & \se{{{SE_CONST_3}}} & \se{{{SE_CONST_4}}} & \se{{{SE_CONST_5}}} \\
+
+\midrule
+\multicolumn{6}{l}{\textit{Fixed Effects}} \\
+\addlinespace[0.3em]
+
+Year FE                 & \no       & \yes      & \yes      & \yes      & \yes      \\
+Region FE               & \no       & \no       & \yes      & \no       & \yes      \\
+Individual FE           & \no       & \no       & \no       & \no       & \no       \\
+Controls                & \no       & \no       & \yes      & \no       & \yes      \\
+
+\midrule
+\multicolumn{6}{l}{\textit{Sample Statistics}} \\
+\addlinespace[0.3em]
+
+Observations            & {{N_1}}   & {{N_2}}   & {{N_3}}   & {{N_4}}   & {{N_5}}   \\
+R-squared               & {{R2_1}}  & {{R2_2}}  & {{R2_3}}  & {{R2_4}}  & {{R2_5}}  \\
+Adjusted R-squared      & {{ADJR2_1}} & {{ADJR2_2}} & {{ADJR2_3}} & {{ADJR2_4}} & {{ADJR2_5}} \\
+F-statistic             &           &           &           & {{F_4}}   & {{F_5}}   \\
+
+\bottomrule
+\end{tabular}
+
+\stdnote{This table reports OLS and 2SLS estimates of the effect of treatment on the outcome variable.
+Columns (1)--(3) present OLS results with progressively richer controls.
+Columns (4)--(5) present 2SLS results using [INSTRUMENT] as an instrument for treatment.}
+
+\end{threeparttable}
+\end{table}
+
+% =============================================================================
+% Alternative: Compact Version for Space-Constrained Documents
+% =============================================================================
+
+\begin{table}[htbp]
+\centering
+\caption{Regression Results (Compact)}
+\label{tab:regression_compact}
+
+\small
+\begin{threeparttable}
+\begin{tabular}{l*{3}{S[table-format=-1.3]}}
+\toprule
+                        & {(1)}     & {(2)}     & {(3)}     \\
+                        & {Baseline} & {Controls} & {Full}  \\
+\midrule
+Treatment               & 0.234\sym{***} & 0.198\sym{**} & 0.156\sym{**} \\
+                        & (0.045)   & (0.052)   & (0.061)   \\
+\addlinespace
+
+Fixed Effects           & {No}      & {Year}    & {Year+Region} \\
+Controls                & {No}      & {No}      & {Yes}     \\
+\addlinespace
+
+Observations            & {10000}   & {10000}   & {9856}    \\
+R-squared               & 0.123     & 0.187     & 0.245     \\
+\bottomrule
+\end{tabular}
+
+\tablenote{Standard errors in parentheses. \signote.}
+
+\end{threeparttable}
+\end{table}
+
+\end{document}
+
+% =============================================================================
+% USAGE NOTES:
+% =============================================================================
+%
+% 1. To use this template programmatically (e.g., from Python/R):
+%    - Read the template file
+%    - Replace all {{PLACEHOLDER}} patterns with actual values
+%    - Write the result to a new .tex file
+%    - Compile with pdflatex
+%
+% 2. For siunitx number alignment in columns, change column spec to:
+%    \begin{tabular}{l*{5}{S[table-format=-1.3]}}
+%    And wrap non-numeric entries in braces: {Yes}, {No}
+%
+% 3. To add more columns:
+%    - Add another column in the header row: & (6)
+%    - Add column specification: *{6}{c} instead of *{5}{c}
+%    - Add corresponding cells in each row
+%
+% 4. For heterogeneous effects (subgroup analysis):
+%    - Add a panel structure with \multicolumn headers
+%    - Example: \multicolumn{3}{c}{Male} & \multicolumn{3}{c}{Female}
+%
+% 5. Standard error types (add to notes):
+%    - Robust: "Heteroskedasticity-robust standard errors in parentheses."
+%    - Clustered: "Standard errors clustered at the [LEVEL] level in parentheses."
+%    - Bootstrap: "Bootstrap standard errors (500 replications) in parentheses."
+% =============================================================================

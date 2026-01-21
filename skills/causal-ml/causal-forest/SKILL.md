@@ -30,6 +30,28 @@ Where:
 - `X` are the covariates (effect modifiers)
 - `tau(x)` is the treatment effect for individuals with characteristics `X = x`
 
+---
+
+## Quick Reference
+
+### Core Concepts
+- [Identification Assumptions](references/identification_assumptions.md) - Unconfoundedness, overlap, SUTVA, honest estimation theory
+- [Estimation Methods](references/estimation_methods.md) - Causal forests, GRF, honest trees, R grf vs Python econml
+- [Diagnostic Tests](references/diagnostic_tests.md) - Calibration, overlap assessment, heterogeneity tests
+- [Heterogeneity Analysis](references/heterogeneity_analysis.md) - CATE estimation, subgroup discovery, BLP
+- [Reporting Standards](references/reporting_standards.md) - Variable importance, CATE plots, policy trees
+
+### CLI Tools
+- [run_causal_forest.py](scripts/run_causal_forest.py) - Complete causal forest analysis pipeline
+- [estimate_cate.py](scripts/estimate_cate.py) - CATE estimation with uncertainty quantification
+- [visualize_heterogeneity.py](scripts/visualize_heterogeneity.py) - Heterogeneity visualization suite
+- [policy_evaluation.py](scripts/policy_evaluation.py) - Policy learning and evaluation
+
+### Templates
+- [Analysis Report Template](assets/markdown/causal_forest_report.md) - Comprehensive report template
+
+---
+
 ## When to Use Causal Forests
 
 **Ideal scenarios**:
@@ -56,6 +78,8 @@ Where:
 - Interpretability is paramount (consider policy trees or linear CATE models)
 - High-dimensional treatments (forests handle binary/continuous treatment best)
 
+---
+
 ## Key Concepts
 
 ### 1. Honest Estimation
@@ -72,6 +96,8 @@ Training Data Split:
 - Prevents overfitting to noise in treatment effects
 - Enables valid confidence intervals
 - Trades some efficiency for unbiased estimation
+
+See [Identification Assumptions](references/identification_assumptions.md) for detailed theory.
 
 ### 2. Local Centering (Orthogonalization)
 
@@ -96,6 +122,8 @@ tau_hat(x) = sum_i alpha_i(x) * (Y_i^treated - Y_i^control)
 ```
 
 Where weights `alpha_i(x)` are determined by how often observation `i` falls in the same leaf as `x` across all trees.
+
+---
 
 ## Implementation Workflow
 
@@ -205,6 +233,8 @@ print(blp_result.summary())
 # Coefficients show how CATE varies with each variable
 ```
 
+See [Heterogeneity Analysis](references/heterogeneity_analysis.md) for detailed guidance.
+
 ### Step 6: Heterogeneity Testing
 
 ```python
@@ -218,6 +248,8 @@ print(f"  Chi-squared statistic: {het_test.statistic:.2f}")
 print(f"  p-value: {het_test.pvalue:.4f}")
 print(f"  Significant heterogeneity: {het_test.pvalue < 0.05}")
 ```
+
+See [Diagnostic Tests](references/diagnostic_tests.md) for comprehensive diagnostics.
 
 ### Step 7: Policy Learning - Optimal Treatment Rules
 
@@ -245,6 +277,8 @@ print(f"Improvement over treat-all: {policy.improvement:.1%}")
 # Get treatment recommendations
 recommendations = policy.recommend(new_data[effect_modifiers])
 ```
+
+---
 
 ## R grf Package vs Python econml
 
@@ -314,6 +348,79 @@ cf_dml.fit(Y, T, X=X, W=W)  # W = additional controls
 - CausalForestDML allows flexible nuisance estimation
 - Easier deployment in Python pipelines
 
+### Using R grf from Python (rpy2)
+
+See [Estimation Methods](references/estimation_methods.md) for detailed rpy2 integration guide.
+
+---
+
+## CLI Tools
+
+### Complete Analysis Pipeline
+
+```bash
+# Run full causal forest analysis
+python scripts/run_causal_forest.py \
+    --data experiment.csv \
+    --outcome revenue \
+    --treatment discount \
+    --effect-modifiers age income tenure segment \
+    --confounders region channel \
+    --n-trees 4000 \
+    --policy \
+    --treatment-cost 10 \
+    --output results/
+
+# Output includes:
+# - results.json: Full analysis results
+# - cate_estimates.csv: Individual CATE estimates
+# - variable_importance.csv: Heterogeneity drivers
+# - blp_coefficients.csv: Best linear projection
+# - cate_distribution.png: CATE distribution plot
+# - variable_importance.png: Importance bar chart
+```
+
+### CATE Estimation
+
+```bash
+# Estimate CATEs with uncertainty
+python scripts/estimate_cate.py \
+    --model model.pkl \
+    --data new_data.csv \
+    --effect-modifiers age income tenure \
+    --alpha 0.05 \
+    --output predictions.csv
+```
+
+### Visualization
+
+```bash
+# Generate heterogeneity visualizations
+python scripts/visualize_heterogeneity.py \
+    --cate-file cate_results.csv \
+    --data data.csv \
+    --effect-modifiers age income tenure \
+    --group-by segment \
+    --output plots/
+```
+
+### Policy Evaluation
+
+```bash
+# Learn and evaluate treatment policy
+python scripts/policy_evaluation.py \
+    --cate-file cate.csv \
+    --data data.csv \
+    --effect-modifiers age income tenure \
+    --treatment-cost 10 \
+    --budget 0.3 \
+    --method policy_tree \
+    --visualize \
+    --output policy_results/
+```
+
+---
+
 ## Tuning Guidance
 
 ### Critical Parameters
@@ -327,26 +434,6 @@ cf_dml.fit(Y, T, X=X, W=W)  # W = additional controls
 | `mtry` | sqrt(p) | Can tune; higher values more exhaustive but slower |
 | `sample_fraction` | 0.5 | Subsampling per tree |
 
-### Tuning Strategy
-
-```python
-from causal_forest import tune_causal_forest
-
-# Automated tuning
-tuned_params = tune_causal_forest(
-    X, y, treatment,
-    param_grid={
-        'min_node_size': [5, 10, 20],
-        'mtry': [None, 3, 5],
-        'honesty_fraction': [0.4, 0.5, 0.6]
-    },
-    cv_folds=5
-)
-
-# Fit with tuned parameters
-cf_tuned = fit_causal_forest(X, y, treatment, config=tuned_params)
-```
-
 ### Sample Size Considerations
 
 | Sample Size | Recommendation |
@@ -356,72 +443,7 @@ cf_tuned = fit_causal_forest(X, y, treatment, config=tuned_params)
 | 2000-10000 | Standard settings work well |
 | N > 10000 | Can use smaller min_node_size for more heterogeneity |
 
-## Visualization
-
-### CATE Distribution
-
-```python
-from causal_forest import plot_cate_distribution
-
-# Visualize distribution of treatment effects
-plot_cate_distribution(
-    cate_results.estimates,
-    ci_lower=cate_results.ci_lower,
-    ci_upper=cate_results.ci_upper,
-    title="Distribution of Individual Treatment Effects"
-)
-```
-
-### Group-wise CATEs
-
-```python
-from causal_forest import plot_cate_by_group
-
-# Compare CATEs across groups
-plot_cate_by_group(
-    cate_estimates=cate_results.estimates,
-    group_variable=data['customer_segment'],
-    title="Treatment Effects by Customer Segment"
-)
-```
-
-### CATE vs Covariates
-
-```python
-from causal_forest import plot_cate_vs_covariate
-
-# Partial dependence of CATE on a covariate
-plot_cate_vs_covariate(
-    cf_model,
-    X=data[effect_modifiers],
-    covariate='customer_age',
-    title="How Treatment Effect Varies with Age"
-)
-```
-
-## Policy Trees for Interpretable Rules
-
-For interpretable treatment rules, use policy trees:
-
-```python
-from causal_forest import fit_policy_tree
-
-# Fit interpretable policy tree
-policy_tree = fit_policy_tree(
-    cate_estimates=cate_results.estimates,
-    X=data[effect_modifiers],
-    max_depth=3,  # Keep shallow for interpretability
-    min_samples_leaf=100
-)
-
-# Visualize the tree
-policy_tree.plot(feature_names=effect_modifiers)
-
-# Extract rules
-rules = policy_tree.get_rules()
-for rule in rules:
-    print(f"If {rule.condition}: Treat = {rule.treatment}")
-```
+---
 
 ## Common Mistakes to Avoid
 
@@ -463,6 +485,8 @@ Always report uncertainty - individual CATE estimates can be noisy.
 **Wrong**: "Treatment effect varies significantly" (with N=200)
 
 **Right**: With small samples, focus on ATE estimation. Heterogeneity detection requires larger samples.
+
+---
 
 ## Complete Example: Personalized Marketing
 
@@ -519,6 +543,8 @@ print(f"\nHigh-value customer profile:")
 print(high_value_customers[effect_modifiers].describe())
 ```
 
+---
+
 ## Output Interpretation
 
 ### CATE Summary Statistics
@@ -544,6 +570,8 @@ print(high_value_customers[effect_modifiers].describe())
 | Policy Value | E[Y | follow policy] - E[Y | no treatment] |
 | Improvement | (Policy value - ATE) / ATE |
 | Treatment Rate | Proportion of population treated under optimal policy |
+
+---
 
 ## References
 

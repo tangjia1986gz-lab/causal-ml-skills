@@ -1,0 +1,449 @@
+% =============================================================================
+% event_study.tex - Event Study Plot Template using PGFPlots
+% =============================================================================
+% Style: Publication-quality event study plots for causal inference
+% Features:
+%   - Pre/post treatment period markers
+%   - Confidence intervals as shaded regions
+%   - Treatment timing indicator (vertical line)
+%   - Reference period normalization
+%   - Support for multiple treatment groups
+%
+% Placeholders (replace with your data):
+%   - {{TITLE}}          : Figure title
+%   - {{LABEL}}          : LaTeX label for cross-referencing
+%   - {{COEF_T*}}        : Coefficient at time T relative to treatment
+%   - {{CI_LO_T*}}       : Lower CI bound at time T
+%   - {{CI_HI_T*}}       : Upper CI bound at time T
+% =============================================================================
+
+\documentclass[12pt]{article}
+\input{common_preamble}
+
+\begin{document}
+
+% =============================================================================
+% Template 1: Basic Event Study with Shaded Confidence Intervals
+% =============================================================================
+
+\begin{figure}[htbp]
+\centering
+\caption{{{TITLE}}: Event Study Estimates}
+\label{fig:{{LABEL}}_eventstudy}
+
+\begin{tikzpicture}
+\begin{axis}[
+    % Layout
+    width=0.9\textwidth,
+    height=0.55\textwidth,
+    % Axis range
+    xmin=-6.5, xmax=6.5,
+    ymin=-0.8, ymax=1.2,
+    % Labels
+    xlabel={Time Relative to Treatment ($t=0$)},
+    ylabel={Coefficient Estimate},
+    % Ticks
+    xtick={-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6},
+    xticklabels={$-6$,$-5$,$-4$,$-3$,$-2$,$-1$,$0$,$+1$,$+2$,$+3$,$+4$,$+5$,$+6$},
+    ytick={-0.6,-0.4,-0.2,0,0.2,0.4,0.6,0.8,1.0},
+    minor y tick num=1,
+    % Axis styling
+    axis lines=middle,
+    axis line style={-},
+    tick align=outside,
+    % Grid
+    ymajorgrids=true,
+    grid style={dashed, gray!30},
+    % Reference line at y=0
+    extra y ticks={0},
+    extra y tick style={
+        grid=major,
+        grid style={solid, gray!50, line width=0.5pt},
+        tick label style={opacity=0}
+    },
+    % Legend
+    legend pos=north west,
+    legend style={
+        draw=none,
+        fill=white,
+        fill opacity=0.9,
+        text opacity=1,
+        font=\small,
+    },
+    clip=false,
+]
+
+% ----- Treatment timing indicator (vertical line at t=0) -----
+\draw[treatred, line width=1.5pt, dashed]
+    (axis cs:0,\pgfkeysvalueof{/pgfplots/ymin}) --
+    (axis cs:0,\pgfkeysvalueof{/pgfplots/ymax});
+
+% ----- Confidence interval shaded region -----
+% Define upper and lower bounds
+\addplot[
+    name path=upper,
+    draw=none,
+    forget plot,
+] coordinates {
+    (-6, {{CI_HI_T-6}})
+    (-5, {{CI_HI_T-5}})
+    (-4, {{CI_HI_T-4}})
+    (-3, {{CI_HI_T-3}})
+    (-2, {{CI_HI_T-2}})
+    (-1, 0)              % Reference period (normalized to 0)
+    (0, {{CI_HI_T0}})
+    (1, {{CI_HI_T1}})
+    (2, {{CI_HI_T2}})
+    (3, {{CI_HI_T3}})
+    (4, {{CI_HI_T4}})
+    (5, {{CI_HI_T5}})
+    (6, {{CI_HI_T6}})
+};
+
+\addplot[
+    name path=lower,
+    draw=none,
+    forget plot,
+] coordinates {
+    (-6, {{CI_LO_T-6}})
+    (-5, {{CI_LO_T-5}})
+    (-4, {{CI_LO_T-4}})
+    (-3, {{CI_LO_T-3}})
+    (-2, {{CI_LO_T-2}})
+    (-1, 0)              % Reference period
+    (0, {{CI_LO_T0}})
+    (1, {{CI_LO_T1}})
+    (2, {{CI_LO_T2}})
+    (3, {{CI_LO_T3}})
+    (4, {{CI_LO_T4}})
+    (5, {{CI_LO_T5}})
+    (6, {{CI_LO_T6}})
+};
+
+% Fill between upper and lower
+\addplot[
+    fill=ciblue,
+    fill opacity=0.3,
+    draw=none,
+] fill between[of=upper and lower];
+
+% ----- Point estimates with markers -----
+\addplot[
+    coefblue,
+    line width=1.5pt,
+    mark=*,
+    mark size=3pt,
+    mark options={solid, fill=coefblue},
+] coordinates {
+    (-6, {{COEF_T-6}})
+    (-5, {{COEF_T-5}})
+    (-4, {{COEF_T-4}})
+    (-3, {{COEF_T-3}})
+    (-2, {{COEF_T-2}})
+    (-1, 0)              % Reference period (normalized to 0)
+    (0, {{COEF_T0}})
+    (1, {{COEF_T1}})
+    (2, {{COEF_T2}})
+    (3, {{COEF_T3}})
+    (4, {{COEF_T4}})
+    (5, {{COEF_T5}})
+    (6, {{COEF_T6}})
+};
+\addlegendentry{Point Estimate}
+
+% ----- Reference period marker -----
+\addplot[
+    only marks,
+    mark=o,
+    mark size=5pt,
+    mark options={solid, draw=black, line width=1.5pt, fill=white},
+    forget plot,
+] coordinates {(-1, 0)};
+
+% ----- Annotation for reference period -----
+\node[anchor=south, font=\footnotesize] at (axis cs:-1,0.1) {Ref.};
+
+% ----- Pre-treatment region label -----
+\node[anchor=south, font=\small, gray] at (axis cs:-3.5,1.05) {Pre-Treatment};
+\node[anchor=south, font=\small, gray] at (axis cs:3,1.05) {Post-Treatment};
+
+\end{axis}
+\end{tikzpicture}
+
+\begin{minipage}{0.9\textwidth}
+\small
+\textit{Notes:} This figure presents event study estimates of the treatment effect.
+The x-axis shows time relative to treatment, with $t=0$ being the treatment period.
+The omitted reference period is $t=-1$.
+Point estimates (circles) are connected by a solid line; the shaded region shows 95\% confidence intervals.
+The dashed vertical line indicates treatment timing.
+Standard errors are clustered at the [UNIT] level.
+\end{minipage}
+
+\end{figure}
+
+
+% =============================================================================
+% Template 2: Event Study with Error Bars (Alternative Style)
+% =============================================================================
+
+\begin{figure}[htbp]
+\centering
+\caption{Event Study: Error Bar Style}
+\label{fig:eventstudy_errorbars}
+
+\begin{tikzpicture}
+\begin{axis}[
+    width=0.9\textwidth,
+    height=0.5\textwidth,
+    xmin=-5.5, xmax=5.5,
+    ymin=-0.6, ymax=0.8,
+    xlabel={Periods Relative to Treatment},
+    ylabel={Coefficient},
+    xtick={-5,-4,-3,-2,-1,0,1,2,3,4,5},
+    axis lines=middle,
+    ymajorgrids=true,
+    grid style={dashed, gray!30},
+    clip=false,
+]
+
+% Treatment timing line
+\draw[treatred, line width=1.5pt, dashed]
+    (axis cs:-0.5,\pgfkeysvalueof{/pgfplots/ymin}) --
+    (axis cs:-0.5,\pgfkeysvalueof{/pgfplots/ymax});
+
+% Point estimates with error bars
+\addplot[
+    coefblue,
+    only marks,
+    mark=*,
+    mark size=3pt,
+    error bars/.cd,
+    y dir=both,
+    y explicit,
+    error bar style={line width=1pt, coefblue},
+    error mark options={mark size=3pt, line width=1pt, coefblue}
+] coordinates {
+    (-5, 0.02) +- (0, 0.15)
+    (-4, -0.05) +- (0, 0.12)
+    (-3, 0.03) +- (0, 0.11)
+    (-2, 0.01) +- (0, 0.10)
+    (-1, 0) +- (0, 0)           % Reference (no error bar)
+    (0, 0.25) +- (0, 0.13)
+    (1, 0.42) +- (0, 0.14)
+    (2, 0.48) +- (0, 0.15)
+    (3, 0.51) +- (0, 0.16)
+    (4, 0.53) +- (0, 0.18)
+    (5, 0.50) +- (0, 0.20)
+};
+
+% Horizontal reference line at y=0
+\draw[gray, line width=0.5pt] (axis cs:-5.5,0) -- (axis cs:5.5,0);
+
+% Reference period marker
+\addplot[
+    only marks,
+    mark=o,
+    mark size=5pt,
+    mark options={solid, draw=black, line width=1.5pt, fill=white},
+] coordinates {(-1, 0)};
+
+\end{axis}
+\end{tikzpicture}
+
+\end{figure}
+
+
+% =============================================================================
+% Template 3: Multiple Groups Event Study
+% =============================================================================
+
+\begin{figure}[htbp]
+\centering
+\caption{Event Study: Heterogeneous Effects by Group}
+\label{fig:eventstudy_hetero}
+
+\begin{tikzpicture}
+\begin{axis}[
+    width=0.9\textwidth,
+    height=0.55\textwidth,
+    xmin=-5.5, xmax=5.5,
+    ymin=-0.4, ymax=1.0,
+    xlabel={Periods Relative to Treatment},
+    ylabel={Coefficient Estimate},
+    xtick={-5,-4,-3,-2,-1,0,1,2,3,4,5},
+    axis lines=middle,
+    ymajorgrids=true,
+    grid style={dashed, gray!30},
+    legend style={
+        at={(0.02,0.98)},
+        anchor=north west,
+        draw=none,
+        fill=white,
+        fill opacity=0.9,
+    },
+    clip=false,
+]
+
+% Treatment timing
+\draw[gray, line width=1pt, dashed]
+    (axis cs:-0.5,-0.4) -- (axis cs:-0.5,1.0);
+
+% Group 1: High Intensity
+\addplot[
+    treatred,
+    line width=1.5pt,
+    mark=square*,
+    mark size=2.5pt,
+] coordinates {
+    (-5, 0.03) (-4, -0.02) (-3, 0.01) (-2, 0.02) (-1, 0)
+    (0, 0.35) (1, 0.58) (2, 0.72) (3, 0.78) (4, 0.82) (5, 0.80)
+};
+\addlegendentry{High Intensity}
+
+% Group 2: Medium Intensity
+\addplot[
+    coefblue,
+    line width=1.5pt,
+    mark=*,
+    mark size=2.5pt,
+] coordinates {
+    (-5, 0.01) (-4, 0.02) (-3, -0.01) (-2, 0.01) (-1, 0)
+    (0, 0.20) (1, 0.35) (2, 0.42) (3, 0.45) (4, 0.47) (5, 0.46)
+};
+\addlegendentry{Medium Intensity}
+
+% Group 3: Low Intensity
+\addplot[
+    controlgreen,
+    line width=1.5pt,
+    mark=triangle*,
+    mark size=3pt,
+] coordinates {
+    (-5, -0.02) (-4, 0.01) (-3, 0.02) (-2, -0.01) (-1, 0)
+    (0, 0.08) (1, 0.15) (2, 0.18) (3, 0.19) (4, 0.20) (5, 0.19)
+};
+\addlegendentry{Low Intensity}
+
+% Reference line at y=0
+\draw[gray, line width=0.5pt] (axis cs:-5.5,0) -- (axis cs:5.5,0);
+
+\end{axis}
+\end{tikzpicture}
+
+\begin{minipage}{0.9\textwidth}
+\small
+\textit{Notes:} This figure presents event study estimates by treatment intensity.
+High intensity (red squares), medium intensity (blue circles), and low intensity (green triangles) groups are shown separately.
+The omitted reference period is $t=-1$. All groups show parallel pre-trends and divergent post-treatment effects.
+\end{minipage}
+
+\end{figure}
+
+
+% =============================================================================
+% Template 4: Stacked/Panel Event Study
+% =============================================================================
+
+\begin{figure}[htbp]
+\centering
+\caption{Event Study: Multiple Outcomes}
+\label{fig:eventstudy_panel}
+
+\begin{tikzpicture}
+% Panel A
+\begin{axis}[
+    name=panelA,
+    width=0.45\textwidth,
+    height=0.35\textwidth,
+    xmin=-4.5, xmax=4.5,
+    ymin=-0.3, ymax=0.6,
+    xlabel={},
+    ylabel={Outcome A},
+    xtick={-4,-3,-2,-1,0,1,2,3,4},
+    title={\textbf{Panel A: Primary Outcome}},
+    title style={at={(0.5,1.05)}, anchor=south},
+    ymajorgrids=true,
+    grid style={dashed, gray!20},
+]
+\draw[treatred, dashed] (axis cs:-0.5,-0.3) -- (axis cs:-0.5,0.6);
+\addplot[coefblue, line width=1pt, mark=*, mark size=2pt] coordinates {
+    (-4, 0.01) (-3, -0.02) (-2, 0.01) (-1, 0)
+    (0, 0.15) (1, 0.28) (2, 0.35) (3, 0.38) (4, 0.40)
+};
+\end{axis}
+
+% Panel B
+\begin{axis}[
+    name=panelB,
+    at={($(panelA.east)+(1.2cm,0)$)},
+    anchor=west,
+    width=0.45\textwidth,
+    height=0.35\textwidth,
+    xmin=-4.5, xmax=4.5,
+    ymin=-0.3, ymax=0.6,
+    xlabel={},
+    ylabel={Outcome B},
+    xtick={-4,-3,-2,-1,0,1,2,3,4},
+    title={\textbf{Panel B: Secondary Outcome}},
+    title style={at={(0.5,1.05)}, anchor=south},
+    ymajorgrids=true,
+    grid style={dashed, gray!20},
+]
+\draw[treatred, dashed] (axis cs:-0.5,-0.3) -- (axis cs:-0.5,0.6);
+\addplot[controlgreen, line width=1pt, mark=square*, mark size=2pt] coordinates {
+    (-4, -0.01) (-3, 0.02) (-2, -0.01) (-1, 0)
+    (0, 0.08) (1, 0.12) (2, 0.15) (3, 0.14) (4, 0.13)
+};
+\end{axis}
+
+% Common x-axis label
+\node[below=0.8cm] at ($(panelA.south)!0.5!(panelB.south)$) {Periods Relative to Treatment};
+
+\end{tikzpicture}
+
+\end{figure}
+
+\end{document}
+
+% =============================================================================
+% USAGE NOTES:
+% =============================================================================
+%
+% 1. Reference Period Selection:
+%    - Standard: t=-1 (last pre-treatment period)
+%    - Alternative: t=-2 for robustness
+%    - The reference period coefficient is normalized to 0 by construction
+%
+% 2. Pre-Trends Testing:
+%    - Visual: Pre-treatment coefficients should be close to zero
+%    - Statistical: Report joint F-test for pre-treatment coefficients
+%    - Add horizontal band at y=0 for visual reference
+%
+% 3. Confidence Interval Styles:
+%    - Shaded region: Best for single series, shows uncertainty well
+%    - Error bars: Better for multiple series comparison
+%    - Both: Use error bars with light shading for emphasis
+%
+% 4. Treatment Timing:
+%    - Dashed line at t=0 or t=-0.5 (between periods)
+%    - Use treatred color to highlight treatment onset
+%    - Add arrow or annotation if treatment is gradual
+%
+% 5. Data Input for Programmatic Use:
+%    Option A: Replace {{PLACEHOLDER}} with values
+%    Option B: Load from file:
+%      \pgfplotstableread[col sep=comma]{eventstudy_data.csv}\esdata
+%      \addplot table[x=t, y=coef]{\esdata};
+%
+% 6. Common Modifications:
+%    - Long pre-period: Extend xmin, add more coordinates
+%    - Staggered treatment: Use callaway-santanna or sun-abraham estimators
+%    - Binary outcome: Consider log-odds scale for y-axis
+%
+% 7. Publication Tips:
+%    - Always include notes explaining the reference period
+%    - Report standard error type (clustered, robust, etc.)
+%    - Consider adding parallel trends test results in notes
+%    - For working papers: include full regression tables in appendix
+% =============================================================================

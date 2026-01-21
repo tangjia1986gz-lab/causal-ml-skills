@@ -1,0 +1,237 @@
+% Linear Regression Results Table Template
+% For use with booktabs package in LaTeX
+%
+% Usage:
+%   \input{linear_table.tex}
+%
+% Required packages:
+%   \usepackage{booktabs}
+%   \usepackage{siunitx}  % For number alignment
+%   \usepackage{threeparttable}  % For table notes
+%
+% Placeholders to replace:
+%   {{TITLE}} - Table title/caption
+%   {{LABEL}} - LaTeX label for referencing
+%   {{COL1_NAME}} through {{COL4_NAME}} - Model column names
+%   {{VAR_NAME}} - Variable names
+%   {{COEF}} - Coefficient values
+%   {{SE}} - Standard errors
+%   {{STARS}} - Significance stars
+%   {{N}} - Number of observations
+%   {{R2}} - R-squared
+%   {{ADJ_R2}} - Adjusted R-squared
+%   {{ALPHA}} - Regularization parameter (if applicable)
+
+\begin{table}[htbp]
+\centering
+\caption{{{TITLE}}}
+\label{tab:{{LABEL}}}
+\begin{threeparttable}
+\begin{tabular}{@{}l*{4}{S[table-format=-1.4]}@{}}
+\toprule
+& \multicolumn{4}{c}{Dependent Variable: {{OUTCOME}}} \\
+\cmidrule(lr){2-5}
+& {(1)} & {(2)} & {(3)} & {(4)} \\
+& {OLS} & {Ridge} & {Lasso} & {Elastic Net} \\
+\midrule
+% === Variables Section ===
+% Replace with actual variable rows
+
+{{VAR1_NAME}}
+    & {{VAR1_COL1_COEF}}{{VAR1_COL1_STARS}}
+    & {{VAR1_COL2_COEF}}{{VAR1_COL2_STARS}}
+    & {{VAR1_COL3_COEF}}{{VAR1_COL3_STARS}}
+    & {{VAR1_COL4_COEF}}{{VAR1_COL4_STARS}} \\
+    & ({{VAR1_COL1_SE}})
+    & ({{VAR1_COL2_SE}})
+    & ({{VAR1_COL3_SE}})
+    & ({{VAR1_COL4_SE}}) \\[0.5em]
+
+{{VAR2_NAME}}
+    & {{VAR2_COL1_COEF}}{{VAR2_COL1_STARS}}
+    & {{VAR2_COL2_COEF}}{{VAR2_COL2_STARS}}
+    & {{VAR2_COL3_COEF}}{{VAR2_COL3_STARS}}
+    & {{VAR2_COL4_COEF}}{{VAR2_COL4_STARS}} \\
+    & ({{VAR2_COL1_SE}})
+    & ({{VAR2_COL2_SE}})
+    & ({{VAR2_COL3_SE}})
+    & ({{VAR2_COL4_SE}}) \\[0.5em]
+
+% Add more variables as needed...
+
+Constant
+    & {{CONST_COL1_COEF}}{{CONST_COL1_STARS}}
+    & {{CONST_COL2_COEF}}{{CONST_COL2_STARS}}
+    & {{CONST_COL3_COEF}}{{CONST_COL3_STARS}}
+    & {{CONST_COL4_COEF}}{{CONST_COL4_STARS}} \\
+    & ({{CONST_COL1_SE}})
+    & ({{CONST_COL2_SE}})
+    & ({{CONST_COL3_SE}})
+    & ({{CONST_COL4_SE}}) \\
+
+\midrule
+% === Model Statistics Section ===
+Observations
+    & {{N_COL1}} & {{N_COL2}} & {{N_COL3}} & {{N_COL4}} \\
+$R^2$
+    & {{R2_COL1}} & {{R2_COL2}} & {{R2_COL3}} & {{R2_COL4}} \\
+Adjusted $R^2$
+    & {{ADJ_R2_COL1}} & {{ADJ_R2_COL2}} & {{ADJ_R2_COL3}} & {{ADJ_R2_COL4}} \\
+CV RMSE
+    & {{CV_RMSE_COL1}} & {{CV_RMSE_COL2}} & {{CV_RMSE_COL3}} & {{CV_RMSE_COL4}} \\
+$\lambda$ (penalty)
+    & {---} & {{ALPHA_COL2}} & {{ALPHA_COL3}} & {{ALPHA_COL4}} \\
+$\ell_1$ ratio
+    & {---} & {---} & {1.00} & {{L1_RATIO_COL4}} \\
+Non-zero coefficients
+    & {{NONZERO_COL1}} & {{NONZERO_COL2}} & {{NONZERO_COL3}} & {{NONZERO_COL4}} \\
+
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]
+\small
+\item \textit{Notes:} Standard errors in parentheses. OLS uses heteroskedasticity-robust (HC1) standard errors.
+Regularized models (Ridge, Lasso, Elastic Net) use cross-validation for hyperparameter selection.
+Coefficients are on standardized features.
+\item $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.1$
+\item \textit{Note:} Significance stars for regularized models should be interpreted with caution
+as standard inference does not apply to penalized coefficients.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+
+% ============================================================================
+% CAUSAL INFERENCE TABLE: Post-Double-Selection Results
+% ============================================================================
+
+\begin{table}[htbp]
+\centering
+\caption{{{CAUSAL_TITLE}}}
+\label{tab:{{CAUSAL_LABEL}}}
+\begin{threeparttable}
+\begin{tabular}{@{}l*{3}{S[table-format=-1.4]}@{}}
+\toprule
+& \multicolumn{3}{c}{Dependent Variable: {{OUTCOME}}} \\
+\cmidrule(lr){2-4}
+& {(1)} & {(2)} & {(3)} \\
+& {Naive OLS} & {Single Selection} & {Double Selection} \\
+\midrule
+
+Treatment ({{TREATMENT_NAME}})
+    & {{NAIVE_COEF}}{{NAIVE_STARS}}
+    & {{SINGLE_COEF}}{{SINGLE_STARS}}
+    & {{DOUBLE_COEF}}{{DOUBLE_STARS}} \\
+    & ({{NAIVE_SE}})
+    & ({{SINGLE_SE}})
+    & ({{DOUBLE_SE}}) \\[0.5em]
+
+95\% CI
+    & {[{{NAIVE_CI_L}}, {{NAIVE_CI_U}}]}
+    & {[{{SINGLE_CI_L}}, {{SINGLE_CI_U}}]}
+    & {[{{DOUBLE_CI_L}}, {{DOUBLE_CI_U}}]} \\[0.5em]
+
+\midrule
+% === Selection Statistics ===
+Controls in Y model
+    & {All ({{P_TOTAL}})} & {{N_SEL_Y}} & {{N_SEL_Y_DS}} \\
+Controls in D model
+    & {---} & {---} & {{N_SEL_D_DS}} \\
+Controls in final model
+    & {{P_TOTAL}} & {{N_SEL_FINAL_SS}} & {{N_SEL_FINAL_DS}} \\[0.5em]
+
+\midrule
+Observations
+    & {{N}} & {{N}} & {{N}} \\
+$R^2$
+    & {{R2_NAIVE}} & {{R2_SINGLE}} & {{R2_DOUBLE}} \\
+$\lambda_Y$ (outcome)
+    & {---} & {{ALPHA_Y_SS}} & {{ALPHA_Y_DS}} \\
+$\lambda_D$ (treatment)
+    & {---} & {---} & {{ALPHA_D_DS}} \\
+
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]
+\small
+\item \textit{Notes:} Heteroskedasticity-robust (HC1) standard errors in parentheses.
+Column (1) includes all {{P_TOTAL}} control variables.
+Column (2) uses Lasso to select controls predicting the outcome only.
+Column (3) implements Belloni, Chernozhukov, and Hansen (2014) post-double-selection,
+selecting controls predicting both outcome and treatment, then using their union.
+\item $^{***}p<0.01$, $^{**}p<0.05$, $^{*}p<0.1$
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+
+% ============================================================================
+% VARIABLE SELECTION SUMMARY TABLE
+% ============================================================================
+
+\begin{table}[htbp]
+\centering
+\caption{Variable Selection Comparison}
+\label{tab:variable_selection}
+\begin{threeparttable}
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+Variable & OLS & Ridge & Lasso & Elastic Net & Double Selection \\
+\midrule
+% Use checkmarks (\checkmark) for selected variables
+% Use dashes (---) for excluded variables
+% Use $\bullet$ for always included
+
+{{VAR1_NAME}} & $\bullet$ & $\bullet$ & \checkmark & \checkmark & \checkmark \\
+{{VAR2_NAME}} & $\bullet$ & $\bullet$ & \checkmark & \checkmark & --- \\
+{{VAR3_NAME}} & $\bullet$ & $\bullet$ & --- & \checkmark & \checkmark \\
+{{VAR4_NAME}} & $\bullet$ & $\bullet$ & --- & --- & --- \\
+% Add more variables...
+
+\midrule
+Total selected & {{P_TOTAL}} & {{P_TOTAL}} & {{N_LASSO}} & {{N_ENET}} & {{N_DS}} \\
+
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]
+\small
+\item \textit{Notes:} $\bullet$ indicates variable always included in model.
+\checkmark indicates variable selected by regularization.
+--- indicates variable excluded (coefficient shrunk to zero).
+Double Selection column shows union of variables selected for outcome and treatment.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+
+% ============================================================================
+% CROSS-VALIDATION RESULTS TABLE
+% ============================================================================
+
+\begin{table}[htbp]
+\centering
+\caption{Cross-Validation Performance Comparison}
+\label{tab:cv_comparison}
+\begin{threeparttable}
+\begin{tabular}{@{}lS[table-format=1.4]S[table-format=1.4]S[table-format=1.4]c@{}}
+\toprule
+Model & {CV RMSE} & {CV $R^2$} & {$\lambda$} & {Non-zero} \\
+\midrule
+OLS & {{CV_RMSE_OLS}} & {{CV_R2_OLS}} & {---} & {{P_TOTAL}} \\
+Ridge & {{CV_RMSE_RIDGE}} & {{CV_R2_RIDGE}} & {{ALPHA_RIDGE}} & {{P_TOTAL}} \\
+Lasso (CV-min) & {{CV_RMSE_LASSO_MIN}} & {{CV_R2_LASSO_MIN}} & {{ALPHA_LASSO_MIN}} & {{N_LASSO_MIN}} \\
+Lasso (1-SE) & {{CV_RMSE_LASSO_1SE}} & {{CV_R2_LASSO_1SE}} & {{ALPHA_LASSO_1SE}} & {{N_LASSO_1SE}} \\
+Elastic Net & {{CV_RMSE_ENET}} & {{CV_R2_ENET}} & {{ALPHA_ENET}} & {{N_ENET}} \\
+
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]
+\small
+\item \textit{Notes:} 5-fold cross-validation used for all models.
+CV RMSE and $R^2$ are mean values across folds.
+Lasso (CV-min) uses the $\lambda$ minimizing CV error.
+Lasso (1-SE) uses the largest $\lambda$ within 1 standard error of minimum.
+Elastic Net $\ell_1$ ratio: {{L1_RATIO_ENET}}.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}

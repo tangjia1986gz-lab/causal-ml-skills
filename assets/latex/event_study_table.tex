@@ -1,0 +1,304 @@
+% =============================================================================
+% event_study_table.tex - Event Study Coefficients Table Template
+% =============================================================================
+% Style: AER/NBER publication standards for difference-in-differences
+% Features:
+%   - Pre-treatment and post-treatment period coefficients
+%   - Support for staggered adoption designs
+%   - Multiple outcome comparison
+%   - Pre-trends test statistics
+%   - Sun-Abraham and Callaway-Sant'Anna estimators
+%
+% Placeholders (replace with your data):
+%   - {{TITLE}}          : Table title
+%   - {{LABEL}}          : LaTeX label for cross-referencing
+%   - {{COEF_T*}}        : Coefficient at time T relative to treatment
+%   - {{SE_T*}}          : Standard error at time T
+%   - {{STARS_T*}}       : Significance stars
+% =============================================================================
+
+\documentclass[12pt]{article}
+\input{common_preamble}
+
+\begin{document}
+
+% =============================================================================
+% Template 1: Basic Event Study Coefficients Table
+% =============================================================================
+
+\begin{table}[htbp]
+\centering
+\caption{{{TITLE}}: Event Study Estimates}
+\label{tab:{{LABEL}}_eventstudy}
+
+\begin{threeparttable}
+\begin{tabular}{l
+    S[table-format=-1.4]    % Coefficient
+    S[table-format=1.4]     % SE
+    S[table-format=-1.4]    % CI Lower
+    S[table-format=-1.4]    % CI Upper
+    c                       % Stars
+}
+\toprule
+Period              & {Coef.} & {SE} & {95\% CI Lower} & {95\% CI Upper} & \\
+\midrule
+
+\multicolumn{6}{l}{\textit{Pre-Treatment Periods}} \\
+\addlinespace[0.3em]
+$t - 6$             & {{COEF_T-6}}  & {{SE_T-6}}  & {{CI_LO_T-6}}  & {{CI_HI_T-6}}  & {{STARS_T-6}} \\
+$t - 5$             & {{COEF_T-5}}  & {{SE_T-5}}  & {{CI_LO_T-5}}  & {{CI_HI_T-5}}  & {{STARS_T-5}} \\
+$t - 4$             & {{COEF_T-4}}  & {{SE_T-4}}  & {{CI_LO_T-4}}  & {{CI_HI_T-4}}  & {{STARS_T-4}} \\
+$t - 3$             & {{COEF_T-3}}  & {{SE_T-3}}  & {{CI_LO_T-3}}  & {{CI_HI_T-3}}  & {{STARS_T-3}} \\
+$t - 2$             & {{COEF_T-2}}  & {{SE_T-2}}  & {{CI_LO_T-2}}  & {{CI_HI_T-2}}  & {{STARS_T-2}} \\
+$t - 1$ (Reference) & {---}         & {---}       & {---}          & {---}          & \\
+\addlinespace[0.5em]
+
+\multicolumn{6}{l}{\textit{Post-Treatment Periods}} \\
+\addlinespace[0.3em]
+$t = 0$             & {{COEF_T0}}   & {{SE_T0}}   & {{CI_LO_T0}}   & {{CI_HI_T0}}   & {{STARS_T0}} \\
+$t + 1$             & {{COEF_T1}}   & {{SE_T1}}   & {{CI_LO_T1}}   & {{CI_HI_T1}}   & {{STARS_T1}} \\
+$t + 2$             & {{COEF_T2}}   & {{SE_T2}}   & {{CI_LO_T2}}   & {{CI_HI_T2}}   & {{STARS_T2}} \\
+$t + 3$             & {{COEF_T3}}   & {{SE_T3}}   & {{CI_LO_T3}}   & {{CI_HI_T3}}   & {{STARS_T3}} \\
+$t + 4$             & {{COEF_T4}}   & {{SE_T4}}   & {{CI_LO_T4}}   & {{CI_HI_T4}}   & {{STARS_T4}} \\
+$t + 5$             & {{COEF_T5}}   & {{SE_T5}}   & {{CI_LO_T5}}   & {{CI_HI_T5}}   & {{STARS_T5}} \\
+$t + 6$             & {{COEF_T6}}   & {{SE_T6}}   & {{CI_LO_T6}}   & {{CI_HI_T6}}   & {{STARS_T6}} \\
+
+\midrule
+\multicolumn{6}{l}{\textit{Pre-Trends Test}} \\
+\addlinespace[0.3em]
+\multicolumn{2}{l}{Joint F-statistic}    & \multicolumn{4}{c}{{{F_PRETREND}}} \\
+\multicolumn{2}{l}{$p$-value}            & \multicolumn{4}{c}{{{P_PRETREND}}} \\
+
+\midrule
+\multicolumn{6}{l}{\textit{Sample Statistics}} \\
+\addlinespace[0.3em]
+\multicolumn{2}{l}{Unit FE}              & \multicolumn{4}{c}{\yes} \\
+\multicolumn{2}{l}{Time FE}              & \multicolumn{4}{c}{\yes} \\
+\multicolumn{2}{l}{Controls}             & \multicolumn{4}{c}{{{CONTROLS}}} \\
+\multicolumn{2}{l}{Observations}         & \multicolumn{4}{c}{{{N}}} \\
+\multicolumn{2}{l}{Units}                & \multicolumn{4}{c}{{{N_UNITS}}} \\
+\multicolumn{2}{l}{Periods}              & \multicolumn{4}{c}{{{N_PERIODS}}} \\
+
+\bottomrule
+\end{tabular}
+
+\stdnote{This table reports event study estimates from a two-way fixed effects (TWFE) model.
+The dependent variable is {{DEPVAR}}. The reference period is $t-1$ (one period before treatment).
+Standard errors are clustered at the {{CLUSTER_LEVEL}} level.
+The pre-trends test is a joint F-test for the null hypothesis that all pre-treatment coefficients equal zero.}
+
+\end{threeparttable}
+\end{table}
+
+
+% =============================================================================
+% Template 2: Multiple Outcomes Event Study Table
+% =============================================================================
+
+\begin{table}[htbp]
+\centering
+\caption{Event Study Estimates: Multiple Outcomes}
+\label{tab:eventstudy_outcomes}
+
+\small
+\begin{threeparttable}
+\begin{tabular}{l*{4}{S[table-format=-1.3]}}
+\toprule
+                    & {(1)}         & {(2)}         & {(3)}         & {(4)}         \\
+                    & {Outcome A}   & {Outcome B}   & {Outcome C}   & {Index}       \\
+\midrule
+
+\multicolumn{5}{l}{\textit{Pre-Treatment}} \\
+\addlinespace[0.3em]
+$t - 3$             & -0.012        & 0.008         & 0.015         & 0.004         \\
+                    & \se{0.018}    & \se{0.024}    & \se{0.019}    & \se{0.012}    \\
+$t - 2$             & 0.005         & -0.003        & 0.009         & 0.002         \\
+                    & \se{0.015}    & \se{0.021}    & \se{0.016}    & \se{0.010}    \\
+$t - 1$             & \multicolumn{4}{c}{--- Reference Period ---} \\
+\addlinespace[0.5em]
+
+\multicolumn{5}{l}{\textit{Post-Treatment}} \\
+\addlinespace[0.3em]
+$t = 0$             & 0.078\sym{**} & 0.045         & 0.092\sym{***}& 0.056\sym{**} \\
+                    & \se{0.022}    & \se{0.028}    & \se{0.023}    & \se{0.015}    \\
+$t + 1$             & 0.134\sym{***}& 0.089\sym{**} & 0.156\sym{***}& 0.098\sym{***}\\
+                    & \se{0.028}    & \se{0.035}    & \se{0.029}    & \se{0.019}    \\
+$t + 2$             & 0.156\sym{***}& 0.112\sym{**} & 0.178\sym{***}& 0.115\sym{***}\\
+                    & \se{0.032}    & \se{0.041}    & \se{0.034}    & \se{0.022}    \\
+$t + 3$             & 0.145\sym{***}& 0.098\sym{*}  & 0.168\sym{***}& 0.108\sym{***}\\
+                    & \se{0.036}    & \se{0.047}    & \se{0.039}    & \se{0.025}    \\
+
+\midrule
+Pre-trends F-stat   & {0.45}        & {0.32}        & {0.67}        & {0.28}        \\
+Pre-trends $p$-val  & {0.638}       & {0.726}       & {0.512}       & {0.756}       \\
+\addlinespace[0.3em]
+Observations        & {45,678}      & {45,678}      & {45,678}      & {45,678}      \\
+
+\bottomrule
+\end{tabular}
+
+\stdnote{This table reports event study estimates for multiple outcome variables.
+Column (4) shows results for a standardized index combining outcomes A, B, and C.
+All specifications include unit and time fixed effects.
+Standard errors clustered at the unit level in parentheses.}
+
+\end{threeparttable}
+\end{table}
+
+
+% =============================================================================
+% Template 3: Staggered DID with Heterogeneity-Robust Estimators
+% =============================================================================
+
+\begin{table}[htbp]
+\centering
+\caption{Event Study: Comparison of Estimators}
+\label{tab:eventstudy_estimators}
+
+\small
+\begin{threeparttable}
+\begin{tabular}{l*{4}{S[table-format=-1.3]}}
+\toprule
+                    & {(1)}         & {(2)}         & {(3)}         & {(4)}         \\
+                    & {TWFE}        & {Sun-Abraham} & {CS}          & {Borusyak}    \\
+\midrule
+
+\multicolumn{5}{l}{\textit{Pre-Treatment Coefficients}} \\
+\addlinespace[0.3em]
+$t - 4$             & -0.008        & -0.005        & -0.003        & -0.006        \\
+                    & \se{0.015}    & \se{0.018}    & \se{0.020}    & \se{0.017}    \\
+$t - 3$             & 0.012         & 0.008         & 0.006         & 0.009         \\
+                    & \se{0.012}    & \se{0.014}    & \se{0.016}    & \se{0.013}    \\
+$t - 2$             & 0.003         & 0.002         & 0.001         & 0.002         \\
+                    & \se{0.010}    & \se{0.012}    & \se{0.013}    & \se{0.011}    \\
+$t - 1$             & \multicolumn{4}{c}{--- Reference Period ---} \\
+\addlinespace[0.5em]
+
+\multicolumn{5}{l}{\textit{Post-Treatment Coefficients}} \\
+\addlinespace[0.3em]
+$t = 0$             & 0.145\sym{***}& 0.132\sym{***}& 0.128\sym{***}& 0.135\sym{***}\\
+                    & \se{0.025}    & \se{0.028}    & \se{0.030}    & \se{0.027}    \\
+$t + 1$             & 0.198\sym{***}& 0.175\sym{***}& 0.168\sym{***}& 0.180\sym{***}\\
+                    & \se{0.032}    & \se{0.035}    & \se{0.038}    & \se{0.034}    \\
+$t + 2$             & 0.234\sym{***}& 0.195\sym{***}& 0.185\sym{***}& 0.202\sym{***}\\
+                    & \se{0.038}    & \se{0.042}    & \se{0.045}    & \se{0.040}    \\
+$t + 3$             & 0.256\sym{***}& 0.208\sym{***}& 0.195\sym{***}& 0.215\sym{***}\\
+                    & \se{0.045}    & \se{0.050}    & \se{0.054}    & \se{0.048}    \\
+$t + 4+$            & 0.278\sym{***}& 0.218\sym{***}& 0.205\sym{***}& 0.225\sym{***}\\
+                    & \se{0.052}    & \se{0.058}    & \se{0.062}    & \se{0.055}    \\
+
+\midrule
+\multicolumn{5}{l}{\textit{Aggregated Treatment Effect}} \\
+\addlinespace[0.3em]
+ATT                 & 0.222\sym{***}& 0.186\sym{***}& 0.176\sym{***}& 0.191\sym{***}\\
+                    & \se{0.035}    & \se{0.039}    & \se{0.042}    & \se{0.038}    \\
+
+\midrule
+Unit FE             & {\yes}        & {\yes}        & {\yes}        & {\yes}        \\
+Time FE             & {\yes}        & {\yes}        & {\yes}        & {\yes}        \\
+Cohort$\times$Time  & {\no}         & {\yes}        & {\yes}        & {\yes}        \\
+\addlinespace[0.3em]
+Observations        & {50,000}      & {50,000}      & {50,000}      & {50,000}      \\
+Treatment Cohorts   & {5}           & {5}           & {5}           & {5}           \\
+Never-Treated       & {2,500}       & {2,500}       & {2,500}       & {2,500}       \\
+
+\bottomrule
+\end{tabular}
+
+\tablenote{This table compares event study estimates across different estimators robust to staggered treatment timing.
+Column (1): Standard two-way fixed effects (TWFE).
+Column (2): Sun and Abraham (2021) interaction-weighted estimator.
+Column (3): Callaway and Sant'Anna (2021) doubly-robust estimator.
+Column (4): Borusyak, Jaravel, and Spiess (2024) imputation estimator.
+Standard errors in parentheses. \signote.
+Heterogeneity-robust estimators (columns 2--4) use never-treated units as the comparison group.
+Row ``$t + 4+$'' pools all periods 4 or more after treatment.}
+
+\end{threeparttable}
+\end{table}
+
+
+% =============================================================================
+% Template 4: Compact Event Study with Binned Endpoints
+% =============================================================================
+
+\begin{table}[htbp]
+\centering
+\caption{Event Study: Binned Endpoints}
+\label{tab:eventstudy_binned}
+
+\begin{threeparttable}
+\begin{tabular}{l*{2}{S[table-format=-1.3]}c}
+\toprule
+Event Time          & {Coefficient} & {Std. Error} & Significance \\
+\midrule
+
+$\leq t - 4$ (binned) & -0.008     & 0.025        &              \\
+$t - 3$               & 0.015      & 0.018        &              \\
+$t - 2$               & 0.006      & 0.014        &              \\
+$t - 1$ (omitted)     & {---}      & {---}        &              \\
+$t = 0$               & 0.089      & 0.020        & **           \\
+$t + 1$               & 0.156      & 0.025        & ***          \\
+$t + 2$               & 0.198      & 0.030        & ***          \\
+$t + 3$               & 0.215      & 0.035        & ***          \\
+$\geq t + 4$ (binned) & 0.228      & 0.042        & ***          \\
+
+\midrule
+Pre-trends test ($\chi^2$) & \multicolumn{3}{c}{2.34 ($p = 0.505$)} \\
+Observations        & \multicolumn{3}{c}{45,678} \\
+
+\bottomrule
+\end{tabular}
+
+\stdnote{This table reports event study estimates with binned endpoint periods.
+Periods 4 or more before/after treatment are pooled.
+The pre-trends test is a joint Wald test for the equality of pre-treatment coefficients to zero.
+Standard errors clustered at the unit level.}
+
+\end{threeparttable}
+\end{table}
+
+\end{document}
+
+% =============================================================================
+% USAGE NOTES:
+% =============================================================================
+%
+% 1. Reference Period Selection:
+%    - Standard: t=-1 (last pre-treatment period)
+%    - Alternative: t=-2 for extra margin before treatment
+%    - Never use t=0 as reference (post-treatment)
+%
+% 2. Endpoint Binning:
+%    - Bin extreme periods to avoid sparse cells
+%    - Common choices: bin at -4/-5 and +4/+5
+%    - Report number of observations in binned categories
+%
+% 3. Pre-Trends Testing:
+%    - Joint F-test: H0: all pre-treatment coefficients = 0
+%    - Report both test statistic and p-value
+%    - Failing to reject is necessary but not sufficient for parallel trends
+%
+% 4. Staggered DID Considerations:
+%    - TWFE can be biased with heterogeneous treatment effects
+%    - Use Sun-Abraham, Callaway-Sant'Anna, or Borusyak et al.
+%    - Report multiple estimators for robustness
+%    - Always report number of treatment cohorts
+%
+% 5. Estimation Details to Report:
+%    - Clustering level for standard errors
+%    - Fixed effects included (unit, time, unit-trends)
+%    - Control variables if any
+%    - Sample restrictions
+%
+% 6. Software References:
+%    - Python: linearmodels, pyfixest, differences
+%    - R: fixest, did, didimputation
+%    - Stata: eventdd, csdid, did_imputation
+%
+% 7. Publication Tips:
+%    - Always pair with event study figure
+%    - Report both individual period effects and overall ATT
+%    - Discuss any notable pre-trend coefficients
+%    - Compare across robust estimators if staggered design
+% =============================================================================

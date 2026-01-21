@@ -527,6 +527,25 @@ mlp_reg = Pipeline([
 ])
 ```
 
+## References
+
+### In-Depth Guides
+
+- [Neural Networks for Tabular Data](references/neural_networks.md) - MLP architecture, regularization, hyperparameter tuning
+- [SVM and Kernel Methods](references/svm_kernel.md) - Kernel selection, SVM tuning, computational considerations
+- [Ensemble Methods](references/ensemble_methods.md) - Stacking, blending, model averaging
+- [Neural Networks for Causal Inference](references/causal_applications.md) - DragonNet, CEVAE, DDML with neural networks
+
+### Scripts
+
+- [run_advanced_model.py](scripts/run_advanced_model.py) - CLI for training SVM/MLP models
+- [model_comparison.py](scripts/model_comparison.py) - Cross-validated model comparison
+- [visualize_learning.py](scripts/visualize_learning.py) - Learning and validation curves
+
+### Templates
+
+- [Advanced Model Report](assets/markdown/advanced_report.md) - Comprehensive model evaluation report template
+
 ## Related Skills
 
 - **ml-model-tree**: Tree-based models (prerequisites)

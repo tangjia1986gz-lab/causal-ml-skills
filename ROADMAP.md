@@ -1,18 +1,23 @@
 # 机器学习因果推断 Skills 开发路线图
 
+## 项目状态
+
+**全部完成** - 21 个 Skills 已实现，采用 K-Dense 结构规范
+
 ## 开发阶段总览
 
 ```
 Phase 0 ──► Phase 1 ──► Phase 2 ──► Phase 3 ──► Phase 4
   环境        经典方法     ML基础      前沿融合     综合实战
- (1 Skill)   (5 Skills)  (4 Skills)  (3 Skills)  (1 Skill)
+ (2 Skills)  (8 Skills)  (6 Skills)  (5 Skills)    完成
+   [完成]      [完成]      [完成]      [完成]      [完成]
 ```
 
 ---
 
-## Phase 0: 环境与基础设施 🔧
+## Phase 0: 环境与基础设施 [完成]
 
-### 0.1 setup-causal-ml-env
+### 0.1 setup-causal-ml-env [完成]
 
 | 属性 | 值 |
 |------|-----|
@@ -20,32 +25,37 @@ Phase 0 ──► Phase 1 ──► Phase 2 ──► Phase 3 ──► Phase 4
 | **复杂度** | 中等 |
 | **依赖** | 无 |
 | **类型** | Tool |
+| **状态** | 完成 |
 
 **功能清单**:
-- [ ] Python 环境检测与包安装
-- [ ] R 环境检测与 `rpy2` 配置
-- [ ] `grf`, `mediation`, `rdrobust` R 包安装
-- [ ] Stata 可用性检测 (可选)
-- [ ] 生成 `env_check.py` 诊断脚本
-- [ ] 生成 `requirements.txt`
+- [x] Python 环境检测与包安装
+- [x] R 环境检测与 `rpy2` 配置
+- [x] `grf`, `mediation`, `rdrobust` R 包安装
+- [x] Stata 可用性检测 (可选)
+- [x] 生成 `env_check.py` 诊断脚本
+- [x] 生成 `requirements.txt`
 
-**交付标准**:
-```bash
-# 用户运行后应看到
-✅ Python 3.10+ detected
-✅ econml 0.15.0 installed
-✅ doubleml 0.7.0 installed
-✅ R 4.3.0 detected
-✅ grf 2.3.0 installed
-✅ rpy2 bridge working
-⚠️ Stata not detected (optional)
-```
+### 0.2 scientific-writing-econ [完成] (新增)
+
+| 属性 | 值 |
+|------|-----|
+| **优先级** | P1 |
+| **复杂度** | 中等 |
+| **依赖** | 无 |
+| **类型** | Tool |
+| **状态** | 完成 |
+
+**功能清单**:
+- [x] LaTeX 表格生成
+- [x] 学术写作规范
+- [x] 引用格式管理
+- [x] 出版级输出模板
 
 ---
 
-## Phase 1: 经典因果方法 📊
+## Phase 1: 经典因果方法 [完成]
 
-### 1.1 causal-concept-guide
+### 1.1 causal-concept-guide [完成]
 
 | 属性 | 值 |
 |------|-----|
@@ -53,16 +63,17 @@ Phase 0 ──► Phase 1 ──► Phase 2 ──► Phase 3 ──► Phase 4
 | **复杂度** | 低 |
 | **依赖** | 无 |
 | **类型** | Knowledge |
+| **状态** | 完成 |
 
 **功能清单**:
-- [ ] 核心概念解释 (混杂、逆向因果、选择偏差)
-- [ ] 反事实框架咨询模板
-- [ ] 选题负面清单检查
-- [ ] 方法选择决策树
+- [x] 核心概念解释 (混杂、逆向因果、选择偏差)
+- [x] 反事实框架咨询模板
+- [x] 选题负面清单检查
+- [x] 方法选择决策树
 
 ---
 
-### 1.2 estimator-did ⭐ (核心优先)
+### 1.2 estimator-did [完成]
 
 | 属性 | 值 |
 |------|-----|
@@ -70,37 +81,28 @@ Phase 0 ──► Phase 1 ──► Phase 2 ──► Phase 3 ──► Phase 4
 | **复杂度** | 高 |
 | **依赖** | setup-causal-ml-env |
 | **类型** | Estimator |
+| **状态** | 完成 |
 
 **功能清单**:
 
 *Pre-Estimation*:
-- [ ] 平行趋势检验 (Parallel Trends Test)
-  - 可视化趋势图
-  - 统计检验 (Event Study)
-- [ ] 数据平衡性检查
+- [x] 平行趋势检验 (Parallel Trends Test)
+- [x] 数据平衡性检查
 
 *Estimation*:
-- [ ] 经典 2x2 DID
-- [ ] 多期 DID (Staggered DID)
-- [ ] DID with covariates
-- [ ] Callaway-Sant'Anna 估计器 (处理异质性处理时间)
+- [x] 经典 2x2 DID
+- [x] 多期 DID (Staggered DID)
+- [x] DID with covariates
+- [x] Callaway-Sant'Anna 估计器
 
 *Post-Estimation*:
-- [ ] 安慰剂检验 (Placebo Test)
-- [ ] 动态效应图 (Event Study Plot)
-- [ ] 出版级表格输出
-
-**Python 实现基础**:
-```python
-# 核心依赖
-from linearmodels import PanelOLS
-from statsmodels.regression.linear_model import OLS
-import did  # Callaway-Sant'Anna
-```
+- [x] 安慰剂检验 (Placebo Test)
+- [x] 动态效应图 (Event Study Plot)
+- [x] 出版级表格输出
 
 ---
 
-### 1.3 estimator-rd
+### 1.3 estimator-rd [完成]
 
 | 属性 | 值 |
 |------|-----|
@@ -108,37 +110,27 @@ import did  # Callaway-Sant'Anna
 | **复杂度** | 高 |
 | **依赖** | setup-causal-ml-env |
 | **类型** | Estimator |
+| **状态** | 完成 |
 
 **功能清单**:
 
 *Pre-Estimation*:
-- [ ] McCrary 密度检验 (操纵检验)
-- [ ] 断点处协变量平衡检验
+- [x] McCrary 密度检验 (操纵检验)
+- [x] 断点处协变量平衡检验
 
 *Estimation*:
-- [ ] Sharp RD
-- [ ] Fuzzy RD
-- [ ] 最优带宽选择 (MSE-optimal, CER-optimal)
-- [ ] 局部多项式回归
+- [x] Sharp RD
+- [x] Fuzzy RD
+- [x] 最优带宽选择
 
 *Post-Estimation*:
-- [ ] RD 可视化 (断点图)
-- [ ] 带宽敏感性分析
-- [ ] 安慰剂断点检验
-
-**核心依赖**:
-```python
-# Python
-from rdrobust import rdrobust, rdbwselect, rdplot
-
-# R (via rpy2)
-library(rdrobust)
-library(rddensity)
-```
+- [x] RD 可视化 (断点图)
+- [x] 带宽敏感性分析
+- [x] 安慰剂断点检验
 
 ---
 
-### 1.4 estimator-iv
+### 1.4 estimator-iv [完成]
 
 | 属性 | 值 |
 |------|-----|
@@ -146,30 +138,26 @@ library(rddensity)
 | **复杂度** | 中等 |
 | **依赖** | setup-causal-ml-env |
 | **类型** | Estimator |
+| **状态** | 完成 |
 
 **功能清单**:
 
 *Pre-Estimation*:
-- [ ] 第一阶段 F 统计量 (弱工具变量检验)
-- [ ] Stock-Yogo 临界值比较
+- [x] 第一阶段 F 统计量 (弱工具变量检验)
+- [x] Stock-Yogo 临界值比较
 
 *Estimation*:
-- [ ] 2SLS 估计
-- [ ] LIML 估计 (弱 IV 稳健)
-- [ ] GMM 估计
+- [x] 2SLS 估计
+- [x] LIML 估计
+- [x] GMM 估计
 
 *Post-Estimation*:
-- [ ] 过度识别检验 (Sargan-Hansen)
-- [ ] 工具变量外生性讨论模板
-
-**核心依赖**:
-```python
-from linearmodels.iv import IV2SLS, IVLIML, IVGMM
-```
+- [x] 过度识别检验 (Sargan-Hansen)
+- [x] 工具变量外生性讨论模板
 
 ---
 
-### 1.5 estimator-psm
+### 1.5 estimator-psm [完成]
 
 | 属性 | 值 |
 |------|-----|
@@ -177,35 +165,28 @@ from linearmodels.iv import IV2SLS, IVLIML, IVGMM
 | **复杂度** | 中等 |
 | **依赖** | setup-causal-ml-env |
 | **类型** | Estimator |
+| **状态** | 完成 |
 
 **功能清单**:
 
 *Pre-Estimation*:
-- [ ] 倾向得分估算 (Logit/Probit)
-- [ ] Common Support 检验
+- [x] 倾向得分估算 (Logit/Probit)
+- [x] Common Support 检验
 
 *Matching*:
-- [ ] 最近邻匹配 (1:1, 1:k)
-- [ ] 卡尺匹配 (Caliper)
-- [ ] 核匹配 (Kernel)
-- [ ] Mahalanobis 距离匹配
+- [x] 最近邻匹配 (1:1, 1:k)
+- [x] 卡尺匹配 (Caliper)
+- [x] 核匹配 (Kernel)
+- [x] Mahalanobis 距离匹配
 
 *Post-Estimation*:
-- [ ] 平衡性检验 (标准化均值差)
-- [ ] 匹配后 ATT/ATE 估计
-- [ ] PSM-DID 组合
-
-**核心依赖**:
-```python
-from causalml.match import NearestNeighborMatch
-from sklearn.linear_model import LogisticRegression
-```
+- [x] 平衡性检验 (标准化均值差)
+- [x] 匹配后 ATT/ATE 估计
+- [x] PSM-DID 组合
 
 ---
 
-## Phase 2: 机器学习基础 🤖
-
-### 2.1 ml-preprocessing
+### 1.6 panel-data-models [完成] (新增)
 
 | 属性 | 值 |
 |------|-----|
@@ -213,17 +194,74 @@ from sklearn.linear_model import LogisticRegression
 | **复杂度** | 中等 |
 | **依赖** | setup-causal-ml-env |
 | **类型** | Tool |
+| **状态** | 完成 |
 
 **功能清单**:
-- [ ] 缺失值诊断与处理策略
-- [ ] 异常值检测 (IQR, Z-score, Isolation Forest)
-- [ ] 特征工程辅助
-- [ ] 降维技术 (PCA, t-SNE for visualization)
-- [ ] 聚类分析 (K-Means, DBSCAN)
+- [x] 固定效应模型 (FE)
+- [x] 随机效应模型 (RE)
+- [x] Hausman 检验
+- [x] 聚类标准误
 
 ---
 
-### 2.2 ml-model-linear
+### 1.7 time-series-econometrics [完成] (新增)
+
+| 属性 | 值 |
+|------|-----|
+| **优先级** | P2 |
+| **复杂度** | 高 |
+| **依赖** | setup-causal-ml-env |
+| **类型** | Tool |
+| **状态** | 完成 |
+
+**功能清单**:
+- [x] 平稳性检验 (ADF, KPSS)
+- [x] ARIMA 模型
+- [x] VAR 模型
+- [x] 协整检验与 VECM
+
+---
+
+### 1.8 discrete-choice-models [完成] (新增)
+
+| 属性 | 值 |
+|------|-----|
+| **优先级** | P2 |
+| **复杂度** | 中等 |
+| **依赖** | setup-causal-ml-env |
+| **类型** | Tool |
+| **状态** | 完成 |
+
+**功能清单**:
+- [x] 二元选择模型 (Logit/Probit)
+- [x] 有序选择模型 (Ordered Logit/Probit)
+- [x] 多项选择模型 (Multinomial Logit)
+- [x] 计数模型 (Poisson, Negative Binomial)
+
+---
+
+## Phase 2: 机器学习基础 [完成]
+
+### 2.1 ml-preprocessing [完成]
+
+| 属性 | 值 |
+|------|-----|
+| **优先级** | P1 |
+| **复杂度** | 中等 |
+| **依赖** | setup-causal-ml-env |
+| **类型** | Tool |
+| **状态** | 完成 |
+
+**功能清单**:
+- [x] 缺失值诊断与处理策略
+- [x] 异常值检测 (IQR, Z-score, Isolation Forest)
+- [x] 特征工程辅助
+- [x] 降维技术 (PCA, t-SNE)
+- [x] 聚类分析 (K-Means, DBSCAN)
+
+---
+
+### 2.2 ml-model-linear [完成]
 
 | 属性 | 值 |
 |------|-----|
@@ -231,21 +269,18 @@ from sklearn.linear_model import LogisticRegression
 | **复杂度** | 低 |
 | **依赖** | ml-preprocessing |
 | **类型** | Tool |
+| **状态** | 完成 |
 
 **功能清单**:
-- [ ] Ridge Regression
-- [ ] Lasso Regression (变量选择)
-- [ ] Elastic Net
-- [ ] 交叉验证调参
-- [ ] 特征重要性输出
-
-**因果应用场景**:
-- 高维控制变量筛选
-- Double Selection (Belloni et al.)
+- [x] Ridge Regression
+- [x] Lasso Regression (变量选择)
+- [x] Elastic Net
+- [x] 交叉验证调参
+- [x] 特征重要性输出
 
 ---
 
-### 2.3 ml-model-tree
+### 2.3 ml-model-tree [完成]
 
 | 属性 | 值 |
 |------|-----|
@@ -253,18 +288,19 @@ from sklearn.linear_model import LogisticRegression
 | **复杂度** | 中等 |
 | **依赖** | ml-preprocessing |
 | **类型** | Tool |
+| **状态** | 完成 |
 
 **功能清单**:
-- [ ] 决策树 (CART)
-- [ ] 随机森林
-- [ ] Gradient Boosting (XGBoost, LightGBM)
-- [ ] 特征重要性可视化
-- [ ] 部分依赖图 (PDP)
-- [ ] SHAP 值解释
+- [x] 决策树 (CART)
+- [x] 随机森林
+- [x] Gradient Boosting (XGBoost, LightGBM)
+- [x] 特征重要性可视化
+- [x] 部分依赖图 (PDP)
+- [x] SHAP 值解释
 
 ---
 
-### 2.4 ml-model-advanced
+### 2.4 ml-model-advanced [完成]
 
 | 属性 | 值 |
 |------|-----|
@@ -272,17 +308,56 @@ from sklearn.linear_model import LogisticRegression
 | **复杂度** | 高 |
 | **依赖** | ml-preprocessing |
 | **类型** | Tool |
+| **状态** | 完成 |
 
 **功能清单**:
-- [ ] SVM (分类/回归)
-- [ ] 神经网络基础 (MLP)
-- [ ] 模型选择与比较框架
+- [x] SVM (分类/回归)
+- [x] 神经网络基础 (MLP)
+- [x] 模型选择与比较框架
+- [x] 集成学习方法
 
 ---
 
-## Phase 3: 前沿因果 ML 融合 🚀
+### 2.5 econometric-eda [完成] (新增)
 
-### 3.1 causal-ddml ⭐ (核心优先)
+| 属性 | 值 |
+|------|-----|
+| **优先级** | P1 |
+| **复杂度** | 中等 |
+| **依赖** | setup-causal-ml-env |
+| **类型** | Tool |
+| **状态** | 完成 |
+
+**功能清单**:
+- [x] 数据质量检查
+- [x] 描述统计分析
+- [x] 变量关系探索
+- [x] 异常值检测
+- [x] 面板数据 EDA
+
+---
+
+### 2.6 statistical-analysis [完成] (新增)
+
+| 属性 | 值 |
+|------|-----|
+| **优先级** | P1 |
+| **复杂度** | 中等 |
+| **依赖** | setup-causal-ml-env |
+| **类型** | Tool |
+| **状态** | 完成 |
+
+**功能清单**:
+- [x] 假设检验框架
+- [x] 置信区间计算
+- [x] 功效分析
+- [x] 多重比较校正
+
+---
+
+## Phase 3: 前沿因果 ML 融合 [完成]
+
+### 3.1 causal-ddml [完成]
 
 | 属性 | 值 |
 |------|-----|
@@ -290,37 +365,32 @@ from sklearn.linear_model import LogisticRegression
 | **复杂度** | 高 |
 | **依赖** | ml-model-linear, ml-model-tree |
 | **类型** | Estimator |
+| **状态** | 完成 |
 
 **功能清单**:
 
 *核心流程*:
-- [ ] Stage 1: ML 预测 Y 和 D 的残差
-- [ ] Stage 2: 残差回归估计因果效应
-- [ ] Cross-fitting 实现
+- [x] Stage 1: ML 预测 Y 和 D 的残差
+- [x] Stage 2: 残差回归估计因果效应
+- [x] Cross-fitting 实现
 
 *模型选择*:
-- [ ] 支持 Lasso, Random Forest, XGBoost 作为 first-stage learner
-- [ ] 自动模型选择
+- [x] 支持 Lasso, Random Forest, XGBoost 作为 first-stage learner
+- [x] 自动模型选择
 
 *扩展*:
-- [ ] Partially Linear Model (PLR)
-- [ ] Interactive Regression Model (IRM)
-- [ ] 中介机制分析接口
+- [x] Partially Linear Model (PLR)
+- [x] Interactive Regression Model (IRM)
+- [x] 中介机制分析接口
 
 *输出*:
-- [ ] 出版级表格
-- [ ] 稳健性检验报告
-- [ ] 结果解读模板
-
-**核心依赖**:
-```python
-from doubleml import DoubleMLPLR, DoubleMLIRM
-from econml.dml import DML, LinearDML, CausalForestDML
-```
+- [x] 出版级表格
+- [x] 稳健性检验报告
+- [x] 结果解读模板
 
 ---
 
-### 3.2 causal-mediation-ml
+### 3.2 causal-mediation-ml [完成]
 
 | 属性 | 值 |
 |------|-----|
@@ -328,23 +398,17 @@ from econml.dml import DML, LinearDML, CausalForestDML
 | **复杂度** | 高 |
 | **依赖** | causal-ddml |
 | **类型** | Estimator |
+| **状态** | 完成 |
 
 **功能清单**:
-- [ ] Average Direct Effect (ADE) 估计
-- [ ] Average Causal Mediation Effect (ACME) 估计
-- [ ] 敏感性分析
-- [ ] ML-enhanced 中介分析
-
-**核心依赖**:
-```python
-# Python 自定义或
-# R via rpy2
-library(mediation)
-```
+- [x] Average Direct Effect (ADE) 估计
+- [x] Average Causal Mediation Effect (ACME) 估计
+- [x] 敏感性分析
+- [x] ML-enhanced 中介分析
 
 ---
 
-### 3.3 causal-forest
+### 3.3 causal-forest [完成]
 
 | 属性 | 值 |
 |------|-----|
@@ -352,39 +416,45 @@ library(mediation)
 | **复杂度** | 高 |
 | **依赖** | ml-model-tree |
 | **类型** | Estimator |
+| **状态** | 完成 |
 
 **功能清单**:
 
 *核心*:
-- [ ] CATE (Conditional Average Treatment Effect) 估计
-- [ ] 异质性处理效应可视化
+- [x] CATE (Conditional Average Treatment Effect) 估计
+- [x] 异质性处理效应可视化
 
 *分析*:
-- [ ] 变量重要性 (哪些变量驱动异质性)
-- [ ] Best Linear Projection
-- [ ] 政策学习 (Policy Learning)
+- [x] 变量重要性 (哪些变量驱动异质性)
+- [x] Best Linear Projection
+- [x] 政策学习 (Policy Learning)
 
 *输出*:
-- [ ] CATE 分布图
-- [ ] 分组效应表格
-- [ ] 政策建议模板
-
-**核心依赖**:
-```python
-# 推荐使用 R 的 grf (最权威)
-# R via rpy2
-library(grf)
-cf <- causal_forest(X, Y, W)
-
-# 或 Python
-from econml.grf import CausalForest
-```
+- [x] CATE 分布图
+- [x] 分组效应表格
+- [x] 政策建议模板
 
 ---
 
-## Phase 4: 综合实战 📚
+### 3.4 bayesian-econometrics [完成] (新增)
 
-### 4.1 paper-replication-workflow
+| 属性 | 值 |
+|------|-----|
+| **优先级** | P2 |
+| **复杂度** | 高 |
+| **依赖** | setup-causal-ml-env |
+| **类型** | Estimator |
+| **状态** | 完成 |
+
+**功能清单**:
+- [x] 贝叶斯基础概念
+- [x] 先验选择指南
+- [x] MCMC 诊断
+- [x] 层次模型
+
+---
+
+### 3.5 paper-replication-workflow [完成]
 
 | 属性 | 值 |
 |------|-----|
@@ -392,81 +462,100 @@ from econml.grf import CausalForest
 | **复杂度** | 高 |
 | **依赖** | 所有 Estimator Skills |
 | **类型** | Workflow |
+| **状态** | 完成 |
 
 **功能清单**:
-- [ ] 论文模型设定解析
-- [ ] 自动调用对应 Estimator
-- [ ] 复现结果对比
-- [ ] 差异诊断
-- [ ] 出版级表格生成
+- [x] 论文模型设定解析
+- [x] 自动调用对应 Estimator
+- [x] 复现结果对比
+- [x] 差异诊断
+- [x] 出版级表格生成
 
 ---
 
-## 开发优先级矩阵
+## 完成汇总
 
-```
-                    价值
-                    高 │
-                       │  ★ causal-ddml      ★ estimator-did
-                       │
-                       │  ○ causal-forest    ○ ml-model-tree
-                       │
-                       │  ○ estimator-rd     ○ estimator-iv
-                    低 │  △ ml-model-advanced
-                       └──────────────────────────────────────
-                          低                              高
-                                     使用频率
+### Skills 统计
 
-★ P0 优先开发   ○ P1/P2 中等优先   △ P3 最后开发
-```
+| 分类 | 计划数量 | 完成数量 | 状态 |
+|------|---------|---------|------|
+| 基础设施 | 2 | 2 | 完成 |
+| 经典因果方法 | 8 | 8 | 完成 |
+| 机器学习基础 | 6 | 6 | 完成 |
+| 前沿因果 ML | 5 | 5 | 完成 |
+| **总计** | **21** | **21** | **完成** |
 
----
+### 完整 Skills 清单
 
-## 建议开发顺序
-
-### Sprint 1: 核心基础
+#### 基础设施 (2 个)
 1. `setup-causal-ml-env` - 环境配置
-2. `estimator-did` - 最常用的经典方法
-3. `causal-concept-guide` - 概念指南
+2. `scientific-writing-econ` - 学术写作
 
-### Sprint 2: ML 能力
-4. `ml-preprocessing` - 数据预处理
-5. `ml-model-linear` - 正则化回归
-6. `ml-model-tree` - 树模型
+#### 经典因果方法 (8 个)
+3. `causal-concept-guide` - 因果概念指南
+4. `estimator-did` - 双重差分
+5. `estimator-rd` - 断点回归
+6. `estimator-iv` - 工具变量
+7. `estimator-psm` - 倾向得分匹配
+8. `panel-data-models` - 面板数据模型
+9. `time-series-econometrics` - 时间序列计量
+10. `discrete-choice-models` - 离散选择模型
 
-### Sprint 3: 前沿融合
-7. `causal-ddml` - 双重机器学习
-8. `causal-forest` - 因果森林
+#### 机器学习基础 (6 个)
+11. `ml-preprocessing` - 数据预处理
+12. `ml-model-linear` - 线性模型
+13. `ml-model-tree` - 树模型
+14. `ml-model-advanced` - 高级 ML 模型
+15. `econometric-eda` - 计量经济学 EDA
+16. `statistical-analysis` - 统计分析
 
-### Sprint 4: 完善扩展
-9. `estimator-rd` - 断点回归
-10. `estimator-iv` - 工具变量
-11. `estimator-psm` - 倾向得分匹配
-12. `causal-mediation-ml` - 因果中介
-
-### Sprint 5: 集成
-13. `ml-model-advanced` - 高级 ML 模型
-14. `paper-replication-workflow` - 论文复现流程
-
----
-
-## 里程碑
-
-| 里程碑 | 完成 Skills | 能力 |
-|--------|-------------|------|
-| **M1** | 1-3 | 可运行 DID 分析 |
-| **M2** | 4-6 | 支持 ML 特征工程 |
-| **M3** | 7-8 | 支持 DDML 和因果森林 |
-| **M4** | 9-12 | 完整因果工具箱 |
-| **M5** | 13-14 | 端到端论文复现 |
+#### 前沿因果 ML (5 个)
+17. `causal-ddml` - 双重机器学习
+18. `causal-forest` - 因果森林
+19. `causal-mediation-ml` - ML 中介分析
+20. `bayesian-econometrics` - 贝叶斯计量
+21. `paper-replication-workflow` - 论文复现工作流
 
 ---
 
-## 验收标准
+## 里程碑完成记录
 
-每个 Skill 必须满足:
+| 里程碑 | 完成 Skills | 能力 | 状态 |
+|--------|-------------|------|------|
+| **M1** | 1-3 | 可运行 DID 分析 | 完成 |
+| **M2** | 4-6 | 支持 ML 特征工程 | 完成 |
+| **M3** | 7-8 | 支持 DDML 和因果森林 | 完成 |
+| **M4** | 9-16 | 完整因果工具箱 | 完成 |
+| **M5** | 17-21 | 端到端论文复现 | 完成 |
+
+---
+
+## 验收标准 (全部满足)
+
+每个 Skill 已满足:
 
 1. **功能完整**: 所有列出的功能项已实现
-2. **文档齐全**: SKILL.md 按模板编写
-3. **测试通过**: 至少 1 个完整示例可运行
+2. **文档齐全**: SKILL.md 按 K-Dense 模板编写
+3. **测试通过**: 完整示例可运行
 4. **输出规范**: 表格符合出版标准
+5. **结构规范**: 符合 K-Dense 结构 (references/, scripts/, assets/)
+
+---
+
+## 更新日志
+
+### v2.0.0 (2025-01)
+- Skills 数量从 14 扩展到 21
+- 新增 7 个 Skills:
+  - `scientific-writing-econ`
+  - `panel-data-models`
+  - `time-series-econometrics`
+  - `discrete-choice-models`
+  - `econometric-eda`
+  - `statistical-analysis`
+  - `bayesian-econometrics`
+- 采用 K-Dense 结构规范
+- 所有 Skills 添加 references/ 目录
+- 新增开发脚本 (generate_skill_scaffold.py, validate_skill.py)
+- 新增共享资源模板 (assets/latex/, assets/markdown/)
+- 扩展共享库 (lib/python/visualization.py)

@@ -1,0 +1,222 @@
+% =============================================================================
+% summary_stats.tex - Descriptive Statistics Table Template
+% =============================================================================
+% Style: AER/NBER publication standards with booktabs and siunitx
+% Features:
+%   - Standard summary statistics (N, Mean, SD, Min, Max, Median)
+%   - Treatment/Control group comparison
+%   - Balance test column (p-values)
+%   - Proper number alignment with siunitx
+%
+% Placeholders (replace with your data):
+%   - {{TITLE}}          : Table title
+%   - {{LABEL}}          : LaTeX label for cross-referencing
+%   - {{VAR_*}}          : Variable names
+%   - {{N_*}}, etc.      : Statistics for each variable
+%   - {{PVAL_*}}         : P-values for balance tests
+% =============================================================================
+
+\documentclass[12pt]{article}
+\input{common_preamble}
+
+\begin{document}
+
+% =============================================================================
+% Template 1: Basic Summary Statistics
+% =============================================================================
+
+\begin{table}[htbp]
+\centering
+\caption{{{TITLE}}: Summary Statistics}
+\label{tab:{{LABEL}}_summary}
+
+\begin{threeparttable}
+\begin{tabular}{l
+    S[table-format=5.0]     % N
+    S[table-format=2.3]     % Mean
+    S[table-format=2.3]     % SD
+    S[table-format=2.3]     % Min
+    S[table-format=2.3]     % Max
+    S[table-format=2.3]     % Median
+}
+\toprule
+Variable & {N} & {Mean} & {SD} & {Min} & {Max} & {Median} \\
+\midrule
+
+% Outcome variables
+\multicolumn{7}{l}{\textit{Panel A: Outcome Variables}} \\
+\addlinespace[0.3em]
+{{VAR_1}}           & {{N_1}}   & {{MEAN_1}}  & {{SD_1}}  & {{MIN_1}}   & {{MAX_1}}   & {{MED_1}}  \\
+{{VAR_2}}           & {{N_2}}   & {{MEAN_2}}  & {{SD_2}}  & {{MIN_2}}   & {{MAX_2}}   & {{MED_2}}  \\
+{{VAR_3}}           & {{N_3}}   & {{MEAN_3}}  & {{SD_3}}  & {{MIN_3}}   & {{MAX_3}}   & {{MED_3}}  \\
+\addlinespace[0.5em]
+
+% Treatment variables
+\multicolumn{7}{l}{\textit{Panel B: Treatment Variables}} \\
+\addlinespace[0.3em]
+{{VAR_4}}           & {{N_4}}   & {{MEAN_4}}  & {{SD_4}}  & {{MIN_4}}   & {{MAX_4}}   & {{MED_4}}  \\
+{{VAR_5}}           & {{N_5}}   & {{MEAN_5}}  & {{SD_5}}  & {{MIN_5}}   & {{MAX_5}}   & {{MED_5}}  \\
+\addlinespace[0.5em]
+
+% Control variables
+\multicolumn{7}{l}{\textit{Panel C: Control Variables}} \\
+\addlinespace[0.3em]
+{{VAR_6}}           & {{N_6}}   & {{MEAN_6}}  & {{SD_6}}  & {{MIN_6}}   & {{MAX_6}}   & {{MED_6}}  \\
+{{VAR_7}}           & {{N_7}}   & {{MEAN_7}}  & {{SD_7}}  & {{MIN_7}}   & {{MAX_7}}   & {{MED_7}}  \\
+{{VAR_8}}           & {{N_8}}   & {{MEAN_8}}  & {{SD_8}}  & {{MIN_8}}   & {{MAX_8}}   & {{MED_8}}  \\
+
+\bottomrule
+\end{tabular}
+
+\tablenote{This table presents summary statistics for the main analysis sample.
+Panel A shows outcome variables, Panel B shows treatment indicators, and Panel C shows control variables.
+The sample period is [START]--[END].}
+
+\end{threeparttable}
+\end{table}
+
+
+% =============================================================================
+% Template 2: Balance Table (Treatment vs Control Comparison)
+% =============================================================================
+
+\begin{table}[htbp]
+\centering
+\caption{{{TITLE}}: Covariate Balance}
+\label{tab:{{LABEL}}_balance}
+
+\begin{threeparttable}
+\begin{tabular}{l
+    S[table-format=2.3]     % Control Mean
+    S[table-format=2.3]     % Control SD
+    S[table-format=2.3]     % Treatment Mean
+    S[table-format=2.3]     % Treatment SD
+    S[table-format=2.3]     % Difference
+    S[table-format=1.3]     % P-value
+}
+\toprule
+                    & \multicolumn{2}{c}{Control} & \multicolumn{2}{c}{Treatment} & & \\
+\cmidrule(lr){2-3} \cmidrule(lr){4-5}
+Variable            & {Mean} & {SD} & {Mean} & {SD} & {Diff.} & {$p$-value} \\
+\midrule
+
+% Demographic characteristics
+\multicolumn{7}{l}{\textit{Panel A: Demographics}} \\
+\addlinespace[0.3em]
+Age                 & {{C_MEAN_AGE}}  & {{C_SD_AGE}}  & {{T_MEAN_AGE}}  & {{T_SD_AGE}}  & {{DIFF_AGE}}  & {{PVAL_AGE}}  \\
+Female              & {{C_MEAN_FEM}}  & {{C_SD_FEM}}  & {{T_MEAN_FEM}}  & {{T_SD_FEM}}  & {{DIFF_FEM}}  & {{PVAL_FEM}}  \\
+Education (years)   & {{C_MEAN_EDU}}  & {{C_SD_EDU}}  & {{T_MEAN_EDU}}  & {{T_SD_EDU}}  & {{DIFF_EDU}}  & {{PVAL_EDU}}  \\
+Married             & {{C_MEAN_MAR}}  & {{C_SD_MAR}}  & {{T_MEAN_MAR}}  & {{T_SD_MAR}}  & {{DIFF_MAR}}  & {{PVAL_MAR}}  \\
+\addlinespace[0.5em]
+
+% Economic characteristics
+\multicolumn{7}{l}{\textit{Panel B: Economic Characteristics}} \\
+\addlinespace[0.3em]
+Income (log)        & {{C_MEAN_INC}}  & {{C_SD_INC}}  & {{T_MEAN_INC}}  & {{T_SD_INC}}  & {{DIFF_INC}}  & {{PVAL_INC}}  \\
+Employed            & {{C_MEAN_EMP}}  & {{C_SD_EMP}}  & {{T_MEAN_EMP}}  & {{T_SD_EMP}}  & {{DIFF_EMP}}  & {{PVAL_EMP}}  \\
+Wealth index        & {{C_MEAN_WLT}}  & {{C_SD_WLT}}  & {{T_MEAN_WLT}}  & {{T_SD_WLT}}  & {{DIFF_WLT}}  & {{PVAL_WLT}}  \\
+\addlinespace[0.5em]
+
+% Geographic characteristics
+\multicolumn{7}{l}{\textit{Panel C: Geography}} \\
+\addlinespace[0.3em]
+Urban               & {{C_MEAN_URB}}  & {{C_SD_URB}}  & {{T_MEAN_URB}}  & {{T_SD_URB}}  & {{DIFF_URB}}  & {{PVAL_URB}}  \\
+Distance to city    & {{C_MEAN_DST}}  & {{C_SD_DST}}  & {{T_MEAN_DST}}  & {{T_SD_DST}}  & {{DIFF_DST}}  & {{PVAL_DST}}  \\
+
+\midrule
+\multicolumn{7}{l}{\textit{Sample Size}} \\
+\addlinespace[0.3em]
+Observations        & \multicolumn{2}{c}{{{N_CONTROL}}} & \multicolumn{2}{c}{{{N_TREATMENT}}} & & \\
+
+\midrule
+\multicolumn{7}{l}{\textit{Joint Test}} \\
+\addlinespace[0.3em]
+F-statistic         & \multicolumn{6}{c}{{{F_STAT}}} \\
+Joint $p$-value     & \multicolumn{6}{c}{{{JOINT_PVAL}}} \\
+
+\bottomrule
+\end{tabular}
+
+\tablenote{This table presents covariate balance between treatment and control groups.
+Columns (1)--(2) show the mean and standard deviation for the control group.
+Columns (3)--(4) show the mean and standard deviation for the treatment group.
+Column (5) shows the difference in means (Treatment $-$ Control).
+Column (6) shows the $p$-value from a two-sided $t$-test for the null hypothesis of equal means.
+The joint test is an F-test for the joint significance of all covariates in predicting treatment status.}
+
+\end{threeparttable}
+\end{table}
+
+
+% =============================================================================
+% Template 3: Compact Balance Table with Normalized Differences
+% =============================================================================
+
+\begin{table}[htbp]
+\centering
+\caption{Covariate Balance: Normalized Differences}
+\label{tab:balance_normdiff}
+
+\small
+\begin{threeparttable}
+\begin{tabular}{l
+    S[table-format=2.3]     % Control Mean
+    S[table-format=2.3]     % Treatment Mean
+    S[table-format=-1.3]    % Normalized Difference
+    l                       % Balance indicator
+}
+\toprule
+Variable            & {Control} & {Treatment} & {Norm. Diff.} & {Balance} \\
+\midrule
+
+Age                 & 35.234  & 35.567  & 0.045   & \checkmark \\
+Female              & 0.512   & 0.498   & -0.028  & \checkmark \\
+Education           & 12.345  & 12.123  & -0.089  & \checkmark \\
+Income (log)        & 10.234  & 10.456  & 0.112   & \checkmark \\
+Urban               & 0.623   & 0.645   & 0.046   & \checkmark \\
+
+\midrule
+Observations        & {5,234} & {4,766} &         & \\
+
+\bottomrule
+\end{tabular}
+
+\tablenote{This table presents normalized differences between treatment and control groups.
+Normalized difference is calculated as $(\bar{X}_T - \bar{X}_C) / \sqrt{(s_T^2 + s_C^2)/2}$.
+A checkmark (\checkmark) indicates $|\text{Norm. Diff.}| < 0.25$, suggesting adequate balance.}
+
+\end{threeparttable}
+\end{table}
+
+\end{document}
+
+% =============================================================================
+% USAGE NOTES:
+% =============================================================================
+%
+% 1. siunitx Column Formats:
+%    - S[table-format=5.0]   : 5-digit integers (e.g., N)
+%    - S[table-format=2.3]   : 2 digits before decimal, 3 after
+%    - S[table-format=-1.3]  : Allow negative sign, 1 digit, 3 decimals
+%    - Wrap text in braces {} when using S columns
+%
+% 2. Balance Test Interpretation:
+%    - p > 0.10: Groups are balanced on this covariate
+%    - Joint F-test: Tests overall balance across all covariates
+%    - Normalized difference < 0.25: Imbens & Rubin (2015) threshold
+%
+% 3. For RCT balance tables:
+%    - Add stratification variables if randomization was stratified
+%    - Report F-test for joint balance
+%    - Consider showing baseline outcome if available
+%
+% 4. For observational studies:
+%    - Show balance before and after matching/weighting
+%    - Use standardized mean differences
+%    - Consider variance ratios for continuous variables
+%
+% 5. Programmatic generation:
+%    - Replace {{PLACEHOLDER}} with actual values
+%    - Generate separate tables for different samples/specifications
+%    - Use stargazer (R) or estout (Stata) for automation
+% =============================================================================
