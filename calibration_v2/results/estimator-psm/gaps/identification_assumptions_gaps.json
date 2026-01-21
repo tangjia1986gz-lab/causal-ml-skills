@@ -1,0 +1,140 @@
+{
+  "skill_name": "estimator-psm",
+  "component": "identification_assumptions",
+  "coverage_score": 1.0,
+  "papers_analyzed": 5,
+  "gaps": [
+    {
+      "gap_id": "f23059a9",
+      "category": "identification assumptions",
+      "severity": "minor",
+      "description": "可能缺失的内容: ” In Econometric Evaluation of Labour Market Policies ,\nedited by Lechner, M. and Pfeiffer, F., 43–5",
+      "source_paper": "文献",
+      "source_section": "methodology",
+      "existing_content": "",
+      "suggested_addition": "” In Econometric Evaluation of Labour Market Policies ,\nedited by Lechner, M. and Pfeiffer, F., 43–58. Heidelberg:\nPhysica.Google Scholar\nLunceford, J. K., and Davidian, M.. 2004. “Stratification and\n",
+      "target_file": "references/identification_assumptions.md",
+      "confidence": 0.7
+    },
+    {
+      "gap_id": "9b89f251",
+      "category": "identification assumptions",
+      "severity": "minor",
+      "description": "可能缺失的内容: (strong ignorability). (𝑌(0), 𝑌(1))⊥𝑇|𝑋.\n",
+      "source_paper": "文献",
+      "source_section": "estimation",
+      "existing_content": "",
+      "suggested_addition": "(strong ignorability). (𝑌(0), 𝑌(1))⊥𝑇|𝑋.\n",
+      "target_file": "references/identification_assumptions.md",
+      "confidence": 0.7
+    },
+    {
+      "gap_id": "5ce65230",
+      "category": "identification assumptions",
+      "severity": "minor",
+      "description": "可能缺失的内容: (overlap). 0 < P(𝑇= 1|𝑋) < 1.\nIntuitively, the ﬁrst ",
+      "source_paper": "文献",
+      "source_section": "estimation",
+      "existing_content": "",
+      "suggested_addition": "(overlap). 0 < P(𝑇= 1|𝑋) < 1.\nIntuitively, the ﬁrst ",
+      "target_file": "references/identification_assumptions.md",
+      "confidence": 0.7
+    },
+    {
+      "gap_id": "1837d343",
+      "category": "identification assumptions",
+      "severity": "minor",
+      "description": "可能缺失的内容: (strong ignorability), the joint distribution of (𝑋, 𝑌, 𝑇) is\ndetermined by the marginal distributio",
+      "source_paper": "文献",
+      "source_section": "estimation",
+      "existing_content": "",
+      "suggested_addition": "(strong ignorability), the joint distribution of (𝑋, 𝑌, 𝑇) is\ndetermined by the marginal distribution of 𝑋and two conditional distributions given 𝑋. The ﬁrst conditional\ndistribution 𝑒(𝑋) = 𝑃(𝑇= 1|𝑋) ",
+      "target_file": "references/identification_assumptions.md",
+      "confidence": 0.7
+    },
+    {
+      "gap_id": "4d483f4f",
+      "category": "identification assumptions",
+      "severity": "minor",
+      "description": "可能缺失的内容: following two assumptions:\n\n\nDE GRUYTER\nZhao and Percival\nAssumption 1 (strong ignorability)",
+      "source_paper": "文献",
+      "source_section": "estimation",
+      "existing_content": "",
+      "suggested_addition": "following two assumptions:\n\n\nDE GRUYTER\nZhao and Percival\nAssumption 1 (strong ignorability)",
+      "target_file": "references/identification_assumptions.md",
+      "confidence": 0.7
+    },
+    {
+      "gap_id": "08acff04",
+      "category": "identification assumptions",
+      "severity": "minor",
+      "description": "可能缺失的内容: (strong ignorability). (𝑌(0), 𝑌(1))⊥𝑇|𝑋. ",
+      "source_paper": "文献",
+      "source_section": "assumptions",
+      "existing_content": "",
+      "suggested_addition": "(strong ignorability). (𝑌(0), 𝑌(1))⊥𝑇|𝑋. ",
+      "target_file": "references/identification_assumptions.md",
+      "confidence": 0.7
+    },
+    {
+      "gap_id": "9c9215db",
+      "category": "identification assumptions",
+      "severity": "minor",
+      "description": "可能缺失的内容: (strong ignorability) and ",
+      "source_paper": "文献",
+      "source_section": "assumptions",
+      "existing_content": "",
+      "suggested_addition": "(strong ignorability) and ",
+      "target_file": "references/identification_assumptions.md",
+      "confidence": 0.7
+    },
+    {
+      "gap_id": "7095ff93",
+      "category": "identification assumptions",
+      "severity": "minor",
+      "description": "可能缺失的内容: (overlap) be given. Additionally, assume the\nexpectation of c(x) exists and Var(Y(0)) < ∞. Then Entr",
+      "source_paper": "文献",
+      "source_section": "assumptions",
+      "existing_content": "",
+      "suggested_addition": "(overlap) be given. Additionally, assume the\nexpectation of c(x) exists and Var(Y(0)) < ∞. Then Entropy Balancing is doubly robust (Property 1) in the sense that\n(1) If logit(𝑒(𝑥)) or 𝑔0(𝑥) is linear ",
+      "target_file": "references/identification_assumptions.md",
+      "confidence": 0.7
+    },
+    {
+      "gap_id": "3878cede",
+      "category": "identification assumptions",
+      "severity": "minor",
+      "description": "可能缺失的内容: This implies that the relationship between X and the vector containing the observables is\ninformativ",
+      "source_paper": "文献",
+      "source_section": "methodology",
+      "existing_content": "",
+      "suggested_addition": "This implies that the relationship between X and the vector containing the observables is\ninformative about the relationship between X and the vector containing the unobservables.\nDeﬁne the coeﬃcient ",
+      "target_file": "references/identification_assumptions.md",
+      "confidence": 0.7
+    },
+    {
+      "gap_id": "aab0798f",
+      "category": "identification assumptions",
+      "severity": "minor",
+      "description": "可能缺失的内容: Proof details are in Appendix A.\nDenote the sample variance of Y as ˆσyy and note that ˆσyy\np→σyy. L",
+      "source_paper": "文献",
+      "source_section": "methodology",
+      "existing_content": "",
+      "suggested_addition": "Proof details are in Appendix A.\nDenote the sample variance of Y as ˆσyy and note that ˆσyy\np→σyy. Lemma 2 deﬁnes probability limits\nfor functions of the R-squared values.\nLemma 2. ( ˜R −˚\nR)ˆσyy\np→[σ",
+      "target_file": "references/identification_assumptions.md",
+      "confidence": 0.7
+    },
+    {
+      "gap_id": "c34a17e9",
+      "category": "identification assumptions",
+      "severity": "minor",
+      "description": "可能缺失的内容: Consider the example where W1 and W2 together capture a full picture of socioeconomic status, and W1",
+      "source_paper": "文献",
+      "source_section": "methodology",
+      "existing_content": "",
+      "suggested_addition": "Consider the example where W1 and W2 together capture a full picture of socioeconomic status, and W1\ncontains standard demographic controls – education categories, income categories, race. The ",
+      "target_file": "references/identification_assumptions.md",
+      "confidence": 0.7
+    }
+  ]
+}

@@ -403,8 +403,11 @@ estimator-iv/
 - Stock, J. H., & Yogo, M. (2005). Testing for Weak Instruments in Linear IV Regression.
 
 ### Methodological Papers
-- Staiger, D., & Stock, J. H. (1997). Instrumental Variables Regression with Weak Instruments. *Econometrica*, 65(3), 557-586.
-- Andrews, I., Stock, J. H., & Sun, L. (2019). Weak Instruments in IV Regression: Theory and Practice. *Annual Review of Economics*, 11, 727-753.
+- Angrist, J. D., & Krueger, A. B. (1998). Empirical Strategies in Labor Economics. *Handbook of Labor Economics*, 3, 1277-1366. [1,752 citations]
+- Staiger, D., & Stock, J. H. (1997). Instrumental Variables Regression with Weak Instruments. *Econometrica*, 65(3), 557-586. [9,026 citations]
+- Stock, J. H., & Wright, J. H. (2000). GMM with Weak Identification. *Econometrica*, 68(5), 1055-1096. [831 citations]
+- Bound, J., Jaeger, D. A., & Baker, R. M. (1995). Problems with Instrumental Variables Estimation When the Correlation Between the Instruments and the Endogenous Explanatory Variable is Weak. *JASA*, 90(430), 443-450. [4,359 citations]
+- Andrews, I., Stock, J. H., & Sun, L. (2019). Weak Instruments in IV Regression: Theory and Practice. *Annual Review of Economics*, 11, 727-753. [617 citations]
 
 ### Textbook Treatments
 - Angrist, J. D., & Pischke, J. S. (2009). *Mostly Harmless Econometrics*. Princeton University Press. Chapter 4.

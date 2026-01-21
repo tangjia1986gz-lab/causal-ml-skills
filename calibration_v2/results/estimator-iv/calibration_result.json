@@ -1,0 +1,21 @@
+{
+  "skill_name": "estimator-iv",
+  "phases_completed": [
+    "literature",
+    "extraction",
+    "gap_analysis",
+    "validation",
+    "quality_gate"
+  ],
+  "papers_found": 15,
+  "papers_extracted": 5,
+  "gaps_identified": 9,
+  "formula_score": 1.0,
+  "citation_score": 0.2703,
+  "overall_score": 0.8814,
+  "passed": true,
+  "updates_generated": 0,
+  "errors": [],
+  "started_at": "2026-01-21T20:58:15.061290",
+  "completed_at": null
+}

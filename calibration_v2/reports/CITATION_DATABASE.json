@@ -1,0 +1,976 @@
+{
+  "generated_at": "2026-01-21T20:56:42.556078",
+  "skills": {
+    "estimator-did": {
+      "category": "classic-methods",
+      "priority": 1,
+      "core_citations": [
+        {
+          "authors": [
+            "Callaway",
+            "Sant'Anna"
+          ],
+          "year": 2021,
+          "weight": 1.0
+        },
+        {
+          "authors": [
+            "Goodman-Bacon"
+          ],
+          "year": 2021,
+          "weight": 1.0
+        },
+        {
+          "authors": [
+            "Sun",
+            "Abraham"
+          ],
+          "year": 2021,
+          "weight": 0.9
+        },
+        {
+          "authors": [
+            "de Chaisemartin",
+            "D'Haultfoeuille"
+          ],
+          "year": 2020,
+          "weight": 0.9
+        },
+        {
+          "authors": [
+            "Borusyak",
+            "Jaravel",
+            "Spiess"
+          ],
+          "year": 2024,
+          "weight": 0.8
+        },
+        {
+          "authors": [
+            "Roth",
+            "Sant'Anna"
+          ],
+          "year": 2023,
+          "weight": 0.8
+        }
+      ],
+      "queries": {
+        "identification": {
+          "queries": [
+            "parallel trends assumption difference-in-differences",
+            "Callaway Sant'Anna conditional parallel trends",
+            "no anticipation assumption DID",
+            "common trends assumption identification"
+          ],
+          "min_citations": 500
+        },
+        "estimation": {
+          "queries": [
+            "two-way fixed effects staggered adoption",
+            "Goodman-Bacon decomposition weights",
+            "Sun Abraham interaction-weighted estimator",
+            "de Chaisemartin D'Haultfoeuille heterogeneous",
+            "doubly robust difference-in-differences"
+          ],
+          "min_citations": 300
+        },
+        "diagnostics": {
+          "queries": [
+            "pre-trends testing event study",
+            "placebo test difference-in-differences",
+            "Bacon decomposition negative weights",
+            "sensitivity analysis parallel trends"
+          ],
+          "min_citations": 200
+        }
+      }
+    },
+    "estimator-rd": {
+      "category": "classic-methods",
+      "priority": 1,
+      "core_citations": [
+        {
+          "authors": [
+            "Cattaneo",
+            "Idrobo",
+            "Titiunik"
+          ],
+          "year": 2020,
+          "weight": 1.0
+        },
+        {
+          "authors": [
+            "Imbens",
+            "Kalyanaraman"
+          ],
+          "year": 2012,
+          "weight": 1.0
+        },
+        {
+          "authors": [
+            "Calonico",
+            "Cattaneo",
+            "Titiunik"
+          ],
+          "year": 2014,
+          "weight": 0.9
+        },
+        {
+          "authors": [
+            "McCrary"
+          ],
+          "year": 2008,
+          "weight": 0.8
+        },
+        {
+          "authors": [
+            "Lee",
+            "Lemieux"
+          ],
+          "year": 2010,
+          "weight": 0.8
+        }
+      ],
+      "queries": {
+        "identification": {
+          "queries": [
+            "regression discontinuity identification assumptions",
+            "local randomization RD design",
+            "continuity-based RD framework",
+            "fuzzy regression discontinuity identification"
+          ],
+          "min_citations": 500
+        },
+        "estimation": {
+          "queries": [
+            "local polynomial regression discontinuity",
+            "bandwidth selection RD Imbens Kalyanaraman",
+            "Calonico Cattaneo Titiunik robust inference",
+            "rdrobust package stata R"
+          ],
+          "min_citations": 300
+        },
+        "diagnostics": {
+          "queries": [
+            "McCrary density test manipulation",
+            "covariate balance RD design",
+            "donut hole RD specification",
+            "placebo cutoffs regression discontinuity"
+          ],
+          "min_citations": 200
+        }
+      }
+    },
+    "estimator-iv": {
+      "category": "classic-methods",
+      "priority": 1,
+      "core_citations": [
+        {
+          "authors": [
+            "Angrist",
+            "Imbens"
+          ],
+          "year": 1996,
+          "weight": 1.0
+        },
+        {
+          "authors": [
+            "Stock",
+            "Yogo"
+          ],
+          "year": 2005,
+          "weight": 1.0
+        },
+        {
+          "authors": [
+            "Andrews",
+            "Stock",
+            "Sun"
+          ],
+          "year": 2019,
+          "weight": 0.9
+        },
+        {
+          "authors": [
+            "Lee",
+            "McCrary",
+            "Moreira"
+          ],
+          "year": 2022,
+          "weight": 0.8
+        }
+      ],
+      "queries": {
+        "identification": {
+          "queries": [
+            "instrumental variable exclusion restriction",
+            "LATE local average treatment effect monotonicity",
+            "instrument relevance exogeneity",
+            "compliers defiers instrumental variables"
+          ],
+          "min_citations": 500
+        },
+        "estimation": {
+          "queries": [
+            "two-stage least squares 2SLS",
+            "LIML weak instruments",
+            "GMM instrumental variables heteroskedasticity",
+            "jackknife instrumental variables JIVE"
+          ],
+          "min_citations": 300
+        },
+        "diagnostics": {
+          "queries": [
+            "weak instrument Stock Yogo critical values",
+            "Sargan overidentification test",
+            "Anderson-Rubin confidence interval",
+            "Kleibergen-Paap rank test"
+          ],
+          "min_citations": 200
+        }
+      }
+    },
+    "estimator-psm": {
+      "category": "classic-methods",
+      "priority": 1,
+      "core_citations": [
+        {
+          "authors": [
+            "Rosenbaum",
+            "Rubin"
+          ],
+          "year": 1983,
+          "weight": 1.0
+        },
+        {
+          "authors": [
+            "Imbens",
+            "Rubin"
+          ],
+          "year": 2015,
+          "weight": 1.0
+        },
+        {
+          "authors": [
+            "Abadie",
+            "Imbens"
+          ],
+          "year": 2006,
+          "weight": 0.9
+        },
+        {
+          "authors": [
+            "King",
+            "Nielsen"
+          ],
+          "year": 2019,
+          "weight": 0.8
+        },
+        {
+          "authors": [
+            "Rosenbaum"
+          ],
+          "year": 2002,
+          "weight": 0.8
+        }
+      ],
+      "queries": {
+        "identification": {
+          "queries": [
+            "conditional independence assumption unconfoundedness",
+            "overlap common support propensity score",
+            "SUTVA stable unit treatment value",
+            "selection on observables assumption"
+          ],
+          "min_citations": 500
+        },
+        "estimation": {
+          "queries": [
+            "propensity score matching nearest neighbor caliper",
+            "inverse probability weighting IPW",
+            "doubly robust AIPW augmented",
+            "entropy balancing weighting"
+          ],
+          "min_citations": 300
+        },
+        "diagnostics": {
+          "queries": [
+            "covariate balance standardized mean difference",
+            "Rosenbaum sensitivity analysis bounds",
+            "King Nielsen propensity score paradox",
+            "overlap assessment propensity score"
+          ],
+          "min_citations": 200
+        }
+      }
+    },
+    "panel-data-models": {
+      "category": "classic-methods",
+      "priority": 2,
+      "core_citations": [
+        {
+          "authors": [
+            "Wooldridge"
+          ],
+          "year": 2010,
+          "weight": 1.0
+        },
+        {
+          "authors": [
+            "Arellano",
+            "Bond"
+          ],
+          "year": 1991,
+          "weight": 0.9
+        },
+        {
+          "authors": [
+            "Baltagi"
+          ],
+          "year": 2013,
+          "weight": 0.8
+        }
+      ],
+      "queries": {
+        "identification": {
+          "queries": [
+            "fixed effects random effects identification",
+            "strict exogeneity panel data",
+            "correlated random effects Mundlak"
+          ],
+          "min_citations": 400
+        },
+        "estimation": {
+          "queries": [
+            "within estimator fixed effects",
+            "generalized method of moments panel GMM",
+            "Arellano-Bond dynamic panel"
+          ],
+          "min_citations": 300
+        },
+        "diagnostics": {
+          "queries": [
+            "Hausman test fixed random effects",
+            "serial correlation test panel data",
+            "cross-sectional dependence panel"
+          ],
+          "min_citations": 200
+        }
+      }
+    },
+    "time-series-econometrics": {
+      "category": "classic-methods",
+      "priority": 2,
+      "core_citations": [
+        {
+          "authors": [
+            "Hamilton"
+          ],
+          "year": 1994,
+          "weight": 1.0
+        },
+        {
+          "authors": [
+            "Engle",
+            "Granger"
+          ],
+          "year": 1987,
+          "weight": 1.0
+        },
+        {
+          "authors": [
+            "Johansen"
+          ],
+          "year": 1991,
+          "weight": 0.9
+        }
+      ],
+      "queries": {
+        "identification": {
+          "queries": [
+            "cointegration identification time series",
+            "structural VAR identification restrictions",
+            "Granger causality identification"
+          ],
+          "min_citations": 400
+        },
+        "estimation": {
+          "queries": [
+            "ARIMA estimation forecasting",
+            "vector autoregression VAR estimation",
+            "error correction model VECM"
+          ],
+          "min_citations": 300
+        },
+        "diagnostics": {
+          "queries": [
+            "unit root test ADF KPSS",
+            "Johansen cointegration test",
+            "Ljung-Box autocorrelation test"
+          ],
+          "min_citations": 200
+        }
+      }
+    },
+    "discrete-choice-models": {
+      "category": "classic-methods",
+      "priority": 2,
+      "core_citations": [
+        {
+          "authors": [
+            "Train"
+          ],
+          "year": 2009,
+          "weight": 1.0
+        },
+        {
+          "authors": [
+            "McFadden"
+          ],
+          "year": 1974,
+          "weight": 1.0
+        },
+        {
+          "authors": [
+            "Greene"
+          ],
+          "year": 2018,
+          "weight": 0.8
+        }
+      ],
+      "queries": {
+        "identification": {
+          "queries": [
+            "multinomial logit identification IIA",
+            "ordered probit identification",
+            "random utility model identification"
+          ],
+          "min_citations": 300
+        },
+        "estimation": {
+          "queries": [
+            "maximum likelihood logit probit",
+            "conditional logit fixed effects",
+            "mixed logit random parameters"
+          ],
+          "min_citations": 200
+        },
+        "diagnostics": {
+          "queries": [
+            "Hausman McFadden IIA test",
+            "goodness of fit discrete choice",
+            "marginal effects discrete choice"
+          ],
+          "min_citations": 150
+        }
+      }
+    },
+    "causal-concept-guide": {
+      "category": "classic-methods",
+      "priority": 3,
+      "core_citations": [
+        {
+          "authors": [
+            "Rubin"
+          ],
+          "year": 1974,
+          "weight": 1.0
+        },
+        {
+          "authors": [
+            "Pearl"
+          ],
+          "year": 2009,
+          "weight": 1.0
+        },
+        {
+          "authors": [
+            "Imbens",
+            "Rubin"
+          ],
+          "year": 2015,
+          "weight": 0.9
+        }
+      ],
+      "queries": {
+        "identification": {
+          "queries": [
+            "potential outcomes framework Rubin",
+            "directed acyclic graph causal inference",
+            "do-calculus Pearl intervention"
+          ],
+          "min_citations": 500
+        }
+      }
+    },
+    "causal-ddml": {
+      "category": "causal-ml",
+      "priority": 2,
+      "core_citations": [
+        {
+          "authors": [
+            "Chernozhukov"
+          ],
+          "year": 2018,
+          "weight": 1.0
+        },
+        {
+          "authors": [
+            "Chernozhukov",
+            "Chetverikov",
+            "Demirer"
+          ],
+          "year": 2018,
+          "weight": 1.0
+        },
+        {
+          "authors": [
+            "Bach",
+            "Chernozhukov",
+            "Kurz"
+          ],
+          "year": 2024,
+          "weight": 0.9
+        }
+      ],
+      "queries": {
+        "identification": {
+          "queries": [
+            "Neyman orthogonality double machine learning",
+            "cross-fitting sample splitting debiased",
+            "rate conditions high-dimensional inference"
+          ],
+          "min_citations": 300
+        },
+        "estimation": {
+          "queries": [
+            "partially linear regression PLR Chernozhukov",
+            "interactive regression model IRM",
+            "DoubleML Python R package"
+          ],
+          "min_citations": 200
+        }
+      }
+    },
+    "causal-forest": {
+      "category": "causal-ml",
+      "priority": 2,
+      "core_citations": [
+        {
+          "authors": [
+            "Athey",
+            "Wager"
+          ],
+          "year": 2019,
+          "weight": 1.0
+        },
+        {
+          "authors": [
+            "Wager",
+            "Athey"
+          ],
+          "year": 2018,
+          "weight": 1.0
+        },
+        {
+          "authors": [
+            "Athey",
+            "Imbens"
+          ],
+          "year": 2016,
+          "weight": 0.9
+        }
+      ],
+      "queries": {
+        "identification": {
+          "queries": [
+            "unconfoundedness heterogeneous treatment effects",
+            "honesty splitting causal tree",
+            "CATE identification assumptions"
+          ],
+          "min_citations": 300
+        },
+        "estimation": {
+          "queries": [
+            "generalized random forests Athey Wager",
+            "causal tree recursive partitioning",
+            "CATE conditional average treatment effect estimation",
+            "grf R package econML"
+          ],
+          "min_citations": 200
+        }
+      }
+    },
+    "structural-equation-modeling": {
+      "category": "causal-ml",
+      "priority": 2,
+      "core_citations": [
+        {
+          "authors": [
+            "Bollen"
+          ],
+          "year": 1989,
+          "weight": 1.0
+        },
+        {
+          "authors": [
+            "Kline"
+          ],
+          "year": 2016,
+          "weight": 1.0
+        },
+        {
+          "authors": [
+            "Rosseel"
+          ],
+          "year": 2012,
+          "weight": 0.9
+        },
+        {
+          "authors": [
+            "Hu",
+            "Bentler"
+          ],
+          "year": 1999,
+          "weight": 0.8
+        }
+      ],
+      "queries": {
+        "identification": {
+          "queries": [
+            "SEM identification t-rule degrees freedom",
+            "latent variable identification three indicator",
+            "structural equation model identification"
+          ],
+          "min_citations": 400
+        },
+        "estimation": {
+          "queries": [
+            "maximum likelihood SEM covariance structure",
+            "PLS-SEM partial least squares Hair",
+            "WLSMV ordinal categorical SEM",
+            "lavaan semopy structural equation"
+          ],
+          "min_citations": 300
+        },
+        "diagnostics": {
+          "queries": [
+            "CFI RMSEA SRMR fit indices cutoff",
+            "modification indices model respecification",
+            "Hu Bentler fit criteria"
+          ],
+          "min_citations": 200
+        }
+      }
+    },
+    "bayesian-econometrics": {
+      "category": "causal-ml",
+      "priority": 3,
+      "core_citations": [
+        {
+          "authors": [
+            "Gelman"
+          ],
+          "year": 2014,
+          "weight": 1.0
+        },
+        {
+          "authors": [
+            "Koop"
+          ],
+          "year": 2003,
+          "weight": 0.9
+        },
+        {
+          "authors": [
+            "McElreath"
+          ],
+          "year": 2020,
+          "weight": 0.8
+        }
+      ],
+      "queries": {
+        "identification": {
+          "queries": [
+            "prior specification Bayesian econometrics",
+            "posterior identification Bayesian",
+            "Bayesian credible interval interpretation"
+          ],
+          "min_citations": 200
+        },
+        "estimation": {
+          "queries": [
+            "MCMC Markov chain Monte Carlo econometrics",
+            "Stan PyMC Bayesian inference",
+            "hierarchical Bayesian model"
+          ],
+          "min_citations": 200
+        }
+      }
+    },
+    "causal-mediation-ml": {
+      "category": "causal-ml",
+      "priority": 2,
+      "core_citations": [
+        {
+          "authors": [
+            "Imai",
+            "Keele",
+            "Tingley"
+          ],
+          "year": 2010,
+          "weight": 1.0
+        },
+        {
+          "authors": [
+            "VanderWeele"
+          ],
+          "year": 2015,
+          "weight": 1.0
+        },
+        {
+          "authors": [
+            "Pearl"
+          ],
+          "year": 2012,
+          "weight": 0.9
+        }
+      ],
+      "queries": {
+        "identification": {
+          "queries": [
+            "mediation analysis identification assumptions",
+            "sequential ignorability mediation",
+            "direct indirect effect identification"
+          ],
+          "min_citations": 300
+        },
+        "estimation": {
+          "queries": [
+            "causal mediation analysis Imai",
+            "natural direct indirect effects estimation",
+            "sensitivity analysis mediation unmeasured confounding"
+          ],
+          "min_citations": 200
+        }
+      }
+    },
+    "paper-replication-workflow": {
+      "category": "causal-ml",
+      "priority": 3,
+      "core_citations": [
+        {
+          "authors": [
+            "Vilhuber"
+          ],
+          "year": 2020,
+          "weight": 1.0
+        }
+      ],
+      "queries": {
+        "reporting": {
+          "queries": [
+            "AEA data editor replication package",
+            "reproducibility economics research",
+            "replication code documentation standards"
+          ],
+          "min_citations": 100
+        }
+      }
+    },
+    "ml-preprocessing": {
+      "category": "ml-foundation",
+      "priority": 3,
+      "core_citations": [
+        {
+          "authors": [
+            "Kuhn",
+            "Johnson"
+          ],
+          "year": 2019,
+          "weight": 1.0
+        }
+      ],
+      "queries": {
+        "estimation": {
+          "queries": [
+            "feature engineering machine learning",
+            "missing data imputation methods",
+            "standardization normalization preprocessing"
+          ],
+          "min_citations": 200
+        }
+      }
+    },
+    "ml-model-linear": {
+      "category": "ml-foundation",
+      "priority": 3,
+      "core_citations": [
+        {
+          "authors": [
+            "Tibshirani"
+          ],
+          "year": 1996,
+          "weight": 1.0
+        },
+        {
+          "authors": [
+            "Zou",
+            "Hastie"
+          ],
+          "year": 2005,
+          "weight": 0.9
+        }
+      ],
+      "queries": {
+        "estimation": {
+          "queries": [
+            "LASSO regularization variable selection",
+            "ridge regression shrinkage",
+            "elastic net penalized regression"
+          ],
+          "min_citations": 300
+        }
+      }
+    },
+    "ml-model-tree": {
+      "category": "ml-foundation",
+      "priority": 3,
+      "core_citations": [
+        {
+          "authors": [
+            "Breiman"
+          ],
+          "year": 2001,
+          "weight": 1.0
+        },
+        {
+          "authors": [
+            "Chen",
+            "Guestrin"
+          ],
+          "year": 2016,
+          "weight": 0.9
+        },
+        {
+          "authors": [
+            "Lundberg",
+            "Lee"
+          ],
+          "year": 2017,
+          "weight": 0.8
+        }
+      ],
+      "queries": {
+        "estimation": {
+          "queries": [
+            "random forest ensemble learning",
+            "gradient boosting XGBoost LightGBM",
+            "SHAP feature importance interpretation"
+          ],
+          "min_citations": 300
+        }
+      }
+    },
+    "ml-model-advanced": {
+      "category": "ml-foundation",
+      "priority": 4,
+      "core_citations": [
+        {
+          "authors": [
+            "Goodfellow",
+            "Bengio",
+            "Courville"
+          ],
+          "year": 2016,
+          "weight": 1.0
+        }
+      ],
+      "queries": {
+        "estimation": {
+          "queries": [
+            "neural network deep learning economics",
+            "support vector machine SVM",
+            "ensemble methods stacking"
+          ],
+          "min_citations": 200
+        }
+      }
+    },
+    "statistical-analysis": {
+      "category": "ml-foundation",
+      "priority": 3,
+      "core_citations": [
+        {
+          "authors": [
+            "Cohen"
+          ],
+          "year": 1988,
+          "weight": 1.0
+        }
+      ],
+      "queries": {
+        "estimation": {
+          "queries": [
+            "hypothesis testing statistical inference",
+            "effect size Cohen's d power analysis",
+            "multiple testing correction Bonferroni"
+          ],
+          "min_citations": 200
+        }
+      }
+    },
+    "econometric-eda": {
+      "category": "ml-foundation",
+      "priority": 3,
+      "core_citations": [
+        {
+          "authors": [
+            "Tukey"
+          ],
+          "year": 1977,
+          "weight": 1.0
+        }
+      ],
+      "queries": {
+        "diagnostics": {
+          "queries": [
+            "exploratory data analysis econometrics",
+            "data quality assessment economics",
+            "outlier detection multivariate"
+          ],
+          "min_citations": 100
+        }
+      }
+    },
+    "scientific-writing-econ": {
+      "category": "infrastructure",
+      "priority": 3,
+      "core_citations": [
+        {
+          "authors": [
+            "Thomson"
+          ],
+          "year": 2011,
+          "weight": 1.0
+        }
+      ],
+      "queries": {
+        "reporting": {
+          "queries": [
+            "economic paper writing structure",
+            "AER submission guidelines format",
+            "academic writing economics style"
+          ],
+          "min_citations": 50
+        }
+      }
+    },
+    "setup-causal-ml-env": {
+      "category": "infrastructure",
+      "priority": 4,
+      "core_citations": [],
+      "queries": {}
+    }
+  }
+}

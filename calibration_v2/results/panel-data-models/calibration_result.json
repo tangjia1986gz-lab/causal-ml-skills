@@ -1,0 +1,21 @@
+{
+  "skill_name": "panel-data-models",
+  "phases_completed": [
+    "literature",
+    "extraction",
+    "gap_analysis",
+    "validation",
+    "quality_gate"
+  ],
+  "papers_found": 11,
+  "papers_extracted": 4,
+  "gaps_identified": 4,
+  "formula_score": 1.0,
+  "citation_score": 1.0,
+  "overall_score": 1.0,
+  "passed": true,
+  "updates_generated": 0,
+  "errors": [],
+  "started_at": "2026-01-21T20:59:39.523796",
+  "completed_at": null
+}

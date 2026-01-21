@@ -1,0 +1,102 @@
+[
+  {
+    "paper_id": "c2fcb00fe4b773f9cb1682aaa69749aac59f711d",
+    "title": "Estimation and Inference of Heterogeneous Treatment Effects using Random Forests",
+    "authors": [
+      "Stefan Wager",
+      "S. Athey"
+    ],
+    "year": 2015,
+    "venue": "Journal of the American Statistical Association",
+    "citations": 2801,
+    "abstract": "ABSTRACT Many scientific and engineering challenges—ranging from personalized medicine to customized marketing recommendations—require an understanding of treatment effect heterogeneity. In this article, we develop a nonparametric causal forest for estimating heterogeneous treatment effects that extends Breiman’s widely used random forest algorithm. In the potential outcomes framework with unconfoundedness, we show that causal forests are pointwise consistent for the true treatment effect and have an asymptotically Gaussian and centered sampling distribution. We also discuss a practical method for constructing asymptotic confidence intervals for the true treatment effect that are centered at the causal forest estimates. Our theoretical results rely on a generic Gaussian theory for a large family of random forest algorithms. To our knowledge, this is the first set of results that allows any type of random forest, including classification and regression forests, to be used for provably valid statistical inference. In experiments, we find causal forests to be substantially more powerful than classical methods based on nearest-neighbor matching, especially in the presence of irrelevant covariates.",
+    "pdf_url": "https://arxiv.org/pdf/1510.04342",
+    "external_ids": {
+      "MAG": "2801208640",
+      "ArXiv": "1510.04342",
+      "DOI": "10.1080/01621459.2017.1319839",
+      "CorpusId": 15676251
+    }
+  },
+  {
+    "paper_id": "da6af72069d401e1aa20152586667ca3cab4a537",
+    "title": "Generalized random forests",
+    "authors": [
+      "S. Athey",
+      "J. Tibshirani",
+      "Stefan Wager"
+    ],
+    "year": 2016,
+    "venue": "Annals of Statistics",
+    "citations": 1578,
+    "abstract": "We propose generalized random forests, a method for non-parametric statistical estimation based on random forests (Breiman, 2001) that can be used to fit any quantity of interest identified as the solution to a set of local moment equations. Following the literature on local maximum likelihood estimation, our method considers a weighted set of nearby training examples; however, instead of using classical kernel weighting functions that are prone to a strong curse of dimensionality, we use an adaptive weighting function derived from a forest designed to express heterogeneity in the specified quantity of interest. We propose a flexible, computationally efficient algorithm for growing generalized random forests, develop a large sample theory for our method showing that our estimates are consistent and asymptotically Gaussian, and provide an estimator for their asymptotic variance that enables valid confidence intervals. We use our approach to develop new methods for three statistical tasks: non-parametric quantile regression, conditional average partial effect estimation, and heterogeneous treatment effect estimation via instrumental variables. A software implementation, grf for R and C++, is available from CRAN.",
+    "pdf_url": "https://projecteuclid.org/journals/annals-of-statistics/volume-47/issue-2/Generalized-random-forests/10.1214/18-AOS1709.pdf",
+    "external_ids": {
+      "MAG": "2962727190",
+      "ArXiv": "1610.01271",
+      "DOI": "10.1214/18-AOS1709",
+      "CorpusId": 51735142
+    }
+  },
+  {
+    "paper_id": "1a472d87ddd9cd3b4b2e3ccaec61a03053586897",
+    "title": "Recursive partitioning for heterogeneous causal effects",
+    "authors": [
+      "S. Athey",
+      "G. Imbens"
+    ],
+    "year": 2015,
+    "venue": "Proceedings of the National Academy of Sciences of the United States of America",
+    "citations": 1576,
+    "abstract": "In this paper we propose methods for estimating heterogeneity in causal effects in experimental and observational studies and for conducting hypothesis tests about the magnitude of differences in treatment effects across subsets of the population. We provide a data-driven approach to partition the data into subpopulations that differ in the magnitude of their treatment effects. The approach enables the construction of valid confidence intervals for treatment effects, even with many covariates relative to the sample size, and without “sparsity” assumptions. We propose an “honest” approach to estimation, whereby one sample is used to construct the partition and another to estimate treatment effects for each subpopulation. Our approach builds on regression tree methods, modified to optimize for goodness of fit in treatment effects and to account for honest estimation. Our model selection criterion anticipates that bias will be eliminated by honest estimation and also accounts for the effect of making additional splits on the variance of treatment effect estimates within each subpopulation. We address the challenge that the “ground truth” for a causal effect is not observed for any individual unit, so that standard approaches to cross-validation must be modified. Through a simulation study, we show that for our preferred method honest estimation results in nominal coverage for 90% confidence intervals, whereas coverage ranges between 74% and 84% for nonhonest approaches. Honest estimation requires estimating the model with a smaller sample size; the cost in terms of mean squared error of treatment effects for our preferred method ranges between 7–22%.",
+    "pdf_url": "https://www.pnas.org/content/pnas/113/27/7353.full.pdf",
+    "external_ids": {
+      "ArXiv": "1504.01132",
+      "MAG": "2305754340",
+      "DOI": "10.1073/pnas.1510489113",
+      "CorpusId": 16171120,
+      "PubMed": "27382149"
+    }
+  },
+  {
+    "paper_id": "30eef96540a101e076d94e02651cb5c197059409",
+    "title": "Quasi-oracle estimation of heterogeneous treatment effects",
+    "authors": [
+      "Xinkun Nie",
+      "Stefan Wager"
+    ],
+    "year": 2017,
+    "venue": "Biometrika",
+    "citations": 762,
+    "abstract": "\n Flexible estimation of heterogeneous treatment effects lies at the heart of many statistical applications, such as personalized medicine and optimal resource allocation. In this article we develop a general class of two-step algorithms for heterogeneous treatment effect estimation in observational studies. First, we estimate marginal effects and treatment propensities to form an objective function that isolates the causal component of the signal. Then, we optimize this data-adaptive objective function. The proposed approach has several advantages over existing methods. From a practical perspective, our method is flexible and easy to use: in both steps, any loss-minimization method can be employed, such as penalized regression, deep neural networks, or boosting; moreover, these methods can be fine-tuned by cross-validation. Meanwhile, in the case of penalized kernel regression, we show that our method has a quasi-oracle property. Even when the pilot estimates for marginal effects and treatment propensities are not particularly accurate, we achieve the same error bounds as an oracle with prior knowledge of these two nuisance components. We implement variants of our approach based on penalized regression, kernel ridge regression, and boosting in a variety of simulation set-ups, and observe promising performance relative to existing baselines.",
+    "pdf_url": "http://arxiv.org/pdf/1712.04912",
+    "external_ids": {
+      "MAG": "3089065092",
+      "ArXiv": "1712.04912",
+      "DOI": "10.1093/biomet/asaa076",
+      "CorpusId": 85529052
+    }
+  },
+  {
+    "paper_id": "45f875c9d146094a75093f03b8e2a90a31ebee92",
+    "title": "Matrix Completion Methods for Causal Panel Data Models",
+    "authors": [
+      "S. Athey",
+      "M. Bayati",
+      "Nikolay Doudchenko",
+      "G. Imbens",
+      "Khashayar Khosravi"
+    ],
+    "year": 2017,
+    "venue": "Journal of the American Statistical Association",
+    "citations": 468,
+    "abstract": "Abstract In this article, we study methods for estimating causal effects in settings with panel data, where some units are exposed to a treatment during some periods and the goal is estimating counterfactual (untreated) outcomes for the treated unit/period combinations. We propose a class of matrix completion estimators that uses the observed elements of the matrix of control outcomes corresponding to untreated unit/periods to impute the “missing” elements of the control outcome matrix, corresponding to treated units/periods. This leads to a matrix that well-approximates the original (incomplete) matrix, but has lower complexity according to the nuclear norm for matrices. We generalize results from the matrix completion literature by allowing the patterns of missing data to have a time series dependency structure that is common in social science applications. We present novel insights concerning the connections between the matrix completion literature, the literature on interactive fixed effects models and the literatures on program evaluation under unconfoundedness and synthetic control methods. We show that all these estimators can be viewed as focusing on the same objective function. They differ solely in the way they deal with identification, in some cases solely through regularization (our proposed nuclear norm matrix completion estimator) and in other cases primarily through imposing hard restrictions (the unconfoundedness and synthetic control approaches). The proposed method outperforms unconfoundedness-based or synthetic control estimators in simulations based on real data.",
+    "pdf_url": "http://arxiv.org/pdf/1710.10251",
+    "external_ids": {
+      "MAG": "2950654716",
+      "ArXiv": "1710.10251",
+      "DOI": "10.1080/01621459.2021.1891924",
+      "CorpusId": 73619175
+    }
+  }
+]

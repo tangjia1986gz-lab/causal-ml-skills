@@ -1,0 +1,21 @@
+{
+  "skill_name": "structural-equation-modeling",
+  "phases_completed": [
+    "literature",
+    "extraction",
+    "gap_analysis",
+    "validation",
+    "quality_gate"
+  ],
+  "papers_found": 15,
+  "papers_extracted": 2,
+  "gaps_identified": 1,
+  "formula_score": 1.0,
+  "citation_score": 0.4595,
+  "overall_score": 0.9351,
+  "passed": true,
+  "updates_generated": 0,
+  "errors": [],
+  "started_at": "2026-01-21T21:01:46.096862",
+  "completed_at": null
+}

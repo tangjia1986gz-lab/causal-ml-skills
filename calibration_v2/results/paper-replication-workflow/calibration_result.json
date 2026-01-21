@@ -1,0 +1,21 @@
+{
+  "skill_name": "paper-replication-workflow",
+  "phases_completed": [
+    "literature",
+    "extraction",
+    "gap_analysis",
+    "validation",
+    "quality_gate"
+  ],
+  "papers_found": 2,
+  "papers_extracted": 1,
+  "gaps_identified": 0,
+  "formula_score": 0.1629,
+  "citation_score": 1.0,
+  "overall_score": 0.7237,
+  "passed": false,
+  "updates_generated": 0,
+  "errors": [],
+  "started_at": "2026-01-21T21:02:40.395042",
+  "completed_at": null
+}

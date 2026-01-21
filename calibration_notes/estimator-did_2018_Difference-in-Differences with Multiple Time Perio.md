@@ -30,130 +30,98 @@ policy changes. Open-source software is available for implementing the proposed 
 
 ## 核心假设
 
-holds by simply setting X = 1.
-Assumption 3 states that once an individual becomes treated, that individual will also be
-treated in the next period. With regards to the minimum wage application, Assumption 3 says
+- Assumption 1: (Sampling). {Yi1, Yi2, . . . YiT , Xi, Di1, Di2, . . . , DiT }n
+i=1 is independent and identi-
+cally distributed (iid).
+
+- Assumption 2: (Conditional Parallel Trends). For all t = 2, . . . , T , g = 2, . . . , T such that g ≤t,
+E[Yt(0) −Yt−1(0)|X, Gg = 1] = E[Yt(0) −Yt−1(0)|X, C = 1] a.s..
+2Existence of expectations is assumed throughout.
+7
+
+- Assumption 3: (Irreversibility of Treatment). For t = 2, . . . , T ,
+Dt = 1 implies that Dt+1 = 1
+
+- Assumption 4: (Overlap). For all g = 2, . . . , T , P (Gg = 1) > 0 and pg(X) < 1 a.s..
+
+- Assumption 1: implies that we are considering the case with panel data. The extension to
+the case with repeated cross sections is relatively simple and is developed in Appendix B in the
+Supplementary Appendix.
+
+- Assumption 2: , which we refer to as the (conditional) parallel trends assumption throughout the
+paper, is the crucial identifying restriction for our DID model, and it generalizes the two-period
+DID assumption to the case where it holds in all periods and for all groups; see e.g. Heckman et al.
+(1997, 1998), Blundell et al. (2004), and Abadie (2005). It states that, conditional on covariates,
+the average outcomes for the group ﬁrst treated in period g and for the control group would
+have follow
+
+- Assumption 3: states that once an individual becomes treated, that individual will also be
+treated in the next period. With regards to the minimum wage application,
+
+- Assumption 3: says
 that once a state increases its minimum wage above the federal level, it does not decrease it back
 to the federal level during the analyzed period. Moreover, this assumption is consistent with most
 DID setups that exploit the enacting of a policy in some location while the policy is not enacted
 in another location.3
-Finally, Assumption 4 states that a positive fraction of the population started to be treated in
+Finally,
+
+- Assumption 4: states that a positive fraction of the population started to be treated in
 period g, and that, for any possible value of the covariates X, there is some positive probability
 3One could potentially relax this assumption by forming groups on the basis of having the entire path of
 treatment status being the same and then perform the same analysis that we do.
 8
 
+- Assumption 5: For all g = 2, . . . , T , (i) there exists a known function Λ : R →[0, 1] such that
+pg(X) = P(Gg = 1|X, Gg + C = 1) = Λ(X′π0
+g); (ii) π0
+g ∈int(Π), where Π is a compact subset of
+Rk; (iii) the support of X, X, is a subset of a compact set S, and E[XX′|Gg + C = 1] is positive
+deﬁnite; (iv) let U = {x′π : x ∈X, π ∈Π} ; ∀u ∈U, ∃ε > 0 such that Λ (u) ∈[ε, 1 −ε] , Λ (u) is
+strictly increasing and twice continuously diﬀerentiable with ﬁrst derivatives bounded away from
+zero and inﬁnity,
 
-that an individual is not treated.4 This is a standard covariate overlap condition, see e.g. Heckman
-et al. (1997, 1998), Blundell et al. (2004), Abadie (2005).
-Remark 1. In some applications, eventually all units are treated, implying that C is never equal
-to one. In such cases one can consider the “not yet treated” (Dt = 0) as a control group instead of
-the “never treated” (C = 1). We consider this case in Appendix C in the Supplementary Appendix,
-which resembles the event study research design, see e.g. Borusyak and Jaravel (2017).
----
-” holds potentially only after conditioning on observed
-covariates. We propose a simple two-step estimation strategy, establish the asymptotic prop-
-erties of the proposed estimators, and prove the validity of a computationally convenient
-bootstrap procedure. Furthermore we propose a semiparametric data-driven testing proce-
-dure to assess the credibility of the DID design in our context. Finally, we analyze the eﬀect
-of the minimum wage on teen employment from 2001-2007. By using our proposed methods
-we confront the challenges related to variation in the timing of the state-level minimum wage
-policy changes. Open-source software is available for implementing the proposed methods.
-JEL: C14, C21, C23, J23, J38.
-Keywords: Diﬀerence-in-Diﬀerences, Multiple Periods, Variation in Treatment Timing, Pre-
-Testing, Minimum Wage.
-∗We thank Andrew Goodman-Bacon, Federico Gutierrez, Na’Ama Shenhav, and seminar participants at the
-2017 Southern Economics Association for valuable comments. Code to implement the methods proposed in the
-paper are available in the R package did which is available on CRAN.
-†Department of Economics, Temple University. Email: brantly.callaway@temple.edu
-‡Department of Economics, Vanderbilt University. Email: pedro.h.santanna@vanderbilt.edu
-1
-
-
-1
-Introduction
-Diﬀerence-in-Diﬀerences (DID) has become one of the most popular designs used to evaluate the
-causal eﬀect of policy interventions.
-In its canonical format, there are two time periods and
-two groups: in the 
----
-.
-Assumption 1 (Sampling). {Yi1, Yi2, . . . YiT , Xi, Di1, Di2, . . . , DiT }n
-i=1 is independent and identi-
-cally distributed (iid).
-Assumption 2 (Conditional Parallel Trends). For all t = 2, . . . , T , g = 2, . . . , T such that g ≤t,
-E[Yt(0) −Yt−1(0)|X, Gg = 1] = E[Yt(0) −Yt−1(0)|X, C = 1] a.s..
-2Existence of expectations is assumed throughout.
-7
-
-
-Assumption 3 (Irreversibility of Treatment). For t = 2, . . . , T ,
-Dt = 1 implies that Dt+1 = 1
-Assumption 4 (Overlap). For all g = 2, . . . , T , P (Gg = 1) > 0 and pg(X) < 1 a.s..
-Assumption 1 implies that we are considering the case with panel data. The extension to
-the case with repeated cross sections is relatively simple and is developed in Appendix B in the
-Supplementary Appendix.
-Assumption 2, which we refer to as the (conditional) parallel trends assumption throughout the
-paper, is the crucial identifying restriction for our DID model, and it generalizes the two-period
-DID assumption to the case where it holds in all periods and for all groups; see e.g. Heckman et al.
-(1997, 1998), Blundell et al. (2004), and Abadie (2005). It states that, conditional on covariates,
-the average outcomes for the group ﬁrst treated in period g and for the control group would
-have followed parallel paths in the absence of treatment. We require this assumption to hold for
-all groups g and all time periods t such that g ≤t; that is, it holds in all periods after group
-g is ﬁrst treated. It is important to emphasize that the parallel trend
----
-1 - 4 and for 2 ≤g ≤t ≤T , the group-time average treatment
-eﬀect for group g in period t is nonparametrically identiﬁed, and given by
-ATT (g, t) = E
-
-
-
-
-
-
-Gg
-E [Gg] −
-pg (X) C
-1 −pg (X)
-E
- pg (X) C
-1 −pg (X)
-
-
-
-
-(Yt −Yg−1)
-
-.
-(2.1)
----
-1 - 4, a simple weighted average of “long diﬀerences”
-of the outcome variable recovers the group-time average treatment eﬀect. The weights depends
-on the generalized propensity score pg (X), and are normalized to one.
-The intuition for the
-weights is simple. One takes observations from the control group and group g, omitting other
-groups and then weights up observations from the control group that have characteristics similar
-to those frequently found in group g and weights down observations from the control group that
-have characteristics that are rarely found in group g. Such a reweighting procedures guarantees
-that the covariates of group g and the control group are balanced. Interestingly, in the standard
-DID setup of two periods only, E [p2 (X) C/ (1 −p2 (X))] = E [G2], and the results of Theorem 1
-reduces to Lemma 3.1 in Abadie (2005).
-4In our application on the minimum wage, we must take somewhat more care here as there are some periods
-where there are no states that increase their minimum wage. In this case, let G denote the set of ﬁrst treatment
-times with G ⊆{1, . . . , T }. Then, one can compute ATT(g, t) for groups g ∈G with g ≤t. This is a simple
-complication to deal with in practice, so we consider the notationally more convenient case where there are some
-individuals treated in all periods (possibly excluding period 1) in the main text of the paper.
-9
-
-
-To shed light on the role of the “long diﬀerence”, we give a sketch of how this argument works
-in the uncondi
 
 ---
 
 ## 方法论/识别策略
 
-We ﬁrst introduce the notation we use throughout the article. We consider the case with T periods
+Yit = αt + ci + βDit + θXi + ϵit,
+where Yit is the outcome of interest, αt is a time ﬁxed eﬀect, ci is an individual/group ﬁxed
+eﬀect, Dit is a treatment indicator that takes value one if an individual i is treated at time
+t and zero otherwise, Xi is a vector of observed characteristics, and ϵit is an error term, and
+interpret β as the causal eﬀect of interest. Despite the popularity of this approach, Wooldridge
+(2005), Chernozhukov et al. (2013), de Chaisemartin and D’Haultfoeuille (2016), Borusyak and
+Jaravel (2017), Goodman-Bacon (2017) and S loczy´nski (2017) have shown that once one allows
+for heterogeneous treatment eﬀects, β does not represent an easy to interpret average treatment
+1We thank Andrew Goodman-Bacon for sharing with us this statistic.
+2
+
+
+eﬀect parameter. As a consequence, inference about the eﬀectiveness of a given policy can be
+misleading when based on such a two-way ﬁxed eﬀects regression model.
+In this article we aim to ﬁll this important gap and consider identiﬁcation and inference proce-
+dures for average treatment eﬀects in DID models with (i) multiple time periods, (ii) variation in
+treatment timing, and (iii) when the parallel trends assumption holds potentially only after con-
+ditioning on observed covariates. First, we provide conditions under which the average treatment
+eﬀect for group g at time t is nonparametrically identiﬁed, where a “group” is deﬁned by when
+units are ﬁrst treated. We call these causal parameters group-time average treatment eﬀects.
+Second, although these disaggregated group-time average treatment eﬀects can be of interest
+by themselves, in some applications there are perhaps too many of them, potentially making the
+analysis of the eﬀectiveness of the policy intervention harder, particularly when the sample size
+is moderate. In such cases, researchers may be interested in summarizing these disaggregated
+causal eﬀects into a single, easy to interpret, causal parameter. We suggest diﬀerent ideas for
+combining the group-time average treatment eﬀects, depending on whether one allows for (a)
+selective treatment timing, i.e., allowing, for example, the possibility that individuals with the
+largest beneﬁts from participating in a treatment choose to become treated earlier than those
+with a smaller beneﬁt; (b) dynamic treatment eﬀects – where the eﬀect of a treatment can depend
+on the length of exposure to the treatment; or (c) calendar time eﬀects – where the eﬀect of
+treatment may depend on the time period. Overall, we note that the best way to aggregate the
+group-time average treatment eﬀects is likely to be application speciﬁc. Aggregating group-time
+parameters is also likely to increase statistical power.
+Third, we develop the asymptotic properties for a semiparametric two-step estimator for the
+group-time average treatment eﬀects, and for the diﬀerent aggregated causal parameters. Estimat-
+ing these treatment eﬀects involves estimating a generalized propensity score for each group g, and
+using th
 
 ---
 
@@ -170,38 +138,6 @@ to many papers in the goodness-of-ﬁt literature, including Bierens (1982), Bie
 jeiras (2013). Despite the similarities, we seem to be the ﬁrst to realize that such a procedure could
 be used to pre-test for the reliability of the conditional parallel trends identiﬁcation assumption.
 The remainder of this article is organized as follows. Section 2 presents our main identiﬁcation
-results. We discuss estimation and inference procedures for the treatment eﬀects of interest in
-Section 3. Section 4 describes our pre-tests for the credibility of the conditional parallel trends
-assumption.
-We revisit the eﬀect of minimum wage on employment in Section 5.
-Section 6
-concludes. All proofs are gathered in the Appendix.
-2
-Identiﬁcation
-2.1
-Framework
-We ﬁrst introduce the notation we use throughout the article. We consider the case with T periods
-and denote a particular time period by t where t = 1, . . . , T . In a standard DID setup, T = 2 and
-no one is treated in period 1. Let Dt be a binary variable equal to one if an individual is treated in
-period t and equal to zero otherwise. Also, deﬁne Gg to be a binary variable that is equal to one
-if an individual is ﬁrst treated in period g, and deﬁne C as a binary variable that is equal to one
-for individuals in the control group – these are individuals who are never treated so the notation
-6
-
-
-is not indexed by time. For each individual, exactly one of the Gg or C is equal to one. Denote
-the generalized propensity score as pg(X) = P(Gg = 1|X, Gg + C = 1). Note that pg(X) indicates
-the probability that an individual is treated conditional on having covariates X and conditional
-on being a member of group g or the control group. Finally, let Yt (1) and Yt (0) be the potential
-outcome at time t with and without treatment, respectively. The observed outcome in each period
-can be expressed as Yt = DtYt (1) + (1 −Dt) Yt (0) .
-Given that Yt (1) and Yt (0) cannot be observed for the same individual at the same time,
-researchers often focus on estimating some function of the potential outcomes. For instance, in
-the standard DID setup, the most popular treatment eﬀect parameter is the average treatment
-eﬀect on the treated, denoted by2
-ATT = E[Y2(1) −Y2(0)|G2 = 1].
-Unlike the two period and two group case, when there are more than two periods and variation
-in treatment timing, it is not obvious which is the main causal parameter of i
 
 ---
 
@@ -223,5 +159,5 @@ in treatment timing, it is not obvious which is the main causal parameter of i
 
 ## 与现有文档的差异
 
-<!-- 手动填写或自动对比后填写 -->
+<!-- 由 CalibrationAgent 自动填写 -->
 

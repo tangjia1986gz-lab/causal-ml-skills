@@ -29,7 +29,7 @@ DATA & DESIGN
 PROPENSITY SCORE MODEL
 [ ] PS estimation method (logit, probit, ML)
 [ ] All covariates included in PS model
-[ ] Model diagnostics (AUC, calibration)
+[ ] Model diagnostics (AUC, calibration, pseudo R-squared)
 
 MATCHING
 [ ] Matching algorithm used
@@ -161,6 +161,37 @@ def create_balance_table(
     else:
         return _format_markdown(rows)
 ```
+
+---
+
+## 2.5 PS Model Fit Statistics
+
+### Required Fit Metrics
+
+| Metric | Purpose | Target/Interpretation |
+|--------|---------|----------------------|
+| **Pseudo R-squared** | Overall model fit | 0.2-0.4 typical; >0.5 may indicate overfitting |
+| **AUC (C-statistic)** | Discrimination | 0.6-0.8 ideal; >0.9 problematic (poor overlap) |
+| **Hosmer-Lemeshow** | Calibration | p > 0.05 suggests adequate fit |
+| **Brier Score** | Prediction accuracy | Lower is better; compare to null model |
+
+### Reporting Template
+
+```
+PROPENSITY SCORE MODEL FIT
+==========================
+Model: Logistic Regression
+Covariates: [N] variables
+Pseudo R-squared (McFadden): 0.XX
+AUC (C-statistic): 0.XX (95% CI: [X.XX, X.XX])
+Hosmer-Lemeshow chi-square: X.XX (p = X.XX)
+```
+
+### Interpretation Notes
+
+- **High R-squared/AUC**: May indicate near-deterministic treatment assignment → poor overlap
+- **Low R-squared/AUC**: Treatment appears nearly random given covariates → good for causal inference
+- **Poor calibration**: PS values don't reflect true treatment probabilities → consider recalibration
 
 ---
 

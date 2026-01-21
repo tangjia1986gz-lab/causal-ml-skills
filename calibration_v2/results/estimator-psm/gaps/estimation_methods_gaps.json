@@ -1,0 +1,32 @@
+{
+  "skill_name": "estimator-psm",
+  "component": "estimation_methods",
+  "coverage_score": 1.0,
+  "papers_analyzed": 5,
+  "gaps": [
+    {
+      "gap_id": "4e595092",
+      "category": "estimation methods",
+      "severity": "minor",
+      "description": "可能缺失的内容: Evidence from Evaluating a Job\nTraining Program.” Review of Economic Studies 65:261–294.Google\nSchol",
+      "source_paper": "文献",
+      "source_section": "methodology",
+      "existing_content": "",
+      "suggested_addition": "Evidence from Evaluating a Job\nTraining Program.” Review of Economic Studies 65:261–294.Google\nScholar\nHill, J. 2008. “Discussion of Research Using Propensity-Score\nMatching: Comments on “A Critical A",
+      "target_file": "references/estimation_methods.md",
+      "confidence": 0.7
+    },
+    {
+      "gap_id": "ce6a2cb0",
+      "category": "estimation methods",
+      "severity": "minor",
+      "description": "可能缺失的内容: conventional weighting",
+      "source_paper": "文献",
+      "source_section": "abstract",
+      "existing_content": "",
+      "suggested_addition": "conventional weighting",
+      "target_file": "references/estimation_methods.md",
+      "confidence": 0.7
+    }
+  ]
+}

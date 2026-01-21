@@ -1,0 +1,21 @@
+{
+  "skill_name": "causal-mediation-ml",
+  "phases_completed": [
+    "literature",
+    "extraction",
+    "gap_analysis",
+    "validation",
+    "quality_gate"
+  ],
+  "papers_found": 6,
+  "papers_extracted": 3,
+  "gaps_identified": 2,
+  "formula_score": 1.0,
+  "citation_score": 1.0,
+  "overall_score": 1.0,
+  "passed": true,
+  "updates_generated": 0,
+  "errors": [],
+  "started_at": "2026-01-21T21:02:24.329538",
+  "completed_at": null
+}

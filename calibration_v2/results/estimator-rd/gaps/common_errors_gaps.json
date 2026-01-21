@@ -1,0 +1,32 @@
+{
+  "skill_name": "estimator-rd",
+  "component": "common_errors",
+  "coverage_score": 0.5667,
+  "papers_analyzed": 5,
+  "gaps": [
+    {
+      "gap_id": "d92c606a",
+      "category": "common errors",
+      "severity": "major",
+      "description": "关键术语缺失: extrapolation",
+      "source_paper": "文献综合",
+      "source_section": "multiple",
+      "existing_content": "",
+      "suggested_addition": "添加 'extrapolation' 的描述和形式化定义",
+      "target_file": "references/common_errors.md",
+      "confidence": 0.9
+    },
+    {
+      "gap_id": "af868ceb",
+      "category": "common errors",
+      "severity": "minor",
+      "description": "可能缺失的内容: extrapolation",
+      "source_paper": "文献",
+      "source_section": "abstract",
+      "existing_content": "",
+      "suggested_addition": "ation strategy is illustrated with data on applicants to Boston exam schools. Functional-form-based\nextrapolation generates unsatisfying results in this context, either noisy or not very robust. By contrast,\nident",
+      "target_file": "references/common_errors.md",
+      "confidence": 0.7
+    }
+  ]
+}

@@ -1,0 +1,236 @@
+{
+  "estimator-did": {
+    "category": "classic-methods",
+    "priority": 1,
+    "components": [
+      "identification_assumptions",
+      "estimation_methods",
+      "diagnostic_tests",
+      "reporting_standards",
+      "common_errors"
+    ],
+    "query_count": 13,
+    "core_citations_count": 6
+  },
+  "estimator-rd": {
+    "category": "classic-methods",
+    "priority": 1,
+    "components": [
+      "identification_assumptions",
+      "estimation_methods",
+      "diagnostic_tests",
+      "reporting_standards",
+      "common_errors"
+    ],
+    "query_count": 12,
+    "core_citations_count": 5
+  },
+  "estimator-iv": {
+    "category": "classic-methods",
+    "priority": 1,
+    "components": [
+      "identification_assumptions",
+      "estimation_methods",
+      "diagnostic_tests",
+      "reporting_standards",
+      "common_errors"
+    ],
+    "query_count": 12,
+    "core_citations_count": 4
+  },
+  "estimator-psm": {
+    "category": "classic-methods",
+    "priority": 1,
+    "components": [
+      "identification_assumptions",
+      "estimation_methods",
+      "diagnostic_tests",
+      "reporting_standards",
+      "common_errors"
+    ],
+    "query_count": 12,
+    "core_citations_count": 5
+  },
+  "panel-data-models": {
+    "category": "classic-methods",
+    "priority": 2,
+    "components": [
+      "identification_assumptions",
+      "estimation_methods",
+      "diagnostic_tests",
+      "reporting_standards"
+    ],
+    "query_count": 9,
+    "core_citations_count": 3
+  },
+  "time-series-econometrics": {
+    "category": "classic-methods",
+    "priority": 2,
+    "components": [
+      "identification_assumptions",
+      "estimation_methods",
+      "diagnostic_tests"
+    ],
+    "query_count": 9,
+    "core_citations_count": 3
+  },
+  "discrete-choice-models": {
+    "category": "classic-methods",
+    "priority": 2,
+    "components": [
+      "identification_assumptions",
+      "estimation_methods",
+      "diagnostic_tests"
+    ],
+    "query_count": 9,
+    "core_citations_count": 3
+  },
+  "causal-concept-guide": {
+    "category": "classic-methods",
+    "priority": 3,
+    "components": [
+      "identification_assumptions"
+    ],
+    "query_count": 3,
+    "core_citations_count": 3
+  },
+  "causal-ddml": {
+    "category": "causal-ml",
+    "priority": 2,
+    "components": [
+      "identification_assumptions",
+      "estimation_methods",
+      "diagnostic_tests"
+    ],
+    "query_count": 6,
+    "core_citations_count": 3
+  },
+  "causal-forest": {
+    "category": "causal-ml",
+    "priority": 2,
+    "components": [
+      "identification_assumptions",
+      "estimation_methods",
+      "diagnostic_tests"
+    ],
+    "query_count": 7,
+    "core_citations_count": 3
+  },
+  "structural-equation-modeling": {
+    "category": "causal-ml",
+    "priority": 2,
+    "components": [
+      "identification_assumptions",
+      "estimation_methods",
+      "diagnostic_tests",
+      "reporting_standards"
+    ],
+    "query_count": 10,
+    "core_citations_count": 4
+  },
+  "bayesian-econometrics": {
+    "category": "causal-ml",
+    "priority": 3,
+    "components": [
+      "identification_assumptions",
+      "estimation_methods",
+      "diagnostic_tests"
+    ],
+    "query_count": 6,
+    "core_citations_count": 3
+  },
+  "causal-mediation-ml": {
+    "category": "causal-ml",
+    "priority": 2,
+    "components": [
+      "identification_assumptions",
+      "estimation_methods",
+      "diagnostic_tests"
+    ],
+    "query_count": 6,
+    "core_citations_count": 3
+  },
+  "paper-replication-workflow": {
+    "category": "causal-ml",
+    "priority": 3,
+    "components": [
+      "reporting_standards"
+    ],
+    "query_count": 3,
+    "core_citations_count": 1
+  },
+  "ml-preprocessing": {
+    "category": "ml-foundation",
+    "priority": 3,
+    "components": [
+      "estimation_methods",
+      "diagnostic_tests"
+    ],
+    "query_count": 3,
+    "core_citations_count": 1
+  },
+  "ml-model-linear": {
+    "category": "ml-foundation",
+    "priority": 3,
+    "components": [
+      "estimation_methods",
+      "diagnostic_tests"
+    ],
+    "query_count": 3,
+    "core_citations_count": 2
+  },
+  "ml-model-tree": {
+    "category": "ml-foundation",
+    "priority": 3,
+    "components": [
+      "estimation_methods",
+      "diagnostic_tests"
+    ],
+    "query_count": 3,
+    "core_citations_count": 3
+  },
+  "ml-model-advanced": {
+    "category": "ml-foundation",
+    "priority": 4,
+    "components": [
+      "estimation_methods"
+    ],
+    "query_count": 3,
+    "core_citations_count": 1
+  },
+  "statistical-analysis": {
+    "category": "ml-foundation",
+    "priority": 3,
+    "components": [
+      "estimation_methods",
+      "diagnostic_tests"
+    ],
+    "query_count": 3,
+    "core_citations_count": 1
+  },
+  "econometric-eda": {
+    "category": "ml-foundation",
+    "priority": 3,
+    "components": [
+      "diagnostic_tests"
+    ],
+    "query_count": 3,
+    "core_citations_count": 1
+  },
+  "scientific-writing-econ": {
+    "category": "infrastructure",
+    "priority": 3,
+    "components": [
+      "reporting_standards"
+    ],
+    "query_count": 3,
+    "core_citations_count": 1
+  },
+  "setup-causal-ml-env": {
+    "category": "infrastructure",
+    "priority": 4,
+    "components": [],
+    "query_count": 0,
+    "core_citations_count": 0
+  }
+}

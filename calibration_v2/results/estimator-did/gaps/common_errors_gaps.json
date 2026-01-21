@@ -1,0 +1,20 @@
+{
+  "skill_name": "estimator-did",
+  "component": "common_errors",
+  "coverage_score": 1.0,
+  "papers_analyzed": 4,
+  "gaps": [
+    {
+      "gap_id": "8cf90479",
+      "category": "common errors",
+      "severity": "minor",
+      "description": "可能缺失的内容: s selecting tuning parame-\nters",
+      "source_paper": "文献",
+      "source_section": "methodology",
+      "existing_content": "",
+      "suggested_addition": "s selecting tuning parame-\nters",
+      "target_file": "references/common_errors.md",
+      "confidence": 0.7
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "skill_name": "estimator-psm",
+  "component": "diagnostic_tests",
+  "coverage_score": 1.0,
+  "papers_analyzed": 5,
+  "gaps": [
+    {
+      "gap_id": "20c9d236",
+      "category": "diagnostic tests",
+      "severity": "minor",
+      "description": "可能缺失的内容: s are often not appropriately conducted and reported in the literature and therefore the validity of",
+      "source_paper": "文献",
+      "source_section": "abstract",
+      "existing_content": "",
+      "suggested_addition": "s are often not appropriately conducted and reported in the literature and therefore the validity of the findings from the PSM analysis is not warranted",
+      "target_file": "references/diagnostic_tests.md",
+      "confidence": 0.7
+    },
+    {
+      "gap_id": "2807074b",
+      "category": "diagnostic tests",
+      "severity": "minor",
+      "description": "可能缺失的内容: s is provided and explained",
+      "source_paper": "文献",
+      "source_section": "abstract",
+      "existing_content": "",
+      "suggested_addition": "s is provided and explained",
+      "target_file": "references/diagnostic_tests.md",
+      "confidence": 0.7
+    },
+    {
+      "gap_id": "3f1c75c2",
+      "category": "diagnostic tests",
+      "severity": "minor",
+      "description": "可能缺失的内容: for methods estimating causal eﬀects from observational",
+      "source_paper": "文献",
+      "source_section": "abstract",
+      "existing_content": "",
+      "suggested_addition": "for methods estimating causal eﬀects from observational",
+      "target_file": "references/diagnostic_tests.md",
+      "confidence": 0.7
+    }
+  ]
+}

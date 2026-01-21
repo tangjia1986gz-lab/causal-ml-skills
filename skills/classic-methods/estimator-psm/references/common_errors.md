@@ -511,7 +511,89 @@ weights_atu = calculate_atu_weights(ps, treatment)
 
 ---
 
-## 9. Quick Reference: Error Prevention Checklist
+## 9. Model Dependence Problem
+
+### 9.1 The Error
+
+Relying on propensity score matching when results are highly **model dependent** - sensitive to arbitrary modeling choices that cannot be verified from the data.
+
+### 9.2 Why It's a Problem (King & Nielsen 2019)
+
+Propensity score matching can increase:
+- **Imbalance**: Worse covariate balance than random matching
+- **Inefficiency**: Higher variance estimates
+- **Model dependence**: Results change with minor specification changes
+- **Bias**: Systematic errors in treatment effect estimates
+
+### 9.3 The Propensity Score Paradox
+
+```
+As PS model improves (higher AUC) → Overlap decreases
+As overlap decreases → More extrapolation required
+More extrapolation → Higher model dependence
+```
+
+King & Nielsen demonstrate that **pruning observations to improve PS matching paradoxically increases model dependence**.
+
+### 9.4 Detecting Model Dependence
+
+```python
+def assess_model_dependence(data, outcome, treatment, covariates,
+                            n_specifications=20, seed=42):
+    """
+    Assess sensitivity of estimates to model specification.
+
+    High variance across specifications = high model dependence.
+    """
+    np.random.seed(seed)
+    estimates = []
+
+    for i in range(n_specifications):
+        # Vary PS model specification
+        selected_covs = np.random.choice(
+            covariates,
+            size=np.random.randint(len(covariates)//2, len(covariates)),
+            replace=False
+        )
+
+        # Estimate PS with subset
+        ps = estimate_ps(data, treatment, list(selected_covs))
+
+        # Match and estimate
+        effect = match_and_estimate(data, outcome, treatment, ps)
+        estimates.append(effect)
+
+    return {
+        'mean': np.mean(estimates),
+        'std': np.std(estimates),
+        'range': (min(estimates), max(estimates)),
+        'model_dependence': np.std(estimates) / abs(np.mean(estimates))  # CV
+    }
+```
+
+### 9.5 Better Alternatives
+
+| Method | Model Dependence | When to Use |
+|--------|------------------|-------------|
+| **Exact Matching** | Low | Few discrete covariates |
+| **CEM** | Low | Moderate covariate set |
+| **Mahalanobis** | Medium | Continuous covariates |
+| **Genetic Matching** | Medium-Low | Optimizes balance directly |
+| **PSM** | High | Avoid or use carefully |
+
+### 9.6 Correction
+
+If using PSM:
+1. **Report model dependence analysis**
+2. **Compare to exact/CEM matching** when feasible
+3. **Use doubly robust estimators** (AIPW)
+4. **Bound the bias** from model dependence
+
+**Reference**: King, G., & Nielsen, R. (2019). Why Propensity Scores Should Not Be Used for Matching. *Political Analysis*, 27(4), 435-454.
+
+---
+
+## 10. Quick Reference: Error Prevention Checklist
 
 ```
 PSM ERROR PREVENTION CHECKLIST

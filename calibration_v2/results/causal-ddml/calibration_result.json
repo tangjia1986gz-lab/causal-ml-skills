@@ -1,0 +1,21 @@
+{
+  "skill_name": "causal-ddml",
+  "phases_completed": [
+    "literature",
+    "extraction",
+    "gap_analysis",
+    "validation",
+    "quality_gate"
+  ],
+  "papers_found": 4,
+  "papers_extracted": 0,
+  "gaps_identified": 0,
+  "formula_score": 1.0,
+  "citation_score": 0.6897,
+  "overall_score": 0.9628,
+  "passed": true,
+  "updates_generated": 0,
+  "errors": [],
+  "started_at": "2026-01-21T21:01:02.629370",
+  "completed_at": null
+}

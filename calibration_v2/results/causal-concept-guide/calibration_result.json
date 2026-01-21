@@ -1,0 +1,21 @@
+{
+  "skill_name": "causal-concept-guide",
+  "phases_completed": [
+    "literature",
+    "extraction",
+    "gap_analysis",
+    "validation",
+    "quality_gate"
+  ],
+  "papers_found": 3,
+  "papers_extracted": 0,
+  "gaps_identified": 0,
+  "formula_score": 1.0,
+  "citation_score": 1.0,
+  "overall_score": 0.92,
+  "passed": true,
+  "updates_generated": 0,
+  "errors": [],
+  "started_at": "2026-01-21T21:00:54.317042",
+  "completed_at": null
+}

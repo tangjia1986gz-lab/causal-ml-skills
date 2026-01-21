@@ -1,0 +1,32 @@
+{
+  "skill_name": "estimator-iv",
+  "component": "reporting_standards",
+  "coverage_score": 0.7333,
+  "papers_analyzed": 5,
+  "gaps": [
+    {
+      "gap_id": "ddeaf510",
+      "category": "reporting standards",
+      "severity": "major",
+      "description": "关键术语缺失: sample size",
+      "source_paper": "文献综合",
+      "source_section": "multiple",
+      "existing_content": "",
+      "suggested_addition": "添加 'sample size' 的描述和形式化定义",
+      "target_file": "references/reporting_standards.md",
+      "confidence": 0.9
+    },
+    {
+      "gap_id": "6a07c68a",
+      "category": "reporting standards",
+      "severity": "minor",
+      "description": "可能缺失的内容: sample size",
+      "source_paper": "文献",
+      "source_section": "estimation",
+      "existing_content": "",
+      "suggested_addition": "uments in the ﬁrst-stage regression to be in a n−1\n2 shrinking neighborhood of zero, where n\nis the sample size. An interesting feature of the Staiger-Stock framework is that unlike the conventional asymptotic\ns",
+      "target_file": "references/reporting_standards.md",
+      "confidence": 0.7
+    }
+  ]
+}

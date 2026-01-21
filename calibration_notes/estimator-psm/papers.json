@@ -1,0 +1,183 @@
+[
+  {
+    "paper_id": "f0b25b16bdcb7b6418e284255b9e2ba32a7585d4",
+    "title": "The central role of the propensity score in observational studies for causal effects",
+    "authors": [
+      "P. Rosenbaum",
+      "Donald B. Rubin"
+    ],
+    "year": 1983,
+    "venue": "",
+    "citations": 31493,
+    "abstract": null,
+    "pdf_url": "https://doi.org/10.2307/2335942",
+    "external_ids": {
+      "MAG": "2150291618",
+      "DOI": "10.1093/BIOMET/70.1.41",
+      "CorpusId": 49190930
+    }
+  },
+  {
+    "paper_id": "a7f0cc61b3801edd7d3fb41a730ce73e002d7c06",
+    "title": "Some Practical Guidance for the Implementation of Propensity Score Matching",
+    "authors": [
+      "Marco Caliendo",
+      "Sabine Kopeinig"
+    ],
+    "year": 2005,
+    "venue": "Social Science Research Network",
+    "citations": 6819,
+    "abstract": "Propensity Score Matching (PSM) has become a popular approach to estimate causal treatment effects. It is widely applied when evaluating labour market policies, but empirical examples can be found in very diverse fields of study. Once the researcher has decided to use PSM, he is confronted with a lot of questions regarding its implementation. To begin with, a first decision has to be made concerning the estimation of the propensity score. Following that one has to decide which matching algorithm to choose and determine the region of common support. Subsequently, the matching quality has to be assessed and treatment effects and their standard errors have to be estimated. Furthermore, questions like \"what to do if there is choice-based sampling?\" or \"when to measure effects?\" can be important in empirical studies. Finally, one might also want to test the sensitivity of estimated treatment effects with respect to unobserved heterogeneity or failure of the common support condition. Each implementation step involves a lot of decisions and different approaches can be thought of. The aim of this paper is to discuss these implementation issues and give some guidance to researchers who want to use PSM for evaluation purposes.",
+    "pdf_url": "http://www.diw.de/documents/publikationen/73/diw_01.c.43214.de/dp485.pdf",
+    "external_ids": {
+      "MAG": "2159805452",
+      "DOI": "10.1111/j.1467-6419.2007.00527.x",
+      "CorpusId": 17972477
+    }
+  },
+  {
+    "paper_id": "6ed0d74a74850568d8d9a92f49c2e90317dc722d",
+    "title": "Identification and Estimation of Local Average Treatment Effects",
+    "authors": [
+      "J. Angrist",
+      "G. Imbens"
+    ],
+    "year": 1994,
+    "venue": "",
+    "citations": 5068,
+    "abstract": null,
+    "pdf_url": "https://doi.org/10.3386/t0118",
+    "external_ids": {
+      "MAG": "1528117226",
+      "DOI": "10.3386/T0118",
+      "CorpusId": 153123153
+    }
+  },
+  {
+    "paper_id": "6793fb76ff0acdaea9f45876f84c252fa45efc01",
+    "title": "Large Sample Properties of Matching Estimators for Average Treatment Effects",
+    "authors": [
+      "Alberto Abadie",
+      "G. Imbens"
+    ],
+    "year": 2004,
+    "venue": "",
+    "citations": 3044,
+    "abstract": null,
+    "pdf_url": "https://onlinelibrary.wiley.com/doi/pdfdirect/10.1111/j.1468-0262.2006.00655.x",
+    "external_ids": {
+      "MAG": "2171443468",
+      "DOI": "10.1111/J.1468-0262.2006.00655.X",
+      "CorpusId": 296515
+    }
+  },
+  {
+    "paper_id": "b9d23c91c9054433a4b5d31553f55cf6ae7880b1",
+    "title": "The Role of the Propensity Score in Estimating Dose-Response Functions",
+    "authors": [
+      "G. Imbens"
+    ],
+    "year": 1999,
+    "venue": "",
+    "citations": 1999,
+    "abstract": null,
+    "pdf_url": "http://www.nber.org/papers/t0237.pdf",
+    "external_ids": {
+      "MAG": "1982974716",
+      "DOI": "10.1093/BIOMET/87.3.706",
+      "CorpusId": 119877334
+    }
+  },
+  {
+    "paper_id": "f1d8ebd5106eb6227d8fe46c02cd42e02c0802ea",
+    "title": "Bias-Corrected Matching Estimators for Average Treatment Effects",
+    "authors": [
+      "Alberto Abadie",
+      "G. Imbens"
+    ],
+    "year": 2011,
+    "venue": "",
+    "citations": 1903,
+    "abstract": null,
+    "pdf_url": "",
+    "external_ids": {
+      "MAG": "2094368311",
+      "DOI": "10.1198/jbes.2009.07333",
+      "CorpusId": 15868782
+    }
+  },
+  {
+    "paper_id": "3c99b826b76319e99abfd227846033e78a7cb9bd",
+    "title": "Why Propensity Scores Should Not Be Used for Matching",
+    "authors": [
+      "Gary King",
+      "Richard A. Nielsen"
+    ],
+    "year": 2019,
+    "venue": "Political Analysis",
+    "citations": 1575,
+    "abstract": "We show that propensity score matching (PSM), an enormously popular method of preprocessing data for causal inference, often accomplishes the opposite of its intended goal—thus increasing imbalance, inefficiency, model dependence, and bias. The weakness of PSM comes from its attempts to approximate a completely randomized experiment, rather than, as with other matching methods, a more efficient fully blocked randomized experiment. PSM is thus uniquely blind to the often large portion of imbalance that can be eliminated by approximating full blocking with other matching methods. Moreover, in data balanced enough to approximate complete randomization, either to begin with or after pruning some observations, PSM approximates random matching which, we show, increases imbalance even relative to the original data. Although these results suggest researchers replace PSM with one of the other available matching methods, propensity scores have other productive uses.",
+    "pdf_url": "https://www.cambridge.org/core/services/aop-cambridge-core/content/view/94DDE7ED8E2A796B693096EB714BE68B/S1047198719000111a.pdf/div-class-title-why-propensity-scores-should-not-be-used-for-matching-div.pdf",
+    "external_ids": {
+      "MAG": "2910632137",
+      "DOI": "10.1017/pan.2019.11",
+      "CorpusId": 53585283
+    }
+  },
+  {
+    "paper_id": "be21d74ebfcba8abd55551de6ab7add30b028732",
+    "title": "Implementing Matching Estimators for Average Treatment Effects in Stata",
+    "authors": [
+      "Alberto Abadie",
+      "D. Drukker",
+      "Jane Leber Herr",
+      "G. Imbens"
+    ],
+    "year": 2004,
+    "venue": "",
+    "citations": 1500,
+    "abstract": null,
+    "pdf_url": "https://journals.sagepub.com/doi/pdf/10.1177/1536867X0400400307",
+    "external_ids": {
+      "MAG": "2096206955",
+      "DOI": "10.1177/1536867X0400400307",
+      "CorpusId": 32596065
+    }
+  },
+  {
+    "paper_id": "9d614c928f31491bd5d6b8c654d09912f03d520b",
+    "title": "Estimation of Causal Effects using Propensity Score Weighting: An Application to Data on Right Heart Catheterization",
+    "authors": [
+      "K. Hirano",
+      "G. Imbens"
+    ],
+    "year": 2001,
+    "venue": "Health Services & Outcomes Research Methodology",
+    "citations": 1181,
+    "abstract": null,
+    "pdf_url": "",
+    "external_ids": {
+      "MAG": "2176874128",
+      "DOI": "10.1023/A:1020371312283",
+      "CorpusId": 3346892
+    }
+  },
+  {
+    "paper_id": "4f002349143b111d870ea41a8f64adab395ef059",
+    "title": "Matching on the Estimated Propensity Score",
+    "authors": [
+      "Alberto Abadie",
+      "G. Imbens"
+    ],
+    "year": 2009,
+    "venue": "",
+    "citations": 942,
+    "abstract": null,
+    "pdf_url": "",
+    "external_ids": {
+      "MAG": "2891975640",
+      "DOI": "10.3982/ECTA11293",
+      "CorpusId": 3745109
+    }
+  }
+]

@@ -1,0 +1,184 @@
+[
+  {
+    "paper_id": "807cf016b333161356e9493d523178d61841fc9e",
+    "title": "Instrumental Variables Regression with Weak Instruments",
+    "authors": [
+      "D. Staiger",
+      "J. Stock"
+    ],
+    "year": 1994,
+    "venue": "",
+    "citations": 9026,
+    "abstract": null,
+    "pdf_url": "http://www.nber.org/papers/t0151.pdf",
+    "external_ids": {
+      "MAG": "2165144879",
+      "DOI": "10.3386/T0151",
+      "CorpusId": 123970670
+    }
+  },
+  {
+    "paper_id": "022cbf30ea5acec90318925979260dd90352c4bf",
+    "title": "A Survey of Weak Instruments and Weak Identification in Generalized Method of Moments",
+    "authors": [
+      "J. Stock",
+      "Jonathan H. Wright",
+      "Motohiro Yogo"
+    ],
+    "year": 2002,
+    "venue": "",
+    "citations": 4495,
+    "abstract": null,
+    "pdf_url": "",
+    "external_ids": {
+      "MAG": "2083485815",
+      "DOI": "10.1198/073500102288618658",
+      "CorpusId": 14793271
+    }
+  },
+  {
+    "paper_id": "144f635caee0f45203a4eaf9a0b68ff52ca9f610",
+    "title": "Problems with Instrumental Variables Estimation when the Correlation between the Instruments and the Endogenous Explanatory Variable is Weak",
+    "authors": [
+      "J. Bound",
+      "David A. Jaeger",
+      "Regina S. Baker"
+    ],
+    "year": 1995,
+    "venue": "",
+    "citations": 4359,
+    "abstract": null,
+    "pdf_url": "",
+    "external_ids": {
+      "MAG": "1980412904",
+      "DOI": "10.1080/01621459.1995.10476536",
+      "CorpusId": 119804241
+    }
+  },
+  {
+    "paper_id": "e29ceffce6e15f3e184c7490713da196fdaac59b",
+    "title": "Empirical Strategies in Labor Economics",
+    "authors": [
+      "J. Angrist",
+      "A. Krueger"
+    ],
+    "year": 1998,
+    "venue": "",
+    "citations": 1752,
+    "abstract": null,
+    "pdf_url": "https://dspace.mit.edu/bitstream/1721.1/63521/1/empiricalstrateg00angr.pdf",
+    "external_ids": {
+      "MAG": "1483323320",
+      "DOI": "10.1016/S1573-4463(99)03004-7",
+      "CorpusId": 152307712
+    }
+  },
+  {
+    "paper_id": "98bf709023b0f253f33c305b2d42c5f127b717e0",
+    "title": "GMM WITH WEAK IDENTIFICATION",
+    "authors": [
+      "J. Stock",
+      "Jonathan H. Wright"
+    ],
+    "year": 2000,
+    "venue": "",
+    "citations": 831,
+    "abstract": null,
+    "pdf_url": "http://www.ssc.wisc.edu/~bhansen/718/StockWright2000.pdf",
+    "external_ids": {
+      "MAG": "2158179451",
+      "DOI": "10.1111/1468-0262.00151",
+      "CorpusId": 122644861
+    }
+  },
+  {
+    "paper_id": "80e41bb5f86000baae7e00465eaac8e2457ece37",
+    "title": "The Effect of Age at School Entry on Educational Attainment: An Application of Instrumental Variables with Moments from Two Samples",
+    "authors": [
+      "J. Angrist",
+      "A. Krueger"
+    ],
+    "year": 1990,
+    "venue": "",
+    "citations": 755,
+    "abstract": null,
+    "pdf_url": "http://www.nber.org/papers/w3571.pdf",
+    "external_ids": {
+      "MAG": "2015046142",
+      "DOI": "10.1080/01621459.1992.10475212",
+      "CorpusId": 121672720
+    }
+  },
+  {
+    "paper_id": "09d309cee5f28788abcb391bbbaf56c1ba62c835",
+    "title": "Some Impossibility Theorems in Econometrics with Applications to Structural and Dynamic Models",
+    "authors": [
+      "Jean-Marie Dufour"
+    ],
+    "year": 1997,
+    "venue": "",
+    "citations": 632,
+    "abstract": null,
+    "pdf_url": "",
+    "external_ids": {
+      "MAG": "2122480349",
+      "DOI": "10.2307/2171740",
+      "CorpusId": 7668547
+    }
+  },
+  {
+    "paper_id": "c9e830074084952064a139fd17e7ff55a8788e60",
+    "title": "Weak Instruments in Instrumental Variables Regression: Theory and Practice",
+    "authors": [
+      "Isaiah Andrews",
+      "J. Stock",
+      "Liyang Sun"
+    ],
+    "year": 2019,
+    "venue": "Annual Review of Economics",
+    "citations": 617,
+    "abstract": "When instruments are weakly correlated with endogenous regressors, conventional methods for instrumental variables (IV) estimation and inference become unreliable. A large literature in econometrics has developed procedures for detecting weak instruments and constructing robust confidence sets, but many of the results in this literature are limited to settings with independent and homoskedastic data, while data encountered in practice frequently violate these assumptions. We review the literature on weak instruments in linear IV regression with an emphasis on results for nonhomoskedastic (heteroskedastic, serially correlated, or clustered) data. To assess the practical importance of weak instruments, we also report tabulations and simulations based on a survey of papers published in the American Economic Review from 2014 to 2018 that use IV. These results suggest that weak instruments remain an important issue for empirical practice, and that there are simple steps that researchers can take to better handle weak instruments in applications.",
+    "pdf_url": "https://www.annualreviews.org/doi/pdf/10.1146/annurev-economics-080218-025643",
+    "external_ids": {
+      "MAG": "2969444038",
+      "DOI": "10.1146/ANNUREV-ECONOMICS-080218-025643",
+      "CorpusId": 202126769
+    }
+  },
+  {
+    "paper_id": "4adfb0df278904a85fc167ab003e3e87e1d2e905",
+    "title": "Asymptotic Distributions of Instrumental Variables Statistics with Many Instruments",
+    "authors": [
+      "J. Stock",
+      "Motohiro Yogo"
+    ],
+    "year": 2004,
+    "venue": "",
+    "citations": 562,
+    "abstract": null,
+    "pdf_url": "",
+    "external_ids": {
+      "MAG": "1554034469",
+      "DOI": "10.1017/CBO9780511614491.007",
+      "CorpusId": 116949151
+    }
+  },
+  {
+    "paper_id": "73df9e247170a26f3b59dc058ba71b7019815e36",
+    "title": "Split-Sample Instrumental Variables Estimates of the Return to Schooling",
+    "authors": [
+      "J. Angrist",
+      "A. Krueger"
+    ],
+    "year": 1995,
+    "venue": "",
+    "citations": 414,
+    "abstract": null,
+    "pdf_url": "",
+    "external_ids": {
+      "MAG": "2086426685",
+      "DOI": "10.1080/07350015.1995.10524597",
+      "CorpusId": 56415374
+    }
+  }
+]

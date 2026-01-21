@@ -1,0 +1,20 @@
+{
+  "skill_name": "estimator-rd",
+  "component": "estimation_methods",
+  "coverage_score": 1.0,
+  "papers_analyzed": 5,
+  "gaps": [
+    {
+      "gap_id": "7a8d14f6",
+      "category": "estimation methods",
+      "severity": "minor",
+      "description": "可能缺失的内容: conclusion that",
+      "source_paper": "文献",
+      "source_section": "estimation",
+      "existing_content": "",
+      "suggested_addition": "conclusion that",
+      "target_file": "references/estimation_methods.md",
+      "confidence": 0.7
+    }
+  ]
+}

@@ -439,12 +439,21 @@ This is untestable. Use sensitivity analysis to assess robustness.
 ## References
 
 ### Seminal Papers
-- Rosenbaum, P. R., & Rubin, D. B. (1983). The Central Role of the Propensity Score. *Biometrika*, 70(1), 41-55.
-- Abadie, A., & Imbens, G. W. (2006). Large Sample Properties of Matching Estimators. *Econometrica*, 74(1), 235-267.
+- Rosenbaum, P. R., & Rubin, D. B. (1983). The Central Role of the Propensity Score in Observational Studies. *Biometrika*, 70(1), 41-55. [31,493 citations]
+- Imbens, G. W., & Angrist, J. D. (1994). Identification and Estimation of Local Average Treatment Effects. *Econometrica*, 62(2), 467-475. [5,068 citations]
+- Abadie, A., & Imbens, G. W. (2006). Large Sample Properties of Matching Estimators for Average Treatment Effects. *Econometrica*, 74(1), 235-267. [3,044 citations]
+
+### Methodological Papers
+- Hirano, K., Imbens, G. W., & Ridder, G. (2003). Efficient Estimation of Average Treatment Effects Using the Estimated Propensity Score. *Econometrica*, 71(4), 1161-1189. [1,999 citations]
+- Abadie, A., & Imbens, G. W. (2011). Bias-Corrected Matching Estimators for Average Treatment Effects. *Journal of Business & Economic Statistics*, 29(1), 1-11. [1,903 citations]
+- Abadie, A., & Imbens, G. W. (2008). On the Failure of the Bootstrap for Matching Estimators. *Econometrica*, 76(6), 1537-1557.
+
+### Critical Perspectives
+- King, G., & Nielsen, R. (2019). Why Propensity Scores Should Not Be Used for Matching. *Political Analysis*, 27(4), 435-454. [1,575 citations]
 
 ### Practical Guides
-- Stuart, E. A. (2010). Matching Methods for Causal Inference. *Statistical Science*, 25(1), 1-21.
-- Caliendo, M., & Kopeinig, S. (2008). Some Practical Guidance for PSM. *Journal of Economic Surveys*, 22(1), 31-72.
+- Stuart, E. A. (2010). Matching Methods for Causal Inference: A Review and a Look Forward. *Statistical Science*, 25(1), 1-21. [942 citations]
+- Caliendo, M., & Kopeinig, S. (2008). Some Practical Guidance for the Implementation of Propensity Score Matching. *Journal of Economic Surveys*, 22(1), 31-72. [6,819 citations]
 
 ### Textbooks
 - Imbens, G. W., & Rubin, D. B. (2015). *Causal Inference for Statistics, Social, and Biomedical Sciences*. Cambridge University Press.

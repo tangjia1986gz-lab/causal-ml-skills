@@ -1,0 +1,32 @@
+{
+  "skill_name": "estimator-rd",
+  "component": "reporting_standards",
+  "coverage_score": 1.0,
+  "papers_analyzed": 5,
+  "gaps": [
+    {
+      "gap_id": "4c3a2ba0",
+      "category": "reporting standards",
+      "severity": "minor",
+      "description": "可能缺失的内容: how much the chosen bandwidth deviates from the recommendations of the automatic selector",
+      "source_paper": "文献",
+      "source_section": "methodology",
+      "existing_content": "",
+      "suggested_addition": "how much the chosen bandwidth deviates from the recommendations of the automatic selector",
+      "target_file": "references/reporting_standards.md",
+      "confidence": 0.7
+    },
+    {
+      "gap_id": "3ce624f2",
+      "category": "reporting standards",
+      "severity": "minor",
+      "description": "可能缺失的内容: and test statistics will be biased",
+      "source_paper": "文献",
+      "source_section": "estimation",
+      "existing_content": "",
+      "suggested_addition": "and test statistics will be biased",
+      "target_file": "references/reporting_standards.md",
+      "confidence": 0.7
+    }
+  ]
+}

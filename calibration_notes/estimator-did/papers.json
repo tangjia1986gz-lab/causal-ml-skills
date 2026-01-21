@@ -1,0 +1,131 @@
+[
+  {
+    "paper_id": "c7ca83353b0269fc7d04fa06a28c7f323217758e",
+    "title": "Difference-in-Differences with Multiple Time Periods",
+    "authors": [
+      "Brantly Callaway",
+      "Pedro H. C. Sant’Anna"
+    ],
+    "year": 2018,
+    "venue": "Journal of Econometrics",
+    "citations": 4897,
+    "abstract": "Difference-in-Differences (DID) is one of the most important and popular designs for evaluating causal effects of policy changes. In its standard format, there are two time periods and two groups: in the first period no one is treated, and in the second period a \"treatment group\" becomes treated, whereas a \"control group\" remains untreated. However, many em- pirical applications of the DID design have more than two periods and variation in treatment timing. In this article, we consider identification and estimation of treatment effect parameters using DID with (i) multiple time periods, (ii) variation in treatment timing, and (iii) when the \"parallel trends assumption\" holds potentially only after conditioning on observed covariates. We propose a simple two-step estimation strategy, establish the asymptotic prop- erties of the proposed estimators, and prove the validity of a computationally convenient bootstrap procedure. Furthermore we propose a semiparametric data-driven testing procedure to assess the credibility of the DID design in our context. Finally, we analyze the effect of the minimum wage on teen employment from 2001-2007. By using our proposed methods we confront the challenges related to variation in the timing of the state-level minimum wage policy changes. Open-source software is available for implementing the proposed methods.",
+    "pdf_url": "http://www.cla.temple.edu/RePEc/documents/DETU_18_04.pdf",
+    "external_ids": {
+      "MAG": "2795008313",
+      "ArXiv": "1803.09015",
+      "DOI": "10.2139/ssrn.3148250",
+      "CorpusId": 55563061
+    }
+  },
+  {
+    "paper_id": "f2b059a83a75bd2f8fe4b4f29f53b865eedc024f",
+    "title": "Two-Way Fixed Effects Estimators with Heterogeneous Treatment Effects",
+    "authors": [
+      "Clément de Chaisemartin",
+      "Xavier D’Haultfœuille"
+    ],
+    "year": 2018,
+    "venue": "The American Economic Review",
+    "citations": 3285,
+    "abstract": "Linear regressions with period and group fixed effects are widely used to estimate treatment effects. We show that they estimate weighted sums of the average treatment effects (ATE ) in each group and period, with weights that may be negative. Due to the negative weights, the linear regression coefficient may for instance be negative while all the ATEs are positive. We propose another estimator that solves this issue. In the two applications we revisit, it is significantly different from the linear regression estimator. (JEL C21, C23, D72, J31, J51, L82)",
+    "pdf_url": "http://www.nber.org/papers/w25904.pdf",
+    "external_ids": {
+      "MAG": "2795047867",
+      "ArXiv": "1803.08807",
+      "DOI": "10.1257/aer.20181169",
+      "CorpusId": 59587476
+    }
+  },
+  {
+    "paper_id": "3321239d27f986ef27494d3a6f6f8bbfdfcc9e00",
+    "title": "Estimating Dynamic Treatment Effects in Event Studies With Heterogeneous Treatment Effects",
+    "authors": [
+      "S. Abraham",
+      "Liyang Sun"
+    ],
+    "year": 2018,
+    "venue": "Journal of Econometrics",
+    "citations": 3256,
+    "abstract": "Event studies are frequently used to estimate average treatment effects on the treated (ATT). In estimating the ATT, researchers commonly use fixed effects models that implicitly assume constant treatment effects across cohorts. We show that this is not an innocuous assumption. In fixed effect models where the sole regressor is treatment status, the OLS coefficient is a non-convex average of the heterogeneous cohort-specific ATTs. When regressors containing lags and leads of treatment are added, the OLS coefficient corresponding to a given lead or lag picks up spurious terms consisting of treatment effects from other periods. Therefore, estimates from these commonly used models are not causally interpretable. We propose alternative estimators that identify certain convex averages of the cohort-specific ATTs, hence allowing for causal interpretation even under heterogeneous treatment effects. To illustrate the empirical content of our results, we show that the fixed effects estimators and our proposed estimators differ substantially in an application to the economic consequences of hospitalization.",
+    "pdf_url": "https://arxiv.org/pdf/1804.05785",
+    "external_ids": {
+      "MAG": "3112066496",
+      "ArXiv": "1804.05785",
+      "DOI": "10.2139/ssrn.3158747",
+      "CorpusId": 59451535
+    }
+  },
+  {
+    "paper_id": "fe8faa36f6fecbb09d255a06b3bd8af2ecce0e41",
+    "title": "A More Credible Approach to Parallel Trends",
+    "authors": [
+      "Ashesh Rambachan",
+      "J. Roth"
+    ],
+    "year": 2022,
+    "venue": "",
+    "citations": 657,
+    "abstract": null,
+    "pdf_url": "",
+    "external_ids": {
+      "CorpusId": 248981629
+    }
+  },
+  {
+    "paper_id": "e997ce06ce3226f7377de5dc8d9cdd6989d501d0",
+    "title": "Pretest with Caution: Event-Study Estimates after Testing for Parallel Trends",
+    "authors": [
+      "Jonathan Roth"
+    ],
+    "year": 2022,
+    "venue": "American Economic Review: Insights",
+    "citations": 339,
+    "abstract": "This paper discusses two important limitations of the common practice of testing for preexisting differences in trends (“ pre-trends”) when using difference-in-differences and related methods. First, conventional pre-trends tests may have low power. Second, conditioning the analysis on the result of a pretest can distort estimation and inference, potentially exacerbating the bias of point estimates and under-coverage of confidence intervals. I analyze these issues both in theory and in simulations calibrated to a survey of recent papers in leading economics journals, which suggest that these limitations are important in practice. I conclude with practical recommendations for mitigating these issues. (JEL A14, C23, C51)",
+    "pdf_url": "",
+    "external_ids": {
+      "DOI": "10.1257/aeri.20210236",
+      "CorpusId": 267070502
+    }
+  },
+  {
+    "paper_id": "08c2ca804d3424887de4fa4504b03de254c8b1ec",
+    "title": "Difference-in-Differences with Multiple Time Periods∗",
+    "authors": [
+      "Brantly Callaway",
+      "Pedro H. C. Sant’Anna",
+      "Xiaohong Chen",
+      "C. D. Chaisemartin",
+      "Xavier d'Haultfoeuille",
+      "Bruno Ferman",
+      "Andrew Goodman-Bacon",
+      "Federico H. Gutierrez",
+      "Sukjin Han",
+      "J. Wooldridge",
+      "Haiqing Xu"
+    ],
+    "year": 2019,
+    "venue": "",
+    "citations": 296,
+    "abstract": null,
+    "pdf_url": "",
+    "external_ids": {
+      "CorpusId": 260542106
+    }
+  },
+  {
+    "paper_id": "8e8042a3ef8658d5b015ad9ac382526bbc63b5f0",
+    "title": "Pre-test with Caution: Event-study Estimates After Testing for Parallel Trends",
+    "authors": [
+      "J. Roth"
+    ],
+    "year": 2019,
+    "venue": "",
+    "citations": 249,
+    "abstract": null,
+    "pdf_url": "",
+    "external_ids": {
+      "CorpusId": 85444751
+    }
+  }
+]

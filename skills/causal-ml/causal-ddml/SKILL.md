@@ -463,9 +463,14 @@ $$
 1. Chernozhukov, V., et al. (2018). Double/Debiased Machine Learning for Treatment and Structural Parameters. *The Econometrics Journal*, 21(1), C1-C68.
 2. Chernozhukov, V., et al. (2017). Double/Debiased/Neyman Machine Learning of Treatment Effects. *AER P&P*, 107(5), 261-265.
 
+### Foundational High-Dimensional Papers
+3. Belloni, A., Chernozhukov, V., & Hansen, C. (2011). Inference on Treatment Effects after Selection Among High-Dimensional Controls. *Review of Economic Studies*, 81(2), 608-650. [1,498 citations]
+4. Belloni, A., et al. (2013). High-Dimensional Methods and Inference on Structural and Treatment Effects. *Journal of Economic Perspectives*, 28(2), 29-50. [678 citations]
+
 ### Extensions
-3. Chernozhukov, V., et al. (2022). Locally Robust Semiparametric Estimation. *Econometrica*, 90(4), 1501-1535.
-4. Semenova, V., & Chernozhukov, V. (2021). Debiased Machine Learning of CATE. *The Econometrics Journal*, 24(2), 264-289.
+5. Chernozhukov, V., et al. (2022). Locally Robust Semiparametric Estimation. *Econometrica*, 90(4), 1501-1535.
+6. Semenova, V., & Chernozhukov, V. (2021). Debiased Machine Learning of CATE. *The Econometrics Journal*, 24(2), 264-289.
+7. Chernozhukov, V., et al. (2017). Generic Machine Learning Inference on Heterogeneous Treatment Effects. *arXiv*. [210 citations]
 
 ### Software
 5. DoubleML (Python/R): https://docs.doubleml.org/

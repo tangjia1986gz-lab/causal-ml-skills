@@ -1,0 +1,151 @@
+[
+  {
+    "paper_id": "808f0d83a61c69bebbb179057d4729cdd1ba5303",
+    "title": "Regression Discontinuity Designs in Economics",
+    "authors": [
+      "David Lee",
+      "Thomas Lemieux"
+    ],
+    "year": 2009,
+    "venue": "",
+    "citations": 4963,
+    "abstract": null,
+    "pdf_url": "http://www.nber.org/papers/w14723.pdf",
+    "external_ids": {
+      "MAG": "2129700682",
+      "DOI": "10.1257/JEL.48.2.281",
+      "CorpusId": 263070474
+    }
+  },
+  {
+    "paper_id": "ea3071083f4ad6e10f6b6b77bd87d1b2067127df",
+    "title": "Robust Nonparametric Confidence Intervals for Regression‐Discontinuity Designs",
+    "authors": [
+      "Sebastian Calonico",
+      "M. D. Cattaneo",
+      "R. Titiunik"
+    ],
+    "year": 2014,
+    "venue": "",
+    "citations": 2510,
+    "abstract": null,
+    "pdf_url": "http://deepblue.lib.umich.edu/bitstream/2027.42/109857/1/ecta1465.pdf",
+    "external_ids": {
+      "MAG": "1537287213",
+      "DOI": "10.3982/ECTA11757",
+      "CorpusId": 7504678
+    }
+  },
+  {
+    "paper_id": "35a9aa649c8b4d55c39dd575f5745932d63fea8c",
+    "title": "Manipulation of the Running Variable in the Regression Discontinuity Design: A Density Test",
+    "authors": [
+      "J. Mccrary"
+    ],
+    "year": 2007,
+    "venue": "",
+    "citations": 2300,
+    "abstract": null,
+    "pdf_url": "https://doi.org/10.3386/t0334",
+    "external_ids": {
+      "MAG": "2151352067",
+      "DOI": "10.3386/t0334",
+      "CorpusId": 210990299
+    }
+  },
+  {
+    "paper_id": "44ff14f488e9f2db8a7989451b20695e393b60e4",
+    "title": "IDENTIFICATION AND ESTIMATION OF TREATMENT EFFECTS WITH A REGRESSION-DISCONTINUITY DESIGN",
+    "authors": [
+      "Jinyong Hahn",
+      "Petra E. Todd",
+      "W. Klaauw"
+    ],
+    "year": 2001,
+    "venue": "",
+    "citations": 2245,
+    "abstract": null,
+    "pdf_url": "",
+    "external_ids": {
+      "MAG": "2114242548",
+      "DOI": "10.1111/1468-0262.00183",
+      "CorpusId": 260731202
+    }
+  },
+  {
+    "paper_id": "e36a047165858a3e573b8dd550e40a5a4541f8fb",
+    "title": "Manipulation of the Running Variable in the Regression Discontinuity Design",
+    "authors": [
+      "J. Mccrary"
+    ],
+    "year": 2005,
+    "venue": "",
+    "citations": 1908,
+    "abstract": null,
+    "pdf_url": "http://www.nber.org/papers/t0334.pdf",
+    "external_ids": {
+      "MAG": "74647678",
+      "DOI": "10.1016/j.jeconom.2007.05.005",
+      "CorpusId": 2710007
+    }
+  },
+  {
+    "paper_id": "098a2e7ffdc36a089947bd08ed5d28eae864304e",
+    "title": "Robust Data-Driven Inference in the Regression-Discontinuity Design",
+    "authors": [
+      "Sebastian Calonico",
+      "M. D. Cattaneo",
+      "R. Titiunik"
+    ],
+    "year": 2014,
+    "venue": "",
+    "citations": 652,
+    "abstract": null,
+    "pdf_url": "https://journals.sagepub.com/doi/pdf/10.1177/1536867X1401400413",
+    "external_ids": {
+      "MAG": "1540958723",
+      "DOI": "10.1177/1536867X1401400413",
+      "CorpusId": 14067425
+    }
+  },
+  {
+    "paper_id": "3c012e3515533dd42a3ea4fd100b4febfb09c83f",
+    "title": "A Practical Introduction to Regression Discontinuity Designs",
+    "authors": [
+      "M. D. Cattaneo",
+      "N. Idrobo",
+      "R. Titiunik"
+    ],
+    "year": 2019,
+    "venue": "",
+    "citations": 600,
+    "abstract": "In this Element and its accompanying Element, Matias D. Cattaneo, Nicolas Idrobo, and Rocio Titiunik provide an accessible and practical guide for the analysis and interpretation of Regression Discontinuity (RD) designs that encourages the use of a common set of practices and facilitates the accumulation of RD-based empirical evidence. In this Element, the authors discuss the foundations of the canonical Sharp RD design, which has the following features: (i) the score is continuously distributed and has only one dimension, (ii) there is only one cutoff, and (iii) compliance with the treatment assignment is perfect. In the accompanying Element, the authors discuss practical and conceptual extensions to the basic RD setup.",
+    "pdf_url": "https://arxiv.org/pdf/1911.09511",
+    "external_ids": {
+      "MAG": "2984737354",
+      "ArXiv": "1911.09511",
+      "DOI": "10.1017/9781108684606",
+      "CorpusId": 208201961
+    }
+  },
+  {
+    "paper_id": "c691001b17a9f7b8bad6a822afa6865b66f3c45b",
+    "title": "On the Effect of Bias Estimation on Coverage Accuracy in Nonparametric Inference",
+    "authors": [
+      "Sebastian Calonico",
+      "M. D. Cattaneo",
+      "M. Farrell"
+    ],
+    "year": 2015,
+    "venue": "Journal of the American Statistical Association",
+    "citations": 343,
+    "abstract": "ABSTRACT Nonparametric methods play a central role in modern empirical work. While they provide inference procedures that are more robust to parametric misspecification bias, they may be quite sensitive to tuning parameter choices. We study the effects of bias correction on confidence interval coverage in the context of kernel density and local polynomial regression estimation, and prove that bias correction can be preferred to undersmoothing for minimizing coverage error and increasing robustness to tuning parameter choice. This is achieved using a novel, yet simple, Studentization, which leads to a new way of constructing kernel-based bias-corrected confidence intervals. In addition, for practical cases, we derive coverage error optimal bandwidths and discuss easy-to-implement bandwidth selectors. For interior points, we show that the mean-squared error (MSE)-optimal bandwidth for the original point estimator (before bias correction) delivers the fastest coverage error decay rate after bias correction when second-order (equivalent) kernels are employed, but is otherwise suboptimal because it is too “large.” Finally, for odd-degree local polynomial regression, we show that, as with point estimation, coverage error adapts to boundary points automatically when appropriate Studentization is used; however, the MSE-optimal bandwidth for the original point estimator is suboptimal. All the results are established using valid Edgeworth expansions and illustrated with simulated data. Our findings have important consequences for empirical work as they indicate that bias-corrected confidence intervals, coupled with appropriate standard errors, have smaller coverage error and are less sensitive to tuning parameter choices in practically relevant cases where additional smoothness is available. Supplementary materials for this article are available online.",
+    "pdf_url": "https://arxiv.org/pdf/1508.02973",
+    "external_ids": {
+      "MAG": "2248407839",
+      "ArXiv": "1508.02973",
+      "DOI": "10.1080/01621459.2017.1285776",
+      "CorpusId": 13887146
+    }
+  }
+]

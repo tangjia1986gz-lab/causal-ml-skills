@@ -1,0 +1,177 @@
+[
+  {
+    "paper_id": "d2cd75e6defc26a4d343f5f3c4c214da8a2caf3b",
+    "title": "Cutoff criteria for fit indexes in covariance structure analysis : Conventional criteria versus new alternatives",
+    "authors": [
+      "Li-tze Hu",
+      "P. Bentler"
+    ],
+    "year": 1999,
+    "venue": "",
+    "citations": 101667,
+    "abstract": null,
+    "pdf_url": "",
+    "external_ids": {
+      "MAG": "2071666535",
+      "DOI": "10.1080/10705519909540118",
+      "CorpusId": 123504887
+    }
+  },
+  {
+    "paper_id": "f12ea2b37862738605236add280919c762aeebcd",
+    "title": "Principles and Practice of Structural Equation Modeling",
+    "authors": [
+      "R. Kline"
+    ],
+    "year": 1998,
+    "venue": "",
+    "citations": 50064,
+    "abstract": null,
+    "pdf_url": "",
+    "external_ids": {
+      "MAG": "1665332082",
+      "CorpusId": 60777797
+    }
+  },
+  {
+    "paper_id": "4a66df2de68cc243aa4ab041fe2e096fbf4b0d29",
+    "title": "lavaan: An R Package for Structural Equation Modeling",
+    "authors": [
+      "Y. Rosseel"
+    ],
+    "year": 2012,
+    "venue": "",
+    "citations": 23344,
+    "abstract": "Structural equation modeling (SEM) is a vast field and widely used by many applied researchers in the social and behavioral sciences. Over the years, many software packages for structural equation modeling have been developed, both free and commercial. However, perhaps the best state-of-the-art software packages in this field are still closed-source and/or commercial. The R package lavaan has been developed to provide applied researchers, teachers, and statisticians, a free, fully open-source, but commercial-quality package for latent variable modeling. This paper explains the aims behind the development of the package, gives an overview of its most important features, and provides some examples to illustrate how lavaan works in practice.",
+    "pdf_url": "https://doi.org/10.18637/jss.v048.i02",
+    "external_ids": {
+      "MAG": "1913957972",
+      "DOI": "10.18637/JSS.V048.I02",
+      "CorpusId": 60879808
+    }
+  },
+  {
+    "paper_id": "80f8a3d77b0ae91e48467169c38ac23fd90c449d",
+    "title": "Review of Partial Least Squares Structural Equation Modeling (PLS-SEM) Using R: A Workbook",
+    "authors": [
+      "Ejike J. Edeh",
+      "Wen‐Juo Lo",
+      "Jam Khojasteh"
+    ],
+    "year": 2022,
+    "venue": "Structural Equation Modeling: A Multidisciplinary Journal",
+    "citations": 19070,
+    "abstract": "Partial Least Squares Structural Equation Modeling (PLSSEM) Using R: A Workbook (Hair et al., 2021) is a workbook based on the textbook: A Primer on Partial Least Squares Structural Equation Modeling (PLS-SEM), (Hair et al., 2017). This review will highlight the differences and similarities between the workbook and the textbook but will be mainly about the workbook. There are essentially two classes of methods that are integrated in the so-called partial least squares approach to structural equation modeling (PLS-SEM), termed Mode A (associated with estimating reflective measurement model) and Mode B (which estimates formative measurement model). Both systematically generate weighted composites and then use them to conduct analyses of the proposed models via the least squares method (e.g., Yuan & Deng, 2021). This is the reason that in the extant literature the PLS-SEM method is considered distinct to conventional SEM methodology that is sometimes referred to as covariance-based SEM (CB-SEM). Some of the noted advantages of CB-SEM include that it directly yields consistent parameter estimates and fit indices for evaluating the goodness of the overall model structure. In contrast, PLS-SEM because of its reliance on composite-scores possesses the property of providing the least mean-square-prediction errors (Fuller, 1987) and sometimes more powerful statistical tests on the path coefficients (Yuan & Deng, 2021). The textbook (PLS-SEM) is focused on communicating fundamental PLS-SEM concepts and application. According to the authors, there was deliberate effort to de-emphasize equations, formulas, and Greek symbols as would have been common with textbooks on statistical models. Resultantly, the textbook is suitable for readers from different fields as prior technical knowledge is not required to either read and understand the content or to implement the PLS-SEM model examples in the textbook. Hence, PLS-SEM as a textbook will convey conceptual understanding about use and application of partial least squares approach to structural equation modeling for anyone who is new to PLS-SEM. The workbook (PLS-SEM using R) on the other hand was published as Classroom Companion to the PLS-SEM textbook. It reads intentionally more didactic in style compared to the textbook while at the same time maintaining the non-technical tone of the textbook. As the name implies, the workbook was implemented using the R-programing language. This feature may have made the workbook more accessible to readers who are familiar or interested in the R-scripting programing language. While the textbook was implemented with the SmartPLS3 Software (a window-based menu driven application), the workbook is designed to emphasize the use of PLS-SEM with the R-structural Equation Modeling package SEMinR. The author’s noted that R has been gaining traction as research software and that among PLS-SEM R packages like CSEM and semPLS, SEMinR was choosing as implementation package for the workbook due to its friendly syntax and flexibility that allows users to incorporate their own sub-programs or functions such as missing data imputation and visualization routines. Consequently, the workbook focused on how to implement SEMinR functions to build, execute, and evaluate PLS-SEM models. The workbook (PLS-SEM using R) is about 200 pages. In line with the authors’ stated aims, the workbook does not present in-depth knowledge on how to specify measurements or structural models and in addition assumes that readers already possess basic knowledge of PLS-SEM from other textbooks and articles. Across all chapters, the reader will find that a half of the workbook focuses on explaining fundamental concepts on sub-topics such as: differences between PLS-SEM and CB-SEM, formative and reflective measurement models, endogenous and exogenous latent variables, mediation, and moderation analysis. The other half of the workbook dwelt on the R-software implementation of PLS-SEM using SEMinR. Overall, the workbook presents the SEMinR package in a reader friendly manner such that the beginner R-programmer will be able to follow along with illustrated examples. The general impression one gets from reading the workbook is that it is concise and easy to follow. However, since the book is neither a tutorial in R nor a full textbook on Partial Least Squares Structural Equation Modeling, the type of readers that will gain the most knowledge from the workbook are those already somewhat comfortable with R-programing and the basic concepts underlying Structural Equation Modeling (SEM). Otherwise, it is recommended to first read other introductory SEM-related books to understand the foundational concepts of SEM. In addition to the concise presentation style, the authors often present summaries of statistical concepts in a way that enriches the reader beyond the immediate application of the book. For example, in Chapter 7 the reader gets a brief overview of literature in mediation and learns enough to understand that",
+    "pdf_url": "",
+    "external_ids": {
+      "DOI": "10.1080/10705511.2022.2108813",
+      "CorpusId": 57987706
+    }
+  },
+  {
+    "paper_id": "af2859f928ba64c1973bf080aaf7706f6f016da2",
+    "title": "Structural Equations with Latent Variables",
+    "authors": [
+      "K. Bollen"
+    ],
+    "year": 1989,
+    "venue": "",
+    "citations": 10826,
+    "abstract": null,
+    "pdf_url": "",
+    "external_ids": {
+      "MAG": "2333422887",
+      "DBLP": "books/wi/Bollen89",
+      "DOI": "10.2307/2289630",
+      "CorpusId": 124036806
+    }
+  },
+  {
+    "paper_id": "b3d3b3a390c85785de13a452367fb6533d632977",
+    "title": "Principles and practice of structural equation modeling, 3rd ed.",
+    "authors": [
+      "R. Kline"
+    ],
+    "year": 2011,
+    "venue": "",
+    "citations": 6778,
+    "abstract": null,
+    "pdf_url": "",
+    "external_ids": {
+      "MAG": "2948928365",
+      "CorpusId": 195522737
+    }
+  },
+  {
+    "paper_id": "a509556484bfae1c07049fe5620d6afa19396252",
+    "title": "In Search of Golden Rules: Comment on Hypothesis-Testing Approaches to Setting Cutoff Values for Fit Indexes and Dangers in Overgeneralizing Hu and Bentler's (1999) Findings",
+    "authors": [
+      "H. Marsh",
+      "K. Hau",
+      "Zhonglin Wen"
+    ],
+    "year": 2004,
+    "venue": "",
+    "citations": 6322,
+    "abstract": null,
+    "pdf_url": "",
+    "external_ids": {
+      "MAG": "2025781576",
+      "DOI": "10.1207/s15328007sem1103_2",
+      "CorpusId": 122219078
+    }
+  },
+  {
+    "paper_id": "480c297fb2f8cbb9eb939c6b5d52be40681edb39",
+    "title": "Partial Least Squares Structural Equation Modeling (PLS-SEM) Using R: A Workbook",
+    "authors": [
+      "Joseph F. Hair Jr.",
+      "G. Hult",
+      "C. Ringle",
+      "M. Sarstedt",
+      "N. Danks",
+      "Soumya Ray"
+    ],
+    "year": 2021,
+    "venue": "Business",
+    "citations": 5534,
+    "abstract": null,
+    "pdf_url": "",
+    "external_ids": {
+      "DOI": "10.1007/978-3-030-80519-7",
+      "CorpusId": 243477818
+    }
+  },
+  {
+    "paper_id": "e2b9bd3e4f6cf25d662dac6d736680f67d464df6",
+    "title": "Principles and practice of structural equation modeling, 4th ed.",
+    "authors": [
+      "R. Kline"
+    ],
+    "year": 2016,
+    "venue": "",
+    "citations": 4366,
+    "abstract": null,
+    "pdf_url": "",
+    "external_ids": {
+      "MAG": "2944636340",
+      "CorpusId": 164967627
+    }
+  },
+  {
+    "paper_id": "1b0a35f92c383173b9d9b55385d9d0d6bda51a71",
+    "title": "Principles and practice of structural equation modeling, 2nd ed.",
+    "authors": [
+      "R. Kline"
+    ],
+    "year": 2005,
+    "venue": "",
+    "citations": 3366,
+    "abstract": null,
+    "pdf_url": "",
+    "external_ids": {
+      "MAG": "2900927010",
+      "CorpusId": 126386559
+    }
+  }
+]
