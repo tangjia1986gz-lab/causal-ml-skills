@@ -1,22 +1,39 @@
-# 机器学习因果推断 Skills
+# Causal ML Skills for Claude Code
 
-[![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)](https://github.com/tangjia1986gz-lab/causal-ml-skills)
-[![Skills](https://img.shields.io/badge/skills-21-green.svg)](#skills-清单)
-[![K-Dense](https://img.shields.io/badge/structure-K--Dense-orange.svg)](#k-dense-skill-结构)
+[![Version](https://img.shields.io/badge/version-3.0.0-blue.svg)](https://github.com/tangjia1986gz-lab/causal-ml-skills)
+[![Skills](https://img.shields.io/badge/skills-9-green.svg)](#skills-清单)
+[![Self-Contained](https://img.shields.io/badge/design-self--contained-orange.svg)](#设计理念)
 [![License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](LICENSE)
 
-> 基于《机器学习因果推断实战全流程》课程大纲构建的 Claude Code Agent Skills 集合
+> 因果推断与计量经济学方法的 Claude Code Skills 集合，基于 K-Dense 规范，全部使用开源包实现
 
 ## 项目概览
 
 | 指标 | 数值 |
 |------|------|
-| **Skills 总数** | 21 |
-| **参考文档** | 102 |
-| **CLI 脚本** | 72 |
-| **LaTeX 模板** | 9 |
-| **Markdown 模板** | 9 |
-| **共享库函数** | 40+ |
+| **Skills 总数** | 9 |
+| **SKILL.md 总计** | ~164 KB |
+| **Pipeline 脚本** | ~222 KB |
+| **参考文档** | ~511 KB |
+| **代码验证** | 100% 通过 |
+
+## 设计理念
+
+### 自包含 (Self-Contained)
+
+每个 Skill 完全独立，仅依赖 pip 安装的开源包：
+
+| 方法 | 依赖包 |
+|------|--------|
+| DID / IV / Panel | `linearmodels` |
+| PSM | `sklearn` |
+| RD | `rdrobust`, `statsmodels` |
+| DDML | `doubleml` |
+| Causal Forest | `econml` |
+| SEM | `semopy` |
+| Time Series | `statsmodels`, `arch` |
+
+**无自定义 lib 依赖** - 所有代码可直接复制运行。
 
 ## 快速开始
 
@@ -27,156 +44,108 @@ git clone https://github.com/tangjia1986gz-lab/causal-ml-skills.git
 cd causal-ml-skills
 ```
 
-### 2. 环境检查
+### 2. 安装依赖
 
 ```bash
-python skills/infrastructure/setup-causal-ml-env/env_check.py
+pip install linearmodels doubleml econml semopy rdrobust arch
+pip install pandas numpy scipy statsmodels scikit-learn matplotlib seaborn
 ```
 
 ### 3. 部署到 Claude Code
 
-```bash
-# 完整部署 (推荐)
-python deploy.py --batch --backup --manifest --version 2.0.0
+```powershell
+# PowerShell (Windows)
+Copy-Item -Path "skills\*" -Destination "$env:USERPROFILE\.claude\skills\" -Recurse -Force
 
-# 预览部署
-python deploy.py --dry-run
-
-# 部署特定分类
-python deploy.py --category classic-methods --validate
+# Bash (Linux/Mac)
+cp -r skills/* ~/.claude/skills/
 ```
 
-### 4. 验证部署
+### 4. 验证安装
 
 ```bash
-# 验证所有 Skills
-python scripts/validate_skill.py --all
+# 运行 DID 示例
+cd skills/econometrics/estimator-did/scripts
+python did_analysis_pipeline.py --demo
 
-# 验证单个 Skill
-python scripts/validate_skill.py skills/classic-methods/estimator-did
+# 运行 DDML 示例
+cd skills/causal-ml/causal-ddml/scripts
+python ddml_analysis_pipeline.py --demo
 ```
 
 ## 项目结构
 
 ```
 causal-ml-skills/
-├── skills/                     # 21 个 Skills
-│   ├── infrastructure/         # 基础设施 (2)
-│   ├── classic-methods/        # 经典因果方法 (8)
-│   ├── ml-foundation/          # 机器学习基础 (6)
-│   └── causal-ml/              # 前沿因果 ML (5)
+├── skills/
+│   ├── econometrics/              # 计量经济学方法 (6)
+│   │   ├── estimator-did/         # 双重差分
+│   │   ├── estimator-iv/          # 工具变量
+│   │   ├── estimator-psm/         # 倾向得分匹配
+│   │   ├── estimator-rd/          # 断点回归
+│   │   ├── panel-data-models/     # 面板数据
+│   │   └── time-series-econometrics/  # 时间序列
+│   │
+│   └── causal-ml/                 # 因果机器学习 (3)
+│       ├── causal-ddml/           # 双重机器学习
+│       ├── causal-forest/         # 因果森林
+│       └── structural-equation-modeling/  # 结构方程
 │
-├── lib/python/                 # 共享库
-│   ├── data_loader.py          # CausalInput/CausalOutput 数据结构
-│   ├── diagnostics.py          # 诊断检验 (Hausman, VIF, ADF...)
-│   ├── table_formatter.py      # 出版级表格 (LaTeX/Markdown/HTML)
-│   └── visualization.py        # 因果推断可视化
-│
-├── assets/                     # 共享资源模板
-│   ├── latex/                  # 9 个 LaTeX 模板
-│   └── markdown/               # 9 个 Markdown 模板
-│
-├── scripts/                    # 开发工具
-│   ├── generate_skill_scaffold.py  # K-Dense 脚手架生成器
-│   └── validate_skill.py           # 质量验证器
-│
-├── templates/                  # Skill 开发模板
-├── tests/                      # 测试用例
-└── docs/                       # 文档
+├── SKILL_REVISION_PLAN.md         # 重构方案文档
+└── README.md
 ```
 
 ## Skills 清单
 
-### 基础设施 (2)
+### 计量经济学方法 (6)
 
-| Skill | 类型 | 触发词 |
-|-------|------|--------|
-| `setup-causal-ml-env` | Tool | 环境配置, python环境, R环境 |
-| `scientific-writing-econ` | Tool | 论文写作, AER style, LaTeX |
+| Skill | 触发词 | 依赖包 | 验证结果 |
+|-------|--------|--------|----------|
+| `estimator-did` | DID, 双重差分, 平行趋势, TWFE | linearmodels | TWFE coef=2.18, p<0.001 |
+| `estimator-iv` | IV, 工具变量, 2SLS, Stock-Yogo | linearmodels | F=197.5, 2SLS bias=-0.04 |
+| `estimator-psm` | PSM, 倾向得分, 匹配, IPW, AIPW | sklearn | ATT=1.91, IPW=1.98 |
+| `estimator-rd` | RD, 断点回归, McCrary, 带宽 | rdrobust | RD=1.88, true=2.0 |
+| `panel-data-models` | 面板, 固定效应, Hausman, 聚类SE | linearmodels | FE bias=0.01, Hausman OK |
+| `time-series-econometrics` | ARIMA, VAR, 协整, Granger | statsmodels, arch | Granger F=67.8 |
 
-### 经典因果方法 (8)
+### 因果机器学习 (3)
 
-| Skill | 类型 | 触发词 |
-|-------|------|--------|
-| `causal-concept-guide` | Knowledge | 因果概念, 方法选择, DAG |
-| `estimator-did` | Estimator | DID, 双重差分, 平行趋势, Callaway-Sant'Anna |
-| `estimator-rd` | Estimator | RD, 断点回归, McCrary, 带宽选择 |
-| `estimator-iv` | Estimator | IV, 工具变量, 2SLS, Stock-Yogo |
-| `estimator-psm` | Estimator | PSM, 倾向得分, 匹配, Rosenbaum bounds |
-| `panel-data-models` | Tool | 面板数据, 固定效应, Hausman, 聚类标准误 |
-| `time-series-econometrics` | Tool | 时间序列, ARIMA, VAR, 协整, Granger |
-| `discrete-choice-models` | Tool | Logit, Probit, 多项选择, 计数模型 |
+| Skill | 触发词 | 依赖包 | 验证结果 |
+|-------|--------|--------|----------|
+| `causal-ddml` | DDML, 双重ML, PLR, IRM | doubleml | PLR=0.40, CI covers true |
+| `causal-forest` | 因果森林, CATE, 异质性 | econml | ATE=1.18, VI正常 |
+| `structural-equation-modeling` | SEM, 潜变量, CFI, RMSEA | semopy | CFI=0.999, RMSEA=0.008 |
 
-### 机器学习基础 (6)
+## Skill 结构
 
-| Skill | 类型 | 触发词 |
-|-------|------|--------|
-| `ml-preprocessing` | Tool | 缺失值, 异常值, 特征工程, bad controls |
-| `ml-model-linear` | Tool | Lasso, Ridge, 弹性网络, post-double-selection |
-| `ml-model-tree` | Tool | 随机森林, XGBoost, SHAP, cross-fitting |
-| `ml-model-advanced` | Tool | SVM, 神经网络, DragonNet, CEVAE |
-| `econometric-eda` | Tool | EDA, 描述统计, 数据质量, Little's MCAR |
-| `statistical-analysis` | Tool | 假设检验, 效应量, 功效分析, Cohen's d |
-
-### 前沿因果 ML (5)
-
-| Skill | 类型 | 触发词 |
-|-------|------|--------|
-| `causal-ddml` | Estimator | DDML, 双重机器学习, Neyman orthogonality |
-| `causal-forest` | Estimator | 因果森林, CATE, GATES, policy learning |
-| `causal-mediation-ml` | Estimator | 中介分析, ADE, ACME, Imai sensitivity |
-| `bayesian-econometrics` | Estimator | 贝叶斯, MCMC, PyMC, 先验敏感性 |
-| `paper-replication-workflow` | Workflow | 复现, AEA Data Editor, LaLonde |
-
-## K-Dense Skill 结构
-
-每个 Skill 采用 K-Dense 规范结构：
+每个 Skill 采用统一结构：
 
 ```
 skill-name/
-├── SKILL.md                    # 主文档 (YAML frontmatter)
-├── *_estimator.py              # Python 实现
-├── references/                 # 参考文档 (5-6 个)
-│   ├── identification_assumptions.md
-│   ├── diagnostic_tests.md
-│   ├── estimation_methods.md
-│   ├── reporting_standards.md
-│   └── common_errors.md
-├── scripts/                    # CLI 脚本 (3-5 个)
-│   ├── run_analysis.py
-│   ├── test_assumptions.py
-│   └── visualize_results.py
-└── assets/                     # 模板资源
-    ├── latex/
-    └── markdown/
-```
-
-## 部署选项
-
-```bash
-# 完整部署 (带备份和清单)
-python deploy.py --batch --backup --manifest --version 2.0.0
-
-# 预览部署
-python deploy.py --dry-run
-
-# 部署单个 Skill
-python deploy.py --skill estimator-did
-
-# 部署特定分类
-python deploy.py --category classic-methods
-
-# 带验证部署
-python deploy.py --batch --validate
-
-# 回滚到备份
-python deploy.py --skill estimator-did --rollback
-
-# 查看部署清单
-python deploy.py --show-manifest
-
-# JSON 输出 (CI/CD)
-python deploy.py --batch --json
+├── SKILL.md                       # 主文档 (~15-25 KB)
+│   ├── Overview                   # 概述
+│   ├── When to Use                # 使用场景
+│   ├── Quick Start                # 5个可运行示例
+│   ├── Core Capabilities          # 核心功能
+│   ├── Common Workflows           # 工作流
+│   ├── Best Practices             # 最佳实践
+│   ├── Common Pitfalls            # 常见陷阱
+│   └── Troubleshooting            # 问题排查
+│
+├── scripts/
+│   └── *_analysis_pipeline.py     # 自包含分析脚本 (~25 KB)
+│       ├── simulate_*_data()      # 模拟数据
+│       ├── run_*()                # 核心估计
+│       ├── diagnostics()          # 诊断检验
+│       ├── generate_latex_table() # LaTeX输出
+│       └── run_full_analysis()    # 完整流水线 + CLI
+│
+└── references/                    # 参考文档 (5-6个)
+    ├── identification_assumptions.md
+    ├── estimation_methods.md
+    ├── diagnostic_tests.md
+    ├── reporting_standards.md
+    └── common_errors.md
 ```
 
 ## 使用示例
@@ -184,156 +153,115 @@ python deploy.py --batch --json
 ### DID 分析
 
 ```python
-from lib.python.data_loader import CausalInput
-from skills.classic_methods.estimator_did.did_estimator import run_full_did_analysis
+from linearmodels.panel import PanelOLS
+import pandas as pd
 
-# 准备数据
-causal_input = CausalInput(
-    data=panel_data,
-    outcome='y',
-    treatment='treated',
-    unit_id='firm_id',
-    time_id='year'
+# 加载数据
+df = pd.read_csv('panel_data.csv')
+df = df.set_index(['firm_id', 'year'])
+
+# TWFE 回归
+model = PanelOLS.from_formula(
+    'outcome ~ treatment + EntityEffects + TimeEffects',
+    data=df
 )
-
-# 运行分析
-result = run_full_did_analysis(causal_input)
-print(result.summary_table)
-print(f"ATT: {result.effect:.4f} (SE: {result.se:.4f})")
+result = model.fit(cov_type='clustered', cluster_entity=True)
+print(result.summary)
 ```
 
-### DDML 高维分析
+### DDML 分析
 
 ```python
-from skills.causal_ml.causal_ddml.ddml_estimator import run_full_ddml_analysis
+import doubleml as dml
+from doubleml import DoubleMLData, DoubleMLPLR
+from sklearn.ensemble import RandomForestRegressor
 
-result = run_full_ddml_analysis(
-    data=high_dim_data,
-    outcome='y',
-    treatment='d',
-    controls=[f'x{i}' for i in range(100)],
-    ml_method='random_forest'
+# 准备数据
+dml_data = DoubleMLData(
+    df,
+    y_col='outcome',
+    d_cols='treatment',
+    x_cols=['x1', 'x2', 'x3']
 )
-print(f"ATE: {result.effect:.4f}, 95% CI: [{result.ci_lower:.4f}, {result.ci_upper:.4f}]")
+
+# PLR 模型
+model = DoubleMLPLR(
+    dml_data,
+    ml_l=RandomForestRegressor(n_estimators=100),
+    ml_m=RandomForestRegressor(n_estimators=100),
+    n_folds=5
+)
+model.fit()
+print(model.summary)
 ```
 
-### CLI 脚本使用
+### CLI 使用
 
 ```bash
-# DID 分析
-python skills/classic-methods/estimator-did/scripts/run_did_analysis.py \
-    --data panel.csv --outcome y --treatment d --unit id --time t
+# DID 分析 (模拟数据演示)
+python skills/econometrics/estimator-did/scripts/did_analysis_pipeline.py --demo
 
-# 平行趋势检验
-python skills/classic-methods/estimator-did/scripts/test_parallel_trends.py \
-    --data panel.csv --method event_study --rambachan-roth
+# DID 分析 (真实数据)
+python skills/econometrics/estimator-did/scripts/did_analysis_pipeline.py \
+    --data panel.csv --outcome y --treatment d --unit firm --time year
 
-# IV 弱工具检验
-python skills/classic-methods/estimator-iv/scripts/weak_iv_robust.py \
-    --data iv_data.csv --outcome y --treatment d --instrument z
+# IV 分析
+python skills/econometrics/estimator-iv/scripts/iv_analysis_pipeline.py --demo
+
+# DDML 分析
+python skills/causal-ml/causal-ddml/scripts/ddml_analysis_pipeline.py \
+    --data high_dim.csv --outcome y --treatment d --model plr
 ```
 
 ## 技术栈
 
 | 组件 | 技术选型 |
 |------|----------|
-| 主控语言 | Python 3.10+ |
-| 因果推断 | econml, doubleml, causalml |
-| 计量统计 | statsmodels, linearmodels |
-| 机器学习 | scikit-learn, xgboost, lightgbm |
-| 贝叶斯推断 | pymc, arviz |
-| R 桥接 | rpy2 (grf, rdrobust, did) |
+| 语言 | Python 3.10+ |
+| 面板/IV | linearmodels |
+| 双重机器学习 | doubleml |
+| 因果森林 | econml |
+| 结构方程 | semopy |
+| 断点回归 | rdrobust |
+| 时间序列 | statsmodels, arch |
+| 机器学习 | scikit-learn |
 | 可视化 | matplotlib, seaborn |
 
-## 共享库 API
+## 重构记录
 
-### data_loader.py
+### v3.0.0 (2026-01-22)
 
-```python
-from lib.python.data_loader import CausalInput, CausalOutput
+**重大更新**: 全面重构为自包含设计
 
-# 支持字段
-CausalInput(
-    data, outcome, treatment, controls,
-    unit_id, time_id,           # 面板数据
-    panel_type,                 # 'balanced', 'unbalanced', 'staggered'
-    cluster_var, weights,       # 聚类和权重
-    instrument, running_var,    # IV 和 RD
-    cutoff, mediator            # RD 和中介
-)
-```
+- 删除对 `lib/python/` 的依赖
+- 所有 Skills 改用开源包实现
+- SKILL.md 平均扩展 260% (5KB → 18KB)
+- 新增 `*_analysis_pipeline.py` 自包含脚本
+- 代码验证 100% 通过
 
-### diagnostics.py
+详见 [SKILL_REVISION_PLAN.md](SKILL_REVISION_PLAN.md)
 
-```python
-from lib.python.diagnostics import (
-    parallel_trends_test,    # DID 平行趋势
-    mccrary_density_test,    # RD 密度检验
-    weak_iv_test,            # IV 弱工具
-    balance_test,            # PSM 平衡性
-    hausman_test,            # 面板 FE vs RE
-    vif_calculation,         # 多重共线性
-    adf_test,                # 单位根检验
-    cointegration_test       # 协整检验
-)
-```
+### v2.0.0 (2026-01-21)
 
-### visualization.py
+- 多智能体校准框架
+- 92.1% 校准通过率
 
-```python
-from lib.python.visualization import (
-    plot_event_study,        # 事件研究图
-    plot_rd,                 # RD 图
-    plot_propensity_overlap, # 倾向得分重叠
-    plot_cate_heterogeneity, # CATE 异质性
-    plot_coef_comparison     # 系数比较森林图
-)
-```
+### v1.0.0 (2026-01-20)
 
-## 开发指南
-
-### 创建新 Skill
-
-```bash
-# 使用脚手架生成器
-python scripts/generate_skill_scaffold.py \
-    --name my-estimator \
-    --category classic-methods \
-    --type estimator
-
-# 验证结构
-python scripts/validate_skill.py skills/classic-methods/my-estimator
-
-# 部署测试
-python deploy.py --skill my-estimator --dry-run
-```
-
-### 质量验证
-
-```bash
-# 验证所有 Skills
-python scripts/validate_skill.py --all
-
-# 详细输出
-python scripts/validate_skill.py --all --verbose
-
-# JSON 输出 (CI/CD)
-python scripts/validate_skill.py --all --json
-```
+- 初始版本
+- 21 个 Skills
 
 ## 贡献
 
 欢迎提交 Issue 和 Pull Request！
 
-### 贡献流程
+### 贡献指南
 
 1. Fork 本仓库
-2. 创建特性分支 (`git checkout -b feature/new-skill`)
-3. 使用脚手架创建 Skill
-4. 通过验证检查 (`python scripts/validate_skill.py`)
-5. 提交更改 (`git commit -m 'Add new skill'`)
-6. 推送分支 (`git push origin feature/new-skill`)
-7. 创建 Pull Request
+2. 参考现有 Skill 结构创建新 Skill
+3. 确保 Quick Start 代码可直接运行
+4. 添加 `--demo` 模式进行验证
+5. 提交 PR
 
 ## 许可
 
@@ -341,8 +269,8 @@ MIT License
 
 ---
 
-**版本**: 2.0.0
-**更新日期**: 2026-01-21
-**Skills 数量**: 21
-**结构规范**: K-Dense
+**版本**: 3.0.0
+**更新日期**: 2026-01-22
+**Skills 数量**: 9
+**设计**: Self-Contained
 **GitHub**: [tangjia1986gz-lab/causal-ml-skills](https://github.com/tangjia1986gz-lab/causal-ml-skills)
