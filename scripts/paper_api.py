@@ -14,6 +14,13 @@ import sys
 from pathlib import Path
 from typing import Optional, List, Dict, Any
 
+# 加载 .env 文件
+try:
+    from dotenv import load_dotenv
+    load_dotenv(Path(__file__).parent.parent / ".env")
+except ImportError:
+    pass  # dotenv 未安装时直接使用环境变量
+
 # 修复 Windows 终端编码问题
 if sys.platform == 'win32':
     sys.stdout.reconfigure(encoding='utf-8')
