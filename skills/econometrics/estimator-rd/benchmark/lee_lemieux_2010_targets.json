@@ -1,0 +1,31 @@
+{
+    "paper": {
+        "title": "Regression Discontinuity Designs in Economics",
+        "authors": [
+            "David S. Lee",
+            "Thomas Lemieux"
+        ],
+        "journal": "Journal of Economic Literature",
+        "year": 2010,
+        "volume": 48,
+        "issue": 2,
+        "pages": "281-355"
+    },
+    "replication_target": {
+        "figure": "Figure 1",
+        "description": "Vote Share vs Future ADA Score",
+        "model_spec": {
+            "outcome": "ada_score",
+            "running_var": "vote_share",
+            "cutoff": 0.5,
+            "method": "Local Linear Regression"
+        },
+        "expected_results": {
+            "description": "Discontinuity of approx 20-30 points in ADA score at 50% threshold",
+            "bandwidth_sensitivity": "Robust across 0.5x - 2x bandwidths"
+        }
+    },
+    "data_source": {
+        "description": "US House Elections data (1946-2008). Key vars: democrat_vote_share, ada_score (ideology)."
+    }
+}

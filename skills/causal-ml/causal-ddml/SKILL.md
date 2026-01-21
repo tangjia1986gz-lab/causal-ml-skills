@@ -1,12 +1,12 @@
 ---
 name: causal-ddml
-description: Use when estimating causal effects with Double/Debiased Machine Learning. Triggers on DDML, double machine learning, debiased, cross-fitting, Chernozhukov, high-dimensional, partially linear, PLR, IRM, orthogonal score.
+description: Double/Debiased Machine Learning for causal inference with high-dimensional controls. Use when estimating causal effects with many covariates, nonlinear confounding, or need valid inference with ML. Provides PLR, IRM models via doubleml package.
+license: MIT
+metadata:
+    skill-author: Causal-ML-Skills
 ---
 
-# Estimator: Double/Debiased Machine Learning (DDML)
-
-> **Version**: 2.0.0 | **Type**: Estimator | **Structure**: K-Dense
-> **Aliases**: DDML, DML, Double ML, Debiased ML, Orthogonal ML
+# Double/Debiased Machine Learning (DDML)
 
 ## Overview
 
@@ -16,474 +16,560 @@ Double/Debiased Machine Learning (DDML) estimates causal effects by combining ma
 
 **Primary Reference**: Chernozhukov, V., et al. (2018). Double/Debiased Machine Learning for Treatment and Structural Parameters. *The Econometrics Journal*, 21(1), C1-C68.
 
----
+## When to Use This Skill
 
-## Quick Reference
+This skill should be used when:
 
-### When to Use
+- High-dimensional controls (many covariates, p approaching n)
+- Complex, nonlinear confounding relationships
+- Need valid statistical inference with ML adjustment
+- Partially Linear Regression (PLR) model is appropriate
+- Interactive Regression Model (IRM) for binary treatment
+- LATE estimation with instrumental variables (IIVM, PLIV)
 
-| Scenario | Recommendation |
-|----------|----------------|
-| High-dimensional controls (p >> n or many relevant controls) | Use DDML |
-| Complex, nonlinear confounding relationships | Use DDML |
-| Need valid inference with ML adjustment | Use DDML |
-| Low-dimensional, simple relationships | Consider OLS instead |
-| Small samples (n < 100) | Avoid - cross-fitting unreliable |
-| Unconfoundedness clearly violated | Consider IV or DID instead |
+**Do NOT use when:**
+- Low-dimensional, simple relationships (use OLS)
+- Small samples (n < 100) - cross-fitting unreliable
+- Unconfoundedness clearly violated (use IV or DID)
+- Focus is on heterogeneous treatment effects (use causal-forest)
 
-### Model Selection
+## Quick Start Guide
 
-| Treatment Type | Recommended Model | Estimand |
-|----------------|-------------------|----------|
-| Continuous | PLR | Constant ATE |
-| Binary (constant effect) | PLR | Constant ATE |
-| Binary (heterogeneous) | IRM | ATE with heterogeneity |
-| Endogenous + binary IV | IIVM | LATE |
-| Endogenous + continuous IV | PLIV | Constant ATE |
-
-### CLI Scripts
-
-```bash
-# Complete DDML analysis
-python scripts/run_ddml_analysis.py --data data.csv --outcome y --treatment d
-
-# Tune nuisance models
-python scripts/tune_nuisance_models.py --data data.csv --outcome y --treatment d
-
-# Generate diagnostic plots
-python scripts/cross_fit_diagnostics.py --data data.csv --outcome y --treatment d
-
-# Sensitivity analysis
-python scripts/sensitivity_analysis.py --data data.csv --outcome y --treatment d
-
-# Compare PLR vs IRM
-python scripts/compare_estimators.py --data data.csv --outcome y --treatment d
-```
-
----
-
-## Directory Structure
-
-```
-causal-ddml/
-├── SKILL.md                    # This file - main documentation
-├── ddml_estimator.py           # Core estimation functions
-├── references/                 # Detailed reference documentation
-│   ├── identification_assumptions.md   # Neyman orthogonality, cross-fitting, rates
-│   ├── diagnostic_tests.md             # Cross-fit diagnostics, nuisance quality
-│   ├── estimation_methods.md           # PLR, IRM, IIVM, PLIV methods
-│   ├── model_selection.md              # Learner selection, ensemble approaches
-│   ├── reporting_standards.md          # Tables, CIs, robustness reporting
-│   └── common_errors.md                # Pitfalls and how to avoid them
-├── scripts/                    # Executable CLI tools
-│   ├── run_ddml_analysis.py            # Complete analysis workflow
-│   ├── tune_nuisance_models.py         # Automated hyperparameter tuning
-│   ├── cross_fit_diagnostics.py        # Diagnostic visualization
-│   ├── sensitivity_analysis.py         # Robustness checks
-│   └── compare_estimators.py           # Model comparison
-└── assets/                     # Templates and formatting
-    ├── latex/
-    │   └── ddml_table.tex              # LaTeX table templates
-    └── markdown/
-        └── ddml_report.md              # Analysis report template
-```
-
----
-
-## Identification Assumptions
-
-> **Detailed Reference**: `references/identification_assumptions.md`
-
-| Assumption | Description | Testable? |
-|------------|-------------|-----------|
-| **Unconfoundedness** | $(Y(0), Y(1)) \perp D \| X$ | No |
-| **Overlap/Positivity** | $0 < P(D=1\|X) < 1$ | Yes |
-| **Neyman Orthogonality** | Score insensitive to nuisance errors | By construction |
-| **Rate Conditions** | $\|\hat{\ell} - \ell_0\| \cdot \|\hat{m} - m_0\| = o_P(n^{-1/2})$ | Partially |
-
-### Key Insight: Product Rate Condition
-
-DDML requires that the **product** of nuisance estimation errors decays faster than $n^{-1/2}$. This is weaker than requiring each to be $\sqrt{n}$-consistent, enabling use of regularized ML estimators.
-
----
-
-## Workflow
-
-```
-+-------------------------------------------------------------+
-|                    DDML ESTIMATOR WORKFLOW                    |
-+-------------------------------------------------------------+
-|  1. SETUP          -> Define Y, D, X (high-dimensional)       |
-|  2. MODEL SELECTION-> Choose first-stage ML learners          |
-|  3. CROSS-FITTING  -> K-fold sample splitting (K=5 typical)   |
-|  4. ESTIMATION     -> PLR (Partially Linear) or IRM (Inter.)  |
-|  5. INFERENCE      -> Debiased estimates + valid SEs          |
-|  6. REPORTING      -> Tables with multiple ML specifications  |
-+-------------------------------------------------------------+
-```
-
-### Phase 1: Setup
+### Basic PLR with doubleml
 
 ```python
-from ddml_estimator import validate_ddml_setup, create_ddml_data
-
-# Validate data structure
-validation = validate_ddml_setup(
-    data=df,
-    outcome="y",
-    treatment="d",
-    controls=control_vars,
-    n_folds=5
-)
-
-if not validation['is_valid']:
-    raise ValueError(f"Validation failed: {validation['errors']}")
-```
-
-### Phase 2: Model Selection
-
-> **Detailed Reference**: `references/model_selection.md`
-
-```python
-from ddml_estimator import select_first_stage_learners
-
-# Auto-select best ML learners via cross-validation
-best_learners = select_first_stage_learners(
-    X=df[control_vars],
-    y=df['y'],
-    d=df['d'],
-    cv_folds=5
-)
-```
-
-**Learner Recommendations**:
-| Scenario | Learner |
-|----------|---------|
-| Sparse, linear | Lasso, Elastic Net |
-| Complex nonlinear | Random Forest, XGBoost |
-| Very high-dimensional | Lasso + RF ensemble |
-| Unknown structure | Compare multiple |
-
-### Phase 3: Cross-Fitting
-
-> **Detailed Reference**: `references/identification_assumptions.md` (Section 2)
-
-```
-K-Fold Cross-Fitting (K=5):
-+--------------------------------------------------+
-| Fold 1: Train on [2,3,4,5] -> Predict on [1]     |
-| Fold 2: Train on [1,3,4,5] -> Predict on [2]     |
-| ...                                               |
-+--------------------------------------------------+
-Result: Out-of-sample predictions for ALL observations
-```
-
-**Choosing K**:
-| Sample Size | K | n/K |
-|-------------|---|-----|
-| n < 500 | 2-3 | ~150+ |
-| 500-2000 | 5 | ~200+ |
-| n > 2000 | 5-10 | ~200+ |
-
-### Phase 4: Estimation
-
-> **Detailed Reference**: `references/estimation_methods.md`
-
-**PLR (Partially Linear Regression)**:
-```python
-from ddml_estimator import estimate_plr
-
-result = estimate_plr(
-    data=df,
-    outcome="y",
-    treatment="d",
-    controls=control_vars,
-    ml_l='lasso',      # E[Y|X] learner
-    ml_m='lasso',      # E[D|X] learner
-    n_folds=5
-)
-```
-
-**IRM (Interactive Regression Model)**:
-```python
-from ddml_estimator import estimate_irm
-
-result = estimate_irm(
-    data=df,
-    outcome="y",
-    treatment="d",  # Must be binary
-    controls=control_vars,
-    ml_g='random_forest',     # E[Y|D,X] learner
-    ml_m='logistic_lasso',    # P(D=1|X) learner
-    n_folds=5,
-    trimming_threshold=0.01   # Handle extreme propensities
-)
-```
-
-### Phase 5: Inference
-
-```python
-print(f"Effect: {result.effect:.4f}")
-print(f"SE: {result.se:.4f}")
-print(f"95% CI: [{result.ci_lower:.4f}, {result.ci_upper:.4f}]")
-print(f"P-value: {result.p_value:.4f}")
-```
-
-### Phase 6: Robustness
-
-> **Detailed Reference**: `references/diagnostic_tests.md`
-
-```python
-from ddml_estimator import compare_learners
-
-comparison = compare_learners(
-    data=df,
-    outcome="y",
-    treatment="d",
-    controls=control_vars,
-    learner_list=['lasso', 'ridge', 'random_forest', 'xgboost']
-)
-
-print(comparison.summary_table)
-print(f"Effect range: [{comparison.sensitivity['min_effect']:.4f}, "
-      f"{comparison.sensitivity['max_effect']:.4f}]")
-```
-
----
-
-## PLR vs IRM Model Comparison
-
-| Aspect | PLR | IRM |
-|--------|-----|-----|
-| Treatment Type | Any (continuous/binary) | Binary only |
-| Effect Assumption | Constant | Allows heterogeneity |
-| Estimand | ATE | ATE, ATTE |
-| Nuisance Functions | E[Y\|X], E[D\|X] | E[Y\|D,X], P(D=1\|X) |
-| Score | Partialling out | AIPW (doubly robust) |
-| When to Use | Continuous D, constant effects | Binary D, heterogeneous effects |
-
----
-
-## Diagnostic Tests
-
-> **Detailed Reference**: `references/diagnostic_tests.md`
-
-### Cross-Fitting Stability
-
-```bash
-python scripts/cross_fit_diagnostics.py --data data.csv --outcome y --treatment d --output plots/
-```
-
-Generates:
-- `fold_variation.png` - Estimates by fold
-- `repetition_stability.png` - Stability across repetitions
-- `residuals.png` - Residual diagnostics
-- `propensity_overlap.png` - Propensity distribution (IRM)
-- `nuisance_performance.png` - Predicted vs actual
-
-### Nuisance Model Quality
-
-```python
-# Check in result diagnostics
-print(result.diagnostics['r2_y_given_x'])  # Outcome model R2
-print(result.diagnostics['r2_d_given_x'])  # Treatment model R2
-```
-
-### Propensity Overlap (IRM)
-
-```python
-# Check propensity distribution
-print(result.diagnostics['propensity_summary'])
-# {min, max, mean, n_extreme_low, n_extreme_high}
-```
-
----
-
-## Common Errors
-
-> **Detailed Reference**: `references/common_errors.md`
-
-### 1. Not Using Cross-Fitting
-
-```python
-# WRONG: In-sample predictions
-model.fit(X, y)
-resid = y - model.predict(X)  # Overfitted!
-
-# CORRECT: Cross-validated predictions
-resid = y - cross_val_predict(model, X, y, cv=5)
-```
-
-### 2. IRM with Continuous Treatment
-
-```python
-# WRONG
-result = estimate_irm(data, outcome, continuous_treatment, controls)
-
-# CORRECT: Use PLR for continuous treatment
-result = estimate_plr(data, outcome, continuous_treatment, controls)
-```
-
-### 3. Ignoring Propensity Overlap
-
-```python
-# ALWAYS check for extreme propensities with IRM
-result = estimate_irm(..., trimming_threshold=0.01)
-print(result.diagnostics['n_trimmed'])
-```
-
-### 4. Single Specification
-
-```python
-# WRONG: Report only one learner
-result = estimate_plr(..., ml_l='lasso')
-
-# CORRECT: Compare multiple specifications
-comparison = compare_learners(..., learner_list=['lasso', 'rf', 'xgboost'])
-```
-
-### 5. Claiming Causality Without Justification
-
-Always discuss:
-1. Why unconfoundedness is plausible
-2. What confounders are included
-3. Potential omitted variables
-4. Sensitivity to violations
-
----
-
-## Reporting Standards
-
-> **Detailed Reference**: `references/reporting_standards.md`
-> **Template**: `assets/markdown/ddml_report.md`
-> **LaTeX Table**: `assets/latex/ddml_table.tex`
-
-### Minimum Reporting Requirements
-
-1. **Model type**: PLR or IRM
-2. **ML learners**: For each nuisance function
-3. **Cross-fitting**: K folds, n repetitions
-4. **Point estimate**: With SE and CI
-5. **Sensitivity**: Range across specifications
-
-### Example Table
-
-```
-| Specification | Effect | SE | 95% CI |
-|---------------|--------|-----|--------|
-| (1) Lasso | 0.082*** | 0.008 | [0.066, 0.098] |
-| (2) RF | 0.079*** | 0.009 | [0.061, 0.097] |
-| (3) XGBoost | 0.081*** | 0.008 | [0.065, 0.097] |
-```
-
----
-
-## DoubleML Package Integration
-
-For production use, consider the `doubleml` package:
-
-```python
+import numpy as np
+import pandas as pd
+from sklearn.linear_model import LassoCV
+from sklearn.ensemble import RandomForestRegressor
 import doubleml as dml
 from doubleml import DoubleMLData, DoubleMLPLR
 
-# Prepare data
-dml_data = DoubleMLData(df, y_col='outcome', d_cols='treatment', x_cols=controls)
+# Example: Effect of education on wages with many controls
+# Treatment: years_education (continuous)
+# Outcome: log_wage
+# Controls: age, experience, demographics, industry dummies, etc.
 
-# Estimate
-dml_plr = DoubleMLPLR(dml_data, ml_l=LassoCV(), ml_m=LassoCV(), n_folds=5)
-dml_plr.fit()
+# Load data
+df = pd.read_csv('data.csv')
 
-print(dml_plr.summary)
-```
+# Define variables
+outcome = 'log_wage'
+treatment = 'years_education'
+controls = ['age', 'age_sq', 'female', 'married', 'experience',
+            'experience_sq', 'region_1', 'region_2', 'region_3']
 
-**Documentation**: https://docs.doubleml.org/
-
----
-
-## Examples
-
-### Example 1: Returns to Education
-
-```python
-# High-dimensional controls for education-wage analysis
-result = run_full_ddml_analysis(
-    data=df,
-    outcome="log_wage",
-    treatment="years_education",
-    controls=['age', 'age_sq', 'female', 'married', 'region_*', 'industry_*',
-              'parents_education', 'test_score', 'family_income']
+# Create DoubleML data object
+dml_data = DoubleMLData(
+    df,
+    y_col=outcome,
+    d_cols=treatment,
+    x_cols=controls
 )
 
-print(result.summary_table)
+# Define ML learners for nuisance functions
+# ml_l: E[Y|X] - outcome regression
+# ml_m: E[D|X] - treatment regression
+ml_l = LassoCV(cv=5, n_alphas=50, max_iter=10000)
+ml_m = LassoCV(cv=5, n_alphas=50, max_iter=10000)
+
+# Estimate PLR model
+dml_plr = DoubleMLPLR(
+    dml_data,
+    ml_l=ml_l,
+    ml_m=ml_m,
+    n_folds=5,           # Number of cross-fitting folds
+    n_rep=1,             # Number of repetitions
+    score='partialling out'  # Score function
+)
+
+# Fit the model
+dml_plr.fit()
+
+# Results
+print(dml_plr.summary)
+
+# Access specific values
+print(f"\nEffect estimate: {dml_plr.coef[0]:.4f}")
+print(f"Standard error: {dml_plr.se[0]:.4f}")
+print(f"t-statistic: {dml_plr.t_stat[0]:.4f}")
+print(f"p-value: {dml_plr.pval[0]:.4f}")
+
+# 95% Confidence interval
+ci = dml_plr.confint(level=0.95)
+print(f"95% CI: [{ci.iloc[0, 0]:.4f}, {ci.iloc[0, 1]:.4f}]")
 ```
 
-### Example 2: Job Training Program (Binary Treatment)
+### IRM for Binary Treatment
 
 ```python
-# Compare PLR and IRM for binary treatment
-result_plr = estimate_plr(data, 'earnings', 'training', controls)
-result_irm = estimate_irm(data, 'earnings', 'training', controls)
+from sklearn.linear_model import LogisticRegressionCV
+from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+from doubleml import DoubleMLIRM
 
-print(f"PLR (constant effect): {result_plr.effect:.2f}")
-print(f"IRM (heterogeneous): {result_irm.effect:.2f}")
+# Example: Effect of job training on earnings
+# Treatment: training (binary 0/1)
+# Outcome: earnings
+
+df = pd.read_csv('data.csv')
+
+outcome = 'earnings'
+treatment = 'training'
+controls = ['age', 'education', 'prior_earnings', 'married', 'children']
+
+# Create DoubleML data
+dml_data = DoubleMLData(
+    df,
+    y_col=outcome,
+    d_cols=treatment,
+    x_cols=controls
+)
+
+# For IRM:
+# ml_g: E[Y|D,X] - outcome model (conditional on treatment)
+# ml_m: P(D=1|X) - propensity score model
+ml_g = RandomForestRegressor(n_estimators=200, max_depth=5, n_jobs=-1)
+ml_m = LogisticRegressionCV(cv=5, max_iter=1000)
+
+# Estimate IRM
+dml_irm = DoubleMLIRM(
+    dml_data,
+    ml_g=ml_g,
+    ml_m=ml_m,
+    n_folds=5,
+    n_rep=1,
+    score='ATE',           # 'ATE' or 'ATTE'
+    trimming_threshold=0.01  # Trim extreme propensities
+)
+
+dml_irm.fit()
+print(dml_irm.summary)
+
+# Check propensity score overlap
+# Access cross-fitted propensity scores
+prop_scores = dml_irm.nuisance_estimates['ml_m'][0].reshape(-1)
+print(f"\nPropensity score range: [{prop_scores.min():.4f}, {prop_scores.max():.4f}]")
+print(f"Observations trimmed: {(prop_scores < 0.01).sum() + (prop_scores > 0.99).sum()}")
 ```
 
----
+### Comparing Multiple Learners (Sensitivity Analysis)
 
-## Mathematical Appendix
+```python
+from sklearn.linear_model import LassoCV, RidgeCV, ElasticNetCV
+from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
+from doubleml import DoubleMLPLR, DoubleMLData
+import pandas as pd
 
-### Neyman-Orthogonal Score (PLR)
+# Define data
+dml_data = DoubleMLData(df, y_col='outcome', d_cols='treatment', x_cols=controls)
 
-$$
-\psi^{PLR}(W; \theta, \ell, m) = (Y - \ell(X) - \theta(D - m(X)))(D - m(X))
-$$
+# Learners to compare
+learners = {
+    'Lasso': (LassoCV(cv=5), LassoCV(cv=5)),
+    'Ridge': (RidgeCV(cv=5), RidgeCV(cv=5)),
+    'Elastic Net': (ElasticNetCV(cv=5, l1_ratio=0.5), ElasticNetCV(cv=5, l1_ratio=0.5)),
+    'Random Forest': (RandomForestRegressor(n_estimators=100, max_depth=5),
+                      RandomForestRegressor(n_estimators=100, max_depth=5)),
+}
 
-Setting $E[\psi] = 0$:
-$$
-\hat{\theta} = \frac{\sum_i (Y_i - \hat{\ell}(X_i))(D_i - \hat{m}(X_i))}{\sum_i (D_i - \hat{m}(X_i))^2}
-$$
+results = []
+for name, (ml_l, ml_m) in learners.items():
+    model = DoubleMLPLR(dml_data, ml_l=ml_l, ml_m=ml_m, n_folds=5)
+    model.fit()
 
-### Asymptotic Distribution
+    results.append({
+        'Learner': name,
+        'Effect': model.coef[0],
+        'SE': model.se[0],
+        'CI_lower': model.confint().iloc[0, 0],
+        'CI_upper': model.confint().iloc[0, 1],
+        'p_value': model.pval[0]
+    })
 
-Under regularity conditions:
-$$
-\sqrt{n}(\hat{\theta} - \theta_0) \xrightarrow{d} N(0, \sigma^2)
-$$
+results_df = pd.DataFrame(results)
+print("\n" + "="*70)
+print("SENSITIVITY ANALYSIS: Comparing ML Learners")
+print("="*70)
+print(results_df.to_string(index=False))
 
-Where:
-$$
-\sigma^2 = \frac{E[\psi^2]}{(E[\partial_\theta \psi])^2}
-$$
+# Check robustness
+effect_range = results_df['Effect'].max() - results_df['Effect'].min()
+mean_effect = results_df['Effect'].mean()
+print(f"\nEffect range: {effect_range:.4f}")
+print(f"Mean effect: {mean_effect:.4f}")
+print(f"Coefficient of variation: {results_df['Effect'].std() / abs(mean_effect):.2%}")
+```
 
----
+### IV Estimation with DDML (PLIV)
 
-## References
+```python
+from doubleml import DoubleMLPLIV, DoubleMLData
 
-### Seminal Papers
-1. Chernozhukov, V., et al. (2018). Double/Debiased Machine Learning for Treatment and Structural Parameters. *The Econometrics Journal*, 21(1), C1-C68.
-2. Chernozhukov, V., et al. (2017). Double/Debiased/Neyman Machine Learning of Treatment Effects. *AER P&P*, 107(5), 261-265.
+# Example: Effect of education on wages using distance to college as IV
+df = pd.read_csv('data.csv')
 
-### Foundational High-Dimensional Papers
-3. Belloni, A., Chernozhukov, V., & Hansen, C. (2011). Inference on Treatment Effects after Selection Among High-Dimensional Controls. *Review of Economic Studies*, 81(2), 608-650. [1,498 citations]
-4. Belloni, A., et al. (2013). High-Dimensional Methods and Inference on Structural and Treatment Effects. *Journal of Economic Perspectives*, 28(2), 29-50. [678 citations]
+# Create data with instrument
+dml_data = DoubleMLData(
+    df,
+    y_col='log_wage',
+    d_cols='years_education',  # Endogenous
+    x_cols=controls,
+    z_cols='distance_college'  # Instrument
+)
 
-### Extensions
-5. Chernozhukov, V., et al. (2022). Locally Robust Semiparametric Estimation. *Econometrica*, 90(4), 1501-1535.
-6. Semenova, V., & Chernozhukov, V. (2021). Debiased Machine Learning of CATE. *The Econometrics Journal*, 24(2), 264-289.
-7. Chernozhukov, V., et al. (2017). Generic Machine Learning Inference on Heterogeneous Treatment Effects. *arXiv*. [210 citations]
+# PLIV model
+ml_l = LassoCV(cv=5)
+ml_m = LassoCV(cv=5)
+ml_r = LassoCV(cv=5)  # For instrument regression
 
-### Software
-5. DoubleML (Python/R): https://docs.doubleml.org/
-6. EconML (Python): https://econml.azurewebsites.net/
+dml_pliv = DoubleMLPLIV(
+    dml_data,
+    ml_l=ml_l,
+    ml_m=ml_m,
+    ml_r=ml_r,
+    n_folds=5
+)
 
----
+dml_pliv.fit()
+print(dml_pliv.summary)
+```
+
+### Complete Analysis with Diagnostics
+
+```python
+import numpy as np
+import pandas as pd
+from sklearn.linear_model import LassoCV
+from sklearn.model_selection import cross_val_predict
+from sklearn.metrics import r2_score
+import doubleml as dml
+from doubleml import DoubleMLData, DoubleMLPLR
+import matplotlib.pyplot as plt
+
+def run_ddml_analysis(df, outcome, treatment, controls, n_folds=5, n_rep=1):
+    """
+    Run complete DDML analysis with diagnostics.
+    """
+    # Create data object
+    dml_data = DoubleMLData(df, y_col=outcome, d_cols=treatment, x_cols=controls)
+
+    # Define learners
+    ml_l = LassoCV(cv=5, n_alphas=50, max_iter=10000)
+    ml_m = LassoCV(cv=5, n_alphas=50, max_iter=10000)
+
+    # Estimate
+    model = DoubleMLPLR(dml_data, ml_l=ml_l, ml_m=ml_m, n_folds=n_folds, n_rep=n_rep)
+    model.fit()
+
+    # Diagnostics: Nuisance model performance
+    X = df[controls].values
+    Y = df[outcome].values
+    D = df[treatment].values
+
+    # Cross-validated R2 for outcome model
+    y_pred = cross_val_predict(LassoCV(cv=5), X, Y, cv=5)
+    r2_outcome = r2_score(Y, y_pred)
+
+    # Cross-validated R2 for treatment model
+    d_pred = cross_val_predict(LassoCV(cv=5), X, D, cv=5)
+    r2_treatment = r2_score(D, d_pred)
+
+    print("="*60)
+    print("DDML ANALYSIS RESULTS")
+    print("="*60)
+    print(f"\nModel: Partially Linear Regression (PLR)")
+    print(f"Sample size: {len(df)}")
+    print(f"Controls: {len(controls)}")
+    print(f"Cross-fitting: {n_folds} folds, {n_rep} repetitions")
+
+    print("\n--- Causal Effect ---")
+    print(f"Effect: {model.coef[0]:.4f}")
+    print(f"SE: {model.se[0]:.4f}")
+    ci = model.confint()
+    print(f"95% CI: [{ci.iloc[0,0]:.4f}, {ci.iloc[0,1]:.4f}]")
+    print(f"t-stat: {model.t_stat[0]:.4f}")
+    print(f"p-value: {model.pval[0]:.4f}")
+
+    print("\n--- Nuisance Model Quality ---")
+    print(f"R2 (outcome ~ X): {r2_outcome:.4f}")
+    print(f"R2 (treatment ~ X): {r2_treatment:.4f}")
+
+    if r2_outcome < 0.1:
+        print("WARNING: Low outcome model fit - consider different learner")
+    if r2_treatment < 0.1:
+        print("WARNING: Low treatment model fit - check for weak selection")
+
+    print("="*60)
+
+    return model, {'r2_outcome': r2_outcome, 'r2_treatment': r2_treatment}
+
+# Usage
+model, diagnostics = run_ddml_analysis(df, 'log_wage', 'years_education', controls)
+```
+
+## Core Capabilities
+
+### 1. DDML Models
+
+| Model | Full Name | Treatment | Estimand | Use Case |
+|-------|-----------|-----------|----------|----------|
+| **PLR** | Partially Linear Regression | Any | ATE | Continuous or binary treatment, constant effect |
+| **IRM** | Interactive Regression Model | Binary | ATE, ATTE | Binary treatment, heterogeneous effects |
+| **IIVM** | Interactive IV Model | Binary + IV | LATE | Binary endogenous treatment |
+| **PLIV** | Partially Linear IV | Continuous + IV | ATE | Continuous endogenous treatment |
+
+### 2. Cross-Fitting
+
+**K-Fold Sample Splitting:**
+```
+For each fold k:
+  1. Train nuisance models on data excluding fold k
+  2. Predict on fold k (out-of-sample)
+  3. Compute orthogonal score on fold k
+```
+
+**Choosing K:**
+
+| Sample Size | Recommended K | Min observations per fold |
+|-------------|---------------|---------------------------|
+| n < 500 | 2-3 | ~150 |
+| 500-2000 | 5 | ~100 |
+| n > 2000 | 5-10 | ~200 |
+
+### 3. Nuisance Function Learners
+
+| Learner | Best For | doubleml Syntax |
+|---------|----------|-----------------|
+| Lasso | Sparse, high-dimensional | `LassoCV()` |
+| Ridge | Dense, correlated features | `RidgeCV()` |
+| Elastic Net | Mixed sparsity | `ElasticNetCV()` |
+| Random Forest | Nonlinear relationships | `RandomForestRegressor()` |
+| Gradient Boosting | Complex interactions | `GradientBoostingRegressor()` |
+
+## Common Workflows
+
+### Workflow 1: Standard DDML Analysis
+
+```
+1. Data Preparation
+   ├── Define outcome, treatment, controls
+   ├── Check for missing data
+   └── Consider variable transformations
+
+2. Model Selection
+   ├── PLR for continuous treatment
+   ├── IRM for binary treatment
+   └── PLIV/IIVM if instruments needed
+
+3. Learner Selection
+   ├── Start with Lasso (interpretable)
+   ├── Try Random Forest (flexible)
+   └── Compare multiple learners
+
+4. Estimation
+   ├── Set n_folds (typically 5)
+   ├── Consider n_rep > 1 for stability
+   └── Fit model
+
+5. Diagnostics
+   ├── Check nuisance model R2
+   ├── Verify propensity overlap (IRM)
+   └── Compare across learners
+
+6. Reporting
+   ├── Point estimate with CI
+   ├── Sensitivity across specifications
+   └── Discuss identification assumptions
+```
+
+### Workflow 2: Robustness Analysis
+
+```
+1. Baseline Specification
+   └── Lasso for both nuisance functions
+
+2. Learner Sensitivity
+   ├── Ridge
+   ├── Random Forest
+   ├── Gradient Boosting
+   └── Compare effect estimates
+
+3. Sample Sensitivity
+   ├── Vary trimming threshold (IRM)
+   ├── Vary number of folds
+   └── Multiple repetitions
+
+4. Report
+   └── Effect range across specifications
+```
+
+## Best Practices
+
+### Model Selection
+
+1. **Start simple**: Lasso provides interpretable baseline
+2. **Compare learners**: Report sensitivity to ML specification
+3. **Match model to treatment type**: PLR for continuous, IRM for binary
+4. **Check rate conditions**: Both nuisance models need reasonable fit
+
+### Cross-Fitting
+
+1. **Use K >= 5 folds** for samples > 500
+2. **Set n_rep > 1** for inference stability (e.g., n_rep=10)
+3. **Don't peek**: Never use in-sample predictions
+
+### Inference
+
+1. **Report CIs** not just point estimates
+2. **Compare across learners** to assess sensitivity
+3. **Discuss identification**: Unconfoundedness is assumed, not tested
+
+### Diagnostics
+
+1. **Check nuisance R2**: Low R2 suggests weak selection
+2. **Examine propensity overlap** (IRM): Trim extreme values
+3. **Look for effect heterogeneity**: Consider causal forest if suspected
+
+## Reference Documentation
+
+### references/identification_assumptions.md
+- Neyman orthogonality formal definition
+- Cross-fitting theory
+- Rate conditions for valid inference
+- When assumptions fail
+
+### references/estimation_methods.md
+- PLR score function derivation
+- IRM (AIPW) score
+- PLIV and IIVM for IV settings
+- Asymptotic theory
+
+### references/diagnostic_tests.md
+- Cross-fit stability checks
+- Nuisance model quality metrics
+- Propensity score diagnostics
+- Sensitivity analysis
+
+### references/model_selection.md
+- Learner selection guidance
+- Hyperparameter tuning
+- Ensemble approaches
+
+### references/reporting_standards.md
+- Table formatting
+- Required elements
+- LaTeX templates
+
+### references/common_errors.md
+- Not using cross-fitting
+- Wrong model for treatment type
+- Ignoring propensity overlap
+- Single specification reporting
+
+## Common Pitfalls to Avoid
+
+1. **Not using cross-fitting**: In-sample predictions cause overfitting bias
+2. **Using IRM with continuous treatment**: IRM is for binary treatment only
+3. **Ignoring propensity overlap**: Extreme propensities inflate variance
+4. **Single ML specification**: Always compare multiple learners
+5. **Claiming causality without justification**: Discuss unconfoundedness plausibility
+6. **Too few folds**: Use K >= 5 for reasonable samples
+7. **Ignoring nuisance model quality**: Low R2 signals problems
+8. **Not reporting sensitivity**: Effect should be stable across specifications
+9. **Forgetting rate conditions**: Product of errors must decay fast enough
+10. **Using DDML for small samples**: Cross-fitting unreliable for n < 100
+
+## Troubleshooting
+
+### Effect Estimate Varies Widely Across Learners
+
+**Issue:** Sensitivity analysis shows large effect range
+
+**Solutions:**
+```python
+# 1. Increase repetitions for stability
+model = DoubleMLPLR(..., n_rep=10)
+
+# 2. Use ensemble learners
+from sklearn.ensemble import StackingRegressor
+
+# 3. Check if data supports identification
+# Large variation may indicate weak identification
+```
+
+### Low Nuisance Model R2
+
+**Issue:** Outcome or treatment model has poor fit
+
+**Solutions:**
+```python
+# 1. Try more flexible learners
+ml_l = RandomForestRegressor(n_estimators=500, max_depth=10)
+
+# 2. Add polynomial/interaction terms
+from sklearn.preprocessing import PolynomialFeatures
+
+# 3. Check for missing important controls
+```
+
+### Extreme Propensity Scores (IRM)
+
+**Issue:** Many observations with propensity near 0 or 1
+
+**Solutions:**
+```python
+# 1. Increase trimming threshold
+model = DoubleMLIRM(..., trimming_threshold=0.05)
+
+# 2. Check overlap visually
+import matplotlib.pyplot as plt
+plt.hist(prop_scores[treatment==0], alpha=0.5, label='Control')
+plt.hist(prop_scores[treatment==1], alpha=0.5, label='Treated')
+
+# 3. Consider different estimand (ATTE instead of ATE)
+```
+
+### Import Error for doubleml
+
+**Solution:**
+```bash
+pip install doubleml
+```
+
+## Additional Resources
+
+### Official Documentation
+- DoubleML: https://docs.doubleml.org/
+- EconML: https://econml.azurewebsites.net/
+
+### Key Papers
+- Chernozhukov et al. (2018): "Double/Debiased Machine Learning for Treatment and Structural Parameters"
+- Chernozhukov et al. (2017): "Double/Debiased/Neyman Machine Learning of Treatment Effects"
+- Belloni et al. (2014): "Inference on Treatment Effects after Selection Among High-Dimensional Controls"
+
+### Textbooks
+- Chernozhukov et al. (2024): *Causal Inference for Statistics, Social, and Biomedical Sciences*
+- Athey & Imbens (2019): "Machine Learning Methods That Economists Should Know About"
+
+## Installation
+
+```bash
+# Core package
+pip install doubleml
+
+# ML learners
+pip install scikit-learn xgboost lightgbm
+
+# Full installation
+pip install doubleml scikit-learn xgboost lightgbm pandas numpy matplotlib
+```
 
 ## Related Skills
 
 | Skill | When to Use Instead |
 |-------|---------------------|
-| `estimator-ols` | Low-dimensional, simple relationships |
 | `estimator-psm` | Explicit propensity matching desired |
-| `estimator-iv` | Unconfoundedness violated, instrument available |
+| `estimator-iv` | Unconfoundedness violated, have instrument |
 | `estimator-did` | Panel data, staggered treatment |
-| `causal-forest` | Focus on treatment effect heterogeneity |
+| `causal-forest` | Focus on heterogeneous treatment effects |
+| `panel-data-models` | Panel structure without high-dimensional controls |

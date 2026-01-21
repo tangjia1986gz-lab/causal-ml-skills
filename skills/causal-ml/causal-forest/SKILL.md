@@ -42,10 +42,7 @@ Where:
 - [Reporting Standards](references/reporting_standards.md) - Variable importance, CATE plots, policy trees
 
 ### CLI Tools
-- [run_causal_forest.py](scripts/run_causal_forest.py) - Complete causal forest analysis pipeline
-- [estimate_cate.py](scripts/estimate_cate.py) - CATE estimation with uncertainty quantification
-- [visualize_heterogeneity.py](scripts/visualize_heterogeneity.py) - Heterogeneity visualization suite
-- [policy_evaluation.py](scripts/policy_evaluation.py) - Policy learning and evaluation
+- [causal_forest_pipeline.py](scripts/causal_forest_pipeline.py) - Complete causal forest analysis pipeline with CATE estimation, heterogeneity testing, policy learning, and visualization
 
 ### Templates
 - [Analysis Report Template](assets/markdown/causal_forest_report.md) - Comprehensive report template
@@ -130,7 +127,12 @@ Where weights `alpha_i(x)` are determined by how often observation `i` falls in 
 ### Step 1: Setup - Define Components
 
 ```python
-from causal_forest import fit_causal_forest, CausalForestConfig
+# pip install econml scikit-learn pandas numpy matplotlib
+
+from econml.dml import CausalForestDML
+from sklearn.ensemble import GradientBoostingRegressor, GradientBoostingClassifier
+import pandas as pd
+import numpy as np
 
 # Identify your variables
 outcome = 'revenue'           # Y: what we're trying to affect
@@ -141,112 +143,125 @@ effect_modifiers = [          # X: variables that may modify treatment effect
     'past_purchases',
     'segment'
 ]
-confounders = [               # Additional adjustment variables
+confounders = [               # W: Additional adjustment variables (controls)
     'region',
     'signup_channel'
 ]
 
-# Configuration
-config = CausalForestConfig(
-    n_estimators=2000,        # Number of trees
-    honesty=True,             # Use honest splitting
-    honesty_fraction=0.5,     # Fraction for estimation (vs splitting)
-    min_node_size=5,          # Minimum observations per leaf
-    mtry=None,                # Variables to try at each split (default: sqrt(p))
-    sample_fraction=0.5       # Subsampling fraction per tree
-)
+# Prepare data matrices
+Y = data[outcome].values
+T = data[treatment].values
+X = data[effect_modifiers].values
+W = data[effect_modifiers + confounders].values  # All controls
 ```
 
 ### Step 2: Training - Fit Causal Forest
 
 ```python
-# Fit the causal forest
-cf_model = fit_causal_forest(
-    X=data[effect_modifiers],
-    y=data[outcome],
-    treatment=data[treatment],
-    X_adjust=data[confounders],  # Additional confounders
-    config=config
+# Initialize Causal Forest with flexible first-stage models
+cf_model = CausalForestDML(
+    model_y=GradientBoostingRegressor(n_estimators=100, max_depth=3),
+    model_t=GradientBoostingClassifier(n_estimators=100, max_depth=3),
+    n_estimators=2000,        # Number of trees
+    min_samples_leaf=5,       # Minimum observations per leaf
+    max_depth=None,           # Full tree depth
+    honest=True,              # Use honest splitting
+    cv=5,                     # Cross-fitting folds
+    random_state=42
 )
 
-print(f"Training complete. OOB R-squared: {cf_model.oob_score_:.3f}")
+# Fit the model
+cf_model.fit(Y=Y, T=T, X=X, W=W)
+print("Training complete.")
 ```
 
 ### Step 3: CATE Estimation - Individual Treatment Effects
 
 ```python
-from causal_forest import estimate_cate
-
 # Estimate treatment effects for each individual
-cate_results = estimate_cate(cf_model, X_test=data[effect_modifiers])
-
-# Results include:
-# - cate_results.estimates: Point estimates of tau(x)
-# - cate_results.std_errors: Standard errors
-# - cate_results.ci_lower: Lower confidence bound
-# - cate_results.ci_upper: Upper confidence bound
+cate = cf_model.effect(X)                   # Point estimates
+cate_interval = cf_model.effect_interval(X) # 95% CI
+cate_lower, cate_upper = cate_interval
 
 # Summary statistics
-print(f"Average CATE: {cate_results.estimates.mean():.3f}")
-print(f"CATE Range: [{cate_results.estimates.min():.3f}, {cate_results.estimates.max():.3f}]")
-print(f"Proportion with positive effect: {(cate_results.estimates > 0).mean():.1%}")
+print(f"Average CATE: {cate.mean():.3f}")
+print(f"CATE Range: [{cate.min():.3f}, {cate.max():.3f}]")
+print(f"Proportion with positive effect: {(cate > 0).mean():.1%}")
+print(f"Significant effects (CI excludes 0): {((cate_lower > 0) | (cate_upper < 0)).mean():.1%}")
 ```
 
 ### Step 4: Variable Importance - Heterogeneity Drivers
 
 ```python
-from causal_forest import variable_importance, plot_variable_importance
+# Extract feature importances from the causal forest
+importance = cf_model.feature_importances_
 
-# Extract variable importance
-importance = variable_importance(cf_model)
+# Create importance DataFrame
+importance_df = pd.DataFrame({
+    'feature': effect_modifiers,
+    'importance': importance
+}).sort_values('importance', ascending=False)
 
-# Plot importance scores
-plot_variable_importance(
-    importance_scores=importance.scores,
-    feature_names=effect_modifiers,
-    title="Drivers of Treatment Effect Heterogeneity"
-)
+print("Variable Importance (Heterogeneity Drivers):")
+print(importance_df.to_string(index=False))
 
-# Top drivers
-for name, score in importance.ranked[:5]:
-    print(f"{name}: {score:.3f}")
+# Plot
+import matplotlib.pyplot as plt
+plt.figure(figsize=(10, 6))
+plt.barh(importance_df['feature'], importance_df['importance'])
+plt.xlabel('Importance')
+plt.title('Drivers of Treatment Effect Heterogeneity')
+plt.tight_layout()
+plt.savefig('variable_importance.png', dpi=150)
 ```
 
 ### Step 5: Best Linear Projection (BLP)
 
-The BLP summarizes heterogeneity as a linear function of covariates:
+The BLP summarizes heterogeneity as a linear function of covariates using OLS of CATE on X:
 
 ```python
-from causal_forest import best_linear_projection
+import statsmodels.api as sm
 
-# Project CATE onto linear function of selected variables
-blp_result = best_linear_projection(
-    cf_model,
-    A=data[['customer_age', 'tenure_months']]  # Variables to project onto
-)
+# OLS of estimated CATE on covariates
+X_with_const = sm.add_constant(pd.DataFrame(X, columns=effect_modifiers))
+blp_model = sm.OLS(cate, X_with_const).fit(cov_type='HC1')
 
-# Results
 print("Best Linear Projection of CATE:")
-print(blp_result.summary())
+print(blp_model.summary())
 
-# Interpretation: CATE ≈ beta_0 + beta_1 * age + beta_2 * tenure
-# Coefficients show how CATE varies with each variable
+# Which covariates significantly predict heterogeneity?
+significant_vars = blp_result[blp_result['P>|z|'] < 0.05].index.tolist()
+print(f"Significant heterogeneity drivers: {significant_vars}")
+
+# Interpretation: CATE ≈ beta_0 + beta_1 * age + beta_2 * tenure + ...
+# Positive coefficient = higher CATE for higher covariate values
 ```
 
 See [Heterogeneity Analysis](references/heterogeneity_analysis.md) for detailed guidance.
 
 ### Step 6: Heterogeneity Testing
 
+Test whether treatment effect heterogeneity is statistically significant:
+
 ```python
-from causal_forest import heterogeneity_test
+from scipy import stats
 
-# Test whether heterogeneity is statistically significant
-het_test = heterogeneity_test(cf_model)
+# Simple heterogeneity test: variance of CATE estimates
+cate_var = np.var(cate)
+cate_mean_var = np.mean(((cate_upper - cate_lower) / 3.92)**2)  # Avg squared SE
 
-print(f"Heterogeneity Test:")
-print(f"  Chi-squared statistic: {het_test.statistic:.2f}")
-print(f"  p-value: {het_test.pvalue:.4f}")
-print(f"  Significant heterogeneity: {het_test.pvalue < 0.05}")
+# Test statistic: ratio of CATE variance to mean variance
+het_ratio = cate_var / cate_mean_var
+print(f"Heterogeneity Ratio (var(CATE)/mean(var)): {het_ratio:.2f}")
+print(f"Ratio > 1 suggests significant heterogeneity")
+
+# More rigorous: Calibration test (from econml)
+# Are high predicted CATEs associated with high actual effects?
+from econml.score import RScorer
+scorer = RScorer(model_y=GradientBoostingRegressor(), model_t=GradientBoostingClassifier())
+scorer.fit(Y, T, X=X, W=W)
+rscore = scorer.score(cf_model)
+print(f"R-score (calibration): {rscore:.3f}")
 ```
 
 See [Diagnostic Tests](references/diagnostic_tests.md) for comprehensive diagnostics.
@@ -254,28 +269,29 @@ See [Diagnostic Tests](references/diagnostic_tests.md) for comprehensive diagnos
 ### Step 7: Policy Learning - Optimal Treatment Rules
 
 ```python
-from causal_forest import policy_learning, PolicyConfig
+from econml.policy import PolicyTree
 
-# Learn optimal treatment policy
-policy_config = PolicyConfig(
-    treatment_cost=10,           # Cost of treating one person
-    budget_fraction=0.3,         # Can only treat 30% of population
-    method='policy_tree'         # 'threshold', 'policy_tree', or 'optimal'
+# Learn optimal treatment policy using policy tree
+policy_tree = PolicyTree(
+    max_depth=3,
+    min_samples_leaf=50
 )
 
-policy = policy_learning(
-    cf_model,
-    X=data[effect_modifiers],
-    config=policy_config
-)
-
-# Evaluate policy
-print(f"Policy Value: {policy.value:.2f}")
-print(f"Proportion Treated: {policy.treatment_rate:.1%}")
-print(f"Improvement over treat-all: {policy.improvement:.1%}")
+# Fit policy tree to maximize treatment effect
+policy_tree.fit(X, cate)
 
 # Get treatment recommendations
-recommendations = policy.recommend(new_data[effect_modifiers])
+recommendations = policy_tree.predict(X)  # 1=treat, 0=don't treat
+
+# Evaluate policy value
+treated_value = cate[recommendations == 1].mean()
+untreated_value = cate[recommendations == 0].mean()
+treatment_rate = recommendations.mean()
+
+print(f"Policy Treatment Rate: {treatment_rate:.1%}")
+print(f"Avg CATE for treated: {treated_value:.3f}")
+print(f"Avg CATE for untreated: {untreated_value:.3f}")
+print(f"Policy targets individuals with higher treatment effects")
 ```
 
 ---
@@ -359,64 +375,46 @@ See [Estimation Methods](references/estimation_methods.md) for detailed rpy2 int
 ### Complete Analysis Pipeline
 
 ```bash
-# Run full causal forest analysis
-python scripts/run_causal_forest.py \
+# Run demo with simulated data
+python scripts/causal_forest_pipeline.py --demo
+
+# Run demo with strong heterogeneity
+python scripts/causal_forest_pipeline.py --demo --heterogeneity strong
+
+# Run with real data
+python scripts/causal_forest_pipeline.py \
     --data experiment.csv \
     --outcome revenue \
     --treatment discount \
-    --effect-modifiers age income tenure segment \
-    --confounders region channel \
-    --n-trees 4000 \
-    --policy \
-    --treatment-cost 10 \
+    --controls "age,income,tenure,segment,region,channel" \
     --output results/
 
 # Output includes:
-# - results.json: Full analysis results
-# - cate_estimates.csv: Individual CATE estimates
-# - variable_importance.csv: Heterogeneity drivers
-# - blp_coefficients.csv: Best linear projection
-# - cate_distribution.png: CATE distribution plot
-# - variable_importance.png: Importance bar chart
+# - CATE estimates with confidence intervals
+# - Variable importance ranking
+# - Heterogeneity test results
+# - Best linear projection coefficients
+# - Visualization plots (cate_distribution.png, variable_importance.png)
 ```
 
-### CATE Estimation
+### Available Functions in causal_forest_pipeline.py
 
-```bash
-# Estimate CATEs with uncertainty
-python scripts/estimate_cate.py \
-    --model model.pkl \
-    --data new_data.csv \
-    --effect-modifiers age income tenure \
-    --alpha 0.05 \
-    --output predictions.csv
-```
+The pipeline script provides these importable functions:
 
-### Visualization
-
-```bash
-# Generate heterogeneity visualizations
-python scripts/visualize_heterogeneity.py \
-    --cate-file cate_results.csv \
-    --data data.csv \
-    --effect-modifiers age income tenure \
-    --group-by segment \
-    --output plots/
-```
-
-### Policy Evaluation
-
-```bash
-# Learn and evaluate treatment policy
-python scripts/policy_evaluation.py \
-    --cate-file cate.csv \
-    --data data.csv \
-    --effect-modifiers age income tenure \
-    --treatment-cost 10 \
-    --budget 0.3 \
-    --method policy_tree \
-    --visualize \
-    --output policy_results/
+```python
+from scripts.causal_forest_pipeline import (
+    simulate_causal_forest_data,   # Generate simulated data with known CATE
+    fit_causal_forest_dml,         # Fit CausalForestDML model
+    variable_importance,           # Extract feature importances
+    heterogeneity_test,            # Test for significant heterogeneity
+    best_linear_projection,        # BLP of CATE on covariates
+    simple_policy_tree,            # Policy learning
+    plot_cate_distribution,        # CATE distribution plot
+    plot_cate_by_covariate,        # CATE vs covariate scatter plots
+    print_results,                 # Print formatted results
+    generate_latex_table,          # Publication-ready LaTeX table
+    run_full_analysis,             # Complete pipeline
+)
 ```
 
 ---
@@ -491,12 +489,12 @@ Always report uncertainty - individual CATE estimates can be noisy.
 ## Complete Example: Personalized Marketing
 
 ```python
-from causal_forest import (
-    fit_causal_forest, estimate_cate, variable_importance,
-    best_linear_projection, policy_learning, heterogeneity_test,
-    run_full_cf_analysis, CausalOutput
-)
+from econml.dml import CausalForestDML
+from econml.policy import PolicyTree
+from sklearn.ensemble import GradientBoostingRegressor, GradientBoostingClassifier
+import statsmodels.api as sm
 import pandas as pd
+import numpy as np
 
 # Load data from A/B test
 data = pd.read_csv('marketing_ab_test.csv')
@@ -509,38 +507,62 @@ effect_modifiers = [
     'email_opens_30d', 'website_visits_30d', 'segment'
 ]
 
-# Run complete analysis
-results: CausalOutput = run_full_cf_analysis(
-    data=data,
-    outcome=outcome,
-    treatment=treatment,
-    effect_modifiers=effect_modifiers,
-    output_dir='./causal_forest_results'
+# Prepare matrices
+Y = data[outcome].values
+T = data[treatment].values
+X = data[effect_modifiers].values
+
+# Step 1: Fit Causal Forest
+cf_model = CausalForestDML(
+    model_y=GradientBoostingRegressor(n_estimators=100, max_depth=3),
+    model_t=GradientBoostingClassifier(n_estimators=100, max_depth=3),
+    n_estimators=2000,
+    min_samples_leaf=10,
+    honest=True,
+    cv=5,
+    random_state=42
 )
+cf_model.fit(Y=Y, T=T, X=X)
 
-# Summary
-print(results.summary())
+# Step 2: Estimate CATE
+cate = cf_model.effect(X)
+cate_lower, cate_upper = cf_model.effect_interval(X)
 
-# Key findings
-print(f"\nAverage Treatment Effect: ${results.ate:.2f}")
-print(f"CATE Range: ${results.cate_min:.2f} to ${results.cate_max:.2f}")
-print(f"Significant Heterogeneity: {results.heterogeneity_significant}")
+# Step 3: Summary statistics
+print(f"Average Treatment Effect: ${cate.mean():.2f}")
+print(f"CATE Range: ${cate.min():.2f} to ${cate.max():.2f}")
+print(f"Significant effects: {((cate_lower > 0) | (cate_upper < 0)).mean():.1%}")
 
-# Top heterogeneity drivers
+# Step 4: Variable importance
+importance = cf_model.feature_importances_
+importance_df = pd.DataFrame({
+    'feature': effect_modifiers,
+    'importance': importance
+}).sort_values('importance', ascending=False)
+
 print("\nTop Drivers of Heterogeneity:")
-for var, imp in results.variable_importance[:3]:
-    print(f"  {var}: {imp:.3f}")
+for _, row in importance_df.head(3).iterrows():
+    print(f"  {row['feature']}: {row['importance']:.3f}")
 
-# Policy recommendation
+# Step 5: Policy learning
+policy_tree = PolicyTree(max_depth=3, min_samples_leaf=50)
+policy_tree.fit(X, cate)
+recommendations = policy_tree.predict(X)
+
+treatment_rate = recommendations.mean()
+value_treated = cate[recommendations == 1].mean()
+value_all = cate.mean()
+improvement = (value_treated - value_all) / value_all * 100
+
 print(f"\nOptimal Policy:")
-print(f"  Target {results.policy.treatment_rate:.1%} of customers")
-print(f"  Expected value: ${results.policy.value:.2f} per customer")
-print(f"  Improvement over treat-all: {results.policy.improvement:.1%}")
+print(f"  Target {treatment_rate:.1%} of customers")
+print(f"  Expected CATE for targeted: ${value_treated:.2f}")
+print(f"  Improvement over treat-all: {improvement:.1f}%")
 
-# Who to target
-high_value_customers = data[results.policy.recommendations == 1]
-print(f"\nHigh-value customer profile:")
-print(high_value_customers[effect_modifiers].describe())
+# Who to target (high-value segment profile)
+high_value = data[recommendations == 1]
+print(f"\nHigh-value customer profile (n={len(high_value)}):")
+print(high_value[effect_modifiers].describe().round(2))
 ```
 
 ---

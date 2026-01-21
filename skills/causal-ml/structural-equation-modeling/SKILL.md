@@ -212,13 +212,32 @@ $$
 ### Python Implementation (semopy)
 
 ```python
-from sem_estimator import (
-    fit_sem,
-    fit_cfa,
-    test_mediation,
-    compare_groups,
-    plot_sem_diagram
-)
+# pip install semopy pandas numpy
+
+import semopy
+from semopy import Model
+from semopy.stats import calc_stats
+import pandas as pd
+import numpy as np
+
+# Example: Generate sample data with 3 factors
+np.random.seed(42)
+n = 300
+F1 = np.random.randn(n)
+F2 = np.random.randn(n)
+F3 = 0.5 * F1 + 0.3 * F2 + 0.5 * np.random.randn(n)
+
+df = pd.DataFrame({
+    'x1': 0.7 * F1 + 0.3 * np.random.randn(n),
+    'x2': 0.8 * F1 + 0.3 * np.random.randn(n),
+    'x3': 0.7 * F1 + 0.3 * np.random.randn(n),
+    'y1': 0.7 * F2 + 0.3 * np.random.randn(n),
+    'y2': 0.8 * F2 + 0.3 * np.random.randn(n),
+    'y3': 0.7 * F2 + 0.3 * np.random.randn(n),
+    'z1': 0.7 * F3 + 0.3 * np.random.randn(n),
+    'z2': 0.8 * F3 + 0.3 * np.random.randn(n),
+    'z3': 0.7 * F3 + 0.3 * np.random.randn(n),
+})
 
 # Define model in lavaan-style syntax
 model_syntax = """
@@ -229,23 +248,24 @@ model_syntax = """
 
     # Structural model
     LatentC ~ LatentA + LatentB
-    LatentB ~ LatentA
 """
 
 # Fit model
-result = fit_sem(
-    data=df,
-    model=model_syntax,
-    estimator="ML"
-)
+sem_model = Model(model_syntax)
+sem_model.fit(df)
 
-# View results
-print(result.summary())
-print(result.fit_indices)
-print(result.standardized_coefficients)
+# View parameter estimates (with standardized)
+params = sem_model.inspect(std_est=True)
+print(params)
 
-# Plot path diagram
-fig = plot_sem_diagram(result)
+# Get fit indices
+stats = calc_stats(sem_model)
+print(f"\nFit Indices:")
+print(f"  Chi-square: {stats['chi2'].values[0]:.2f} (df={int(stats['DoF'].values[0])})")
+print(f"  CFI: {stats['CFI'].values[0]:.3f}")
+print(f"  TLI: {stats['TLI'].values[0]:.3f}")
+print(f"  RMSEA: {stats['RMSEA'].values[0]:.3f}")
+print(f"  AIC: {stats['AIC'].values[0]:.1f}")
 ```
 
 ### R Implementation (lavaan)
@@ -288,7 +308,7 @@ modindices(fit, sort = TRUE, minimum.value = 10)
 ### Indirect Effect Testing
 
 ```python
-# Define mediation model
+# Define mediation model with labeled paths
 mediation_model = """
     # Measurement
     M =~ m1 + m2 + m3
@@ -298,27 +318,42 @@ mediation_model = """
     M ~ a*X
     Y ~ b*M + c*X
 
-    # Indirect effect
+    # Define indirect effect
     indirect := a*b
     total := c + a*b
 """
 
-result = fit_sem(df, mediation_model)
-print(result.defined_parameters)  # Shows indirect and total effects
+# Fit model
+sem_model = Model(mediation_model)
+sem_model.fit(df)
+
+# Get parameters including defined indirect effect
+params = sem_model.inspect()
+print(params)
 ```
 
-### Bootstrap Confidence Intervals
+### Checking Mediation Effect Significance
 
 ```python
-result = fit_sem(
-    df,
-    mediation_model,
-    bootstrap=5000,
-    confidence_level=0.95
-)
+# The indirect effect significance can be assessed from the params output
+# For bootstrap confidence intervals, use R lavaan or manual bootstrap:
 
-# Bias-corrected bootstrap CI for indirect effect
-print(result.bootstrap_ci['indirect'])
+def bootstrap_indirect(df, model, n_boot=1000):
+    """Bootstrap indirect effect for CI estimation."""
+    indirect_effects = []
+    for i in range(n_boot):
+        boot_df = df.sample(n=len(df), replace=True)
+        try:
+            m = Model(model)
+            m.fit(boot_df)
+            # Extract a and b coefficients
+            params = m.inspect()
+            a = params[params['rval'] == 'X']['Estimate'].values[0]
+            b = params[(params['lval'] == 'Y') & (params['rval'] == 'M')]['Estimate'].values[0]
+            indirect_effects.append(a * b)
+        except:
+            continue
+    return np.percentile(indirect_effects, [2.5, 97.5])
 ```
 
 ---
@@ -336,24 +371,42 @@ print(result.bootstrap_ci['indirect'])
 
 ### Implementation
 
-```python
-# Test configural invariance
-result_config = fit_sem(
-    df, model,
-    group="gender",
-    group_equal=None
-)
+Note: Multi-group analysis in semopy is limited. For full measurement invariance testing, use R lavaan:
 
-# Test metric invariance
-result_metric = fit_sem(
-    df, model,
-    group="gender",
-    group_equal=["loadings"]
-)
+```r
+# R code for multi-group analysis
+library(lavaan)
+
+# Configural invariance (baseline)
+fit_config <- cfa(model, data = df, group = "gender")
+
+# Metric invariance (constrain loadings)
+fit_metric <- cfa(model, data = df, group = "gender",
+                  group.equal = c("loadings"))
+
+# Scalar invariance (constrain loadings + intercepts)
+fit_scalar <- cfa(model, data = df, group = "gender",
+                  group.equal = c("loadings", "intercepts"))
 
 # Compare models
-comparison = compare_models(result_config, result_metric)
-print(comparison)  # Chi-square difference, ΔCFI
+anova(fit_config, fit_metric, fit_scalar)
+
+# Check ΔCFI (should be < 0.01 for invariance)
+fitMeasures(fit_config, c("cfi", "rmsea"))
+fitMeasures(fit_metric, c("cfi", "rmsea"))
+```
+
+For Python, split data by group and fit separately:
+
+```python
+# Simple group comparison in Python
+groups = df.groupby('gender')
+results = {}
+for name, group_df in groups:
+    sem_model = Model(model_syntax)
+    sem_model.fit(group_df.drop('gender', axis=1))
+    results[name] = calc_stats(sem_model)
+    print(f"Group {name}: CFI={results[name]['CFI'].values[0]:.3f}")
 ```
 
 ---
@@ -402,10 +455,12 @@ mod_idx = result.modification_indices
 
 ```python
 # Check multiple indices
-print(f"χ² = {result.chi2:.2f}, p = {result.chi2_pvalue:.3f}")
-print(f"CFI = {result.cfi:.3f}")
-print(f"RMSEA = {result.rmsea:.3f} [{result.rmsea_ci}]")
-print(f"SRMR = {result.srmr:.3f}")
+stats = calc_stats(sem_model)
+print(f"χ² = {stats['chi2'].values[0]:.2f}, df = {int(stats['DoF'].values[0])}")
+print(f"p = {stats['chi2 p-value'].values[0]:.4f}")
+print(f"CFI = {stats['CFI'].values[0]:.3f}")
+print(f"TLI = {stats['TLI'].values[0]:.3f}")
+print(f"RMSEA = {stats['RMSEA'].values[0]:.3f}")
 ```
 
 ---
@@ -415,12 +470,24 @@ print(f"SRMR = {result.srmr:.3f}")
 ### Residual Analysis
 
 ```python
-# Standardized residuals
-residuals = result.standardized_residuals
+# Get observed and model-implied covariance matrices
+import numpy as np
+
+# Observed covariance
+S = df.cov().values
+
+# Model-implied covariance (from semopy)
+sigma = sem_model.calc_sigma()
+
+# Residual matrix
+residuals = S - sigma
+
+# Standardized residuals (simplified)
+std_residuals = residuals / np.sqrt(np.diag(S).reshape(-1, 1) @ np.diag(S).reshape(1, -1))
 
 # Large residuals (|r| > 2.58) indicate misfit
-large_resid = residuals[abs(residuals) > 2.58]
-print(f"Large residuals: {len(large_resid)}")
+n_large = np.sum(np.abs(std_residuals) > 2.58)
+print(f"Number of large standardized residuals (|r| > 2.58): {n_large}")
 ```
 
 ### Factor Loading Standards
