@@ -1,11 +1,14 @@
 # Identification Assumptions for Difference-in-Differences
 
-> **Document Type**: Reference | **Last Updated**: 2025-01
+> **Document Type**: Reference | **Last Updated**: 2026-01
 > **Related**: [diagnostic_tests.md](diagnostic_tests.md), [common_errors.md](common_errors.md)
+> **Key Reference**: Callaway & Sant'Anna (2021), Journal of Econometrics
 
 ## Overview
 
 The validity of Difference-in-Differences (DID) estimation rests on several key assumptions. Violation of any core assumption invalidates the causal interpretation of the estimated effect. This document provides detailed explanations of each assumption, their formal definitions, and practical guidance for assessing their plausibility.
+
+**Note**: This document covers both classical DID assumptions and the more general framework from Callaway & Sant'Anna (2021) for staggered adoption designs.
 
 ---
 
@@ -71,6 +74,62 @@ result = test_parallel_trends(
 ```
 
 **Warning**: Parallel pre-trends do NOT guarantee parallel counterfactual post-trends. The pre-trends test is necessary but not sufficient.
+
+### Conditional Parallel Trends (Callaway & Sant'Anna)
+
+For staggered adoption designs, Callaway & Sant'Anna (2021) introduce a more flexible **conditional** parallel trends assumption:
+
+**Formal Definition (Assumption 4 in C-S)**:
+$$
+E[Y_t(0) - Y_{t-1}(0) | X, G_g = 1] = E[Y_t(0) - Y_{t-1}(0) | X, C = 1]
+$$
+
+Where:
+- $G_g = 1$ indicates units first treated at time $g$ (cohort $g$)
+- $C = 1$ indicates never-treated units (comparison group)
+- $X$ are pre-treatment covariates
+- The equality holds for all $g \in \mathcal{G}$ and $t \geq 2$
+
+**Intuitive Explanation**:
+After conditioning on observed covariates $X$, the average change in potential untreated outcomes would be the same for units in cohort $g$ as for never-treated units. This is **weaker** than unconditional parallel trends because it allows for:
+- Covariate-driven differences in trends between groups
+- Different baseline characteristics between cohorts
+
+**When to Use Conditional vs Unconditional**:
+
+| Scenario | Use Unconditional | Use Conditional |
+|----------|------------------|-----------------|
+| Groups have similar observable characteristics | ✓ | Either |
+| Observable differences explain selection | | ✓ |
+| Limited covariates available | ✓ | |
+| Strong theoretical reason for covariate adjustment | | ✓ |
+
+**Python Implementation**:
+```python
+from did_estimator import estimate_did_staggered
+
+# Conditional parallel trends (with covariates)
+result = estimate_did_staggered(
+    data=df,
+    outcome="y",
+    treatment_time="first_treated",
+    unit_id="id",
+    time_id="year",
+    covariates=["x1", "x2", "x3"],  # Conditioning covariates
+    control_group="nevertreated"
+)
+
+# Unconditional parallel trends (no covariates)
+result_unconditional = estimate_did_staggered(
+    data=df,
+    outcome="y",
+    treatment_time="first_treated",
+    unit_id="id",
+    time_id="year",
+    covariates=None,  # No conditioning
+    control_group="nevertreated"
+)
+```
 
 ### Common Violations
 
@@ -151,9 +210,9 @@ def test_spillovers(data, outcome, treatment, distance_var, threshold):
 
 ---
 
-## 3. No Anticipation Assumption
+## 3. No Anticipation / Limited Anticipation Assumption
 
-### Formal Definition
+### Formal Definition (Strict No Anticipation)
 
 Units do not change their behavior in anticipation of future treatment:
 
@@ -162,6 +221,59 @@ E[Y_{it}(0) | G_i = 1, t < t^*] = E[Y_{it}(D_i) | G_i = 1, t < t^*]
 $$
 
 Where $t^*$ is the treatment timing. For periods before $t^*$, outcomes should be the same regardless of future treatment status.
+
+### Limited Treatment Anticipation (Callaway & Sant'Anna)
+
+Callaway & Sant'Anna (2021) introduce a more flexible **limited anticipation** assumption:
+
+**Formal Definition (Assumption 5 in C-S)**:
+$$
+E[Y_t(g) - Y_t(0) | X, G_g = 1] = 0 \quad \text{for all } t < g - \delta
+$$
+
+Where:
+- $g$ is the time period when treatment begins
+- $\delta \geq 0$ is the number of periods during which anticipation effects are allowed
+- For $\delta = 0$, this reduces to the standard no anticipation assumption
+
+**Intuitive Explanation**:
+Treatment effects can begin up to $\delta$ periods before the official treatment start date. This accommodates:
+- Policy announcements before implementation
+- Gradual rollout where units know treatment is coming
+- Behavioral adjustments in anticipation of known future treatment
+
+**Setting the Anticipation Parameter**:
+
+| Scenario | Recommended δ |
+|----------|---------------|
+| Treatment surprise (no prior knowledge) | 0 |
+| Policy announced 1 period before implementation | 1 |
+| Gradual rollout with advance notice | 1-2 |
+| Long-term planning horizon | 2+ |
+
+**Python Implementation**:
+```python
+from did_estimator import estimate_did_staggered
+
+# Allow for 1 period of anticipation
+result = estimate_did_staggered(
+    data=df,
+    outcome="y",
+    treatment_time="first_treated",
+    unit_id="id",
+    time_id="year",
+    anticipation=1,  # Allow 1 period anticipation
+    control_group="nevertreated"
+)
+
+# Sensitivity analysis: compare different anticipation assumptions
+for delta in [0, 1, 2]:
+    result = estimate_did_staggered(
+        data=df, outcome="y", treatment_time="first_treated",
+        unit_id="id", time_id="year", anticipation=delta
+    )
+    print(f"δ={delta}: ATT = {result.effect:.4f} (SE={result.se:.4f})")
+```
 
 ### Why No Anticipation Matters
 
@@ -342,7 +454,238 @@ ax.set_title('Common Support Check')
 
 ---
 
+## 6. Irreversibility of Treatment (Staggered DID)
+
+### Formal Definition
+
+**Callaway & Sant'Anna Assumption 6**:
+$$
+D_{i,t} = 1 \Rightarrow D_{i,t+s} = 1 \quad \text{for all } s \geq 0
+$$
+
+Once a unit receives treatment, it remains treated in all subsequent periods. Treatment is **absorbing** - units can enter treatment but not exit.
+
+### Intuitive Explanation
+
+In staggered adoption settings, the irreversibility assumption means:
+- Once a firm adopts a new technology, it doesn't revert to the old one
+- Once a state implements a policy, the policy remains in effect
+- Once an individual receives training, they don't "unlearn"
+
+This assumption is **implicit** in the definition of treatment cohorts $G_g$, which partition units by when they were **first** treated.
+
+### Why Irreversibility Matters
+
+Without irreversibility:
+1. **Group definition becomes ambiguous**: Units could belong to multiple "cohorts" if they switch treatment status
+2. **Counterfactual reasoning breaks down**: $Y_t(g)$ assumes treatment started at $g$ and continued
+3. **Aggregation schemes invalid**: The selective timing and dynamic effect aggregations assume treatment persists
+
+### When Irreversibility is Violated
+
+| Scenario | Example | Implication |
+|----------|---------|-------------|
+| Policy reversal | Tax implemented then repealed | Units can be "untreated" |
+| Temporary treatment | Short-term program participation | Treatment status fluctuates |
+| Switching behavior | Firms adopt/drop practices | Multiple treatment episodes |
+
+### Addressing Irreversibility Violations
+
+**Option 1: de Chaisemartin & D'Haultfoeuille Estimator**
+
+When treatment can turn on AND off:
+
+```python
+from scripts.robustness_checks import dechaisemartin_dhaultfoeuille
+
+# DID_M estimator handles treatment reversals
+result = dechaisemartin_dhaultfoeuille(
+    data=df,
+    outcome="y",
+    treatment="treatment_status",  # Can be 0 or 1 in any period
+    unit_id="id",
+    time_id="year"
+)
+```
+
+**Option 2: Redefine Treatment**
+
+```python
+# Instead of current treatment status, use "ever treated"
+df['ever_treated'] = df.groupby('id')['treated'].transform('max')
+
+# Or define treatment as "duration of exposure"
+df['treatment_duration'] = df.groupby('id')['treated'].cumsum()
+```
+
+**Option 3: Restrict Sample**
+
+```python
+# Keep only units that never reverse treatment
+def check_irreversibility(group):
+    """Check if treatment is monotonically non-decreasing."""
+    return (group['treated'].diff().dropna() >= 0).all()
+
+valid_units = df.groupby('id').apply(check_irreversibility)
+df_irreversible = df[df['id'].isin(valid_units[valid_units].index)]
+```
+
+### Testing for Irreversibility
+
+```python
+def test_irreversibility(data, unit_id, time_id, treatment):
+    """
+    Test if treatment is irreversible (absorbing).
+
+    Returns the number and percentage of units that violate irreversibility.
+    """
+    df = data.sort_values([unit_id, time_id])
+
+    violations = []
+    for unit, group in df.groupby(unit_id):
+        treated_periods = group[group[treatment] == 1][time_id].values
+        untreated_periods = group[group[treatment] == 0][time_id].values
+
+        if len(treated_periods) > 0 and len(untreated_periods) > 0:
+            # Check if any untreated period comes after a treated period
+            if untreated_periods.max() > treated_periods.min():
+                violations.append(unit)
+
+    n_violations = len(violations)
+    n_total = data[unit_id].nunique()
+
+    print(f"Irreversibility violations: {n_violations}/{n_total} units ({100*n_violations/n_total:.1f}%)")
+
+    if n_violations > 0:
+        print("WARNING: Treatment is reversible for some units.")
+        print("Consider: de Chaisemartin-D'Haultfoeuille estimator or sample restriction.")
+
+    return {'violations': violations, 'n_violations': n_violations, 'pct': n_violations/n_total}
+
+# Usage
+irrev_test = test_irreversibility(df, 'id', 'year', 'treated')
+```
+
+---
+
+## 7. Overlap / Generalized Propensity Score
+
+### Formal Definition (Callaway & Sant'Anna)
+
+**Generalized Propensity Score (Assumption 2)**:
+$$
+p_g(X) = P(G_g = 1 | X, G_g + C = 1)
+$$
+
+Where:
+- $G_g = 1$ indicates the unit belongs to cohort $g$ (first treated at time $g$)
+- $C = 1$ indicates the unit is never treated
+- $G_g + C = 1$ restricts to units that are either in cohort $g$ or never treated
+
+**Overlap Condition (Assumption 3)**:
+$$
+p_g(X) < 1 \quad \text{for all } X \text{ in the support and all } g \in \mathcal{G}
+$$
+
+### Intuitive Explanation
+
+The generalized propensity score $p_g(X)$ is the probability that a unit belongs to treatment cohort $g$, conditional on:
+1. Observable characteristics $X$
+2. Being either in cohort $g$ or never treated
+
+This differs from the standard propensity score because:
+- It compares cohort $g$ to never-treated units specifically
+- Not-yet-treated units from other cohorts are excluded from this comparison
+- A separate propensity score is estimated for each cohort
+
+**Overlap** ensures that for any covariate profile $X$, there exist both cohort $g$ units and never-treated units. Without overlap, we cannot estimate $ATT(g,t)$ for those covariate values.
+
+### Python Implementation
+
+```python
+from sklearn.linear_model import LogisticRegression
+import numpy as np
+
+def estimate_generalized_propensity_score(
+    data, cohort_indicator, never_treated_indicator, covariates
+):
+    """
+    Estimate the generalized propensity score p_g(X).
+
+    Parameters
+    ----------
+    data : DataFrame
+        Panel data
+    cohort_indicator : str
+        Binary indicator for cohort g
+    never_treated_indicator : str
+        Binary indicator for never-treated
+    covariates : list
+        Covariate names
+    """
+    # Restrict to cohort g or never-treated
+    mask = (data[cohort_indicator] == 1) | (data[never_treated_indicator] == 1)
+    df_subset = data[mask].copy()
+
+    # Get unique units (one observation per unit for propensity score)
+    df_units = df_subset.groupby('id').first().reset_index()
+
+    X = df_units[covariates]
+    y = df_units[cohort_indicator]
+
+    # Fit logistic regression
+    model = LogisticRegression(max_iter=1000)
+    model.fit(X, y)
+
+    # Predict propensity scores
+    p_g = model.predict_proba(X)[:, 1]
+
+    # Check overlap
+    print(f"Propensity score range: [{p_g.min():.4f}, {p_g.max():.4f}]")
+
+    if p_g.max() > 0.99:
+        print("WARNING: Near-violation of overlap (p_g close to 1)")
+
+    return p_g, model
+
+# Estimate for cohort 2015
+df['cohort_2015'] = (df['first_treated'] == 2015).astype(int)
+df['never_treated'] = (df['first_treated'].isna() | (df['first_treated'] == np.inf)).astype(int)
+
+p_scores, model = estimate_generalized_propensity_score(
+    df, 'cohort_2015', 'never_treated', ['x1', 'x2', 'x3']
+)
+```
+
+### Checking Overlap
+
+```python
+import matplotlib.pyplot as plt
+
+def plot_propensity_overlap(data, p_scores, cohort_indicator, never_treated_indicator):
+    """Visualize overlap in generalized propensity scores."""
+    mask_g = data[cohort_indicator] == 1
+    mask_c = data[never_treated_indicator] == 1
+
+    fig, ax = plt.subplots(figsize=(10, 6))
+    ax.hist(p_scores[mask_c], bins=50, alpha=0.5, label='Never-treated', density=True)
+    ax.hist(p_scores[mask_g], bins=50, alpha=0.5, label=f'Cohort g', density=True)
+    ax.set_xlabel('Generalized Propensity Score')
+    ax.set_ylabel('Density')
+    ax.legend()
+    ax.set_title('Overlap Check: Generalized Propensity Score')
+
+    return fig
+
+# Plot overlap
+fig = plot_propensity_overlap(df_units, p_scores, 'cohort_2015', 'never_treated')
+```
+
+---
+
 ## Summary Table: Assumption Checklist
+
+### Core Assumptions (All DID Designs)
 
 | Assumption | Testable? | Pre-Analysis Check | Main Risk |
 |------------|-----------|-------------------|-----------|
@@ -351,6 +694,15 @@ ax.set_title('Common Support Check')
 | No Anticipation | Partially | Event study pre-coefficients | Underestimated effects |
 | No Composition Changes | Yes | Panel balance check | Selection bias |
 | Common Support | Yes | Balance tests, overlap plots | Extrapolation bias |
+
+### Additional Assumptions (Staggered DID / Callaway-Sant'Anna)
+
+| Assumption | Testable? | Pre-Analysis Check | Main Risk |
+|------------|-----------|-------------------|-----------|
+| Conditional Parallel Trends | Partially | Pre-trends conditional on X | Model misspecification |
+| Limited Anticipation (δ periods) | Partially | Event study coefficients at g-δ | Incorrect anticipation parameter |
+| Irreversibility of Treatment | Yes | Check for treatment reversals | Invalid group definitions |
+| Overlap (Generalized PS) | Yes | Propensity score distribution | Unstable IPW estimates |
 
 ---
 

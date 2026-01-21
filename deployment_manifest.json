@@ -1,0 +1,673 @@
+{
+  "version": "2.0.0",
+  "last_deployment": "2026-01-21T16:34:13.233675",
+  "skills": {
+    "setup-causal-ml-env": {
+      "path": "infrastructure/setup-causal-ml-env",
+      "version": "2.0.0",
+      "checksum": "aeeeabecaaeca34e1618f3c4641a290a",
+      "files": {
+        "__pycache__\\env_check.cpython-311.pyc": "70b8b90a0d0c5a76ea996995619207fe",
+        "env_check.py": "08e93aea60dc4d4072fd0f508a937470",
+        "references\\python_packages.md": "99945515ffd94d87c5cf566e4a6cffeb",
+        "references\\r_packages.md": "d3d7ed30c7cf5a1b0cc861e34c7dac75",
+        "references\\stata_integration.md": "ca4c28246130ec9c5ffc31047210203f",
+        "references\\troubleshooting.md": "4ff94c3e2b2b803b5301e6c63319be9d",
+        "requirements.txt": "1e751010535eac20a5fbf4a69cb8053f",
+        "scripts\\__pycache__\\check_environment.cpython-311.pyc": "46d359c33e26867e018aac92a03d0c9f",
+        "scripts\\check_environment.py": "9cc634edfb9ede21d865b84446c634c7",
+        "scripts\\install_dependencies.py": "7a616d47c9c756e263635ab7e98b2284",
+        "SKILL.md": "73f6334705df58434d04fe1fa3c641f1"
+      },
+      "deployed_at": "2026-01-21T16:34:09.497075",
+      "previous_version": null
+    },
+    "scientific-writing-econ": {
+      "path": "infrastructure/scientific-writing-econ",
+      "version": "2.0.0",
+      "checksum": "ded196e14daadc39dab573c768d63306",
+      "files": {
+        "__pycache__\\writing_guide.cpython-311.pyc": "5207326639c1f83d9776f46a5b2ca6cc",
+        "assets\\latex\\abstract_template.tex": "a17dbb273a9ae9d37cf59e13fdf084af",
+        "assets\\latex\\paper_template.tex": "41041f5196ac133883cd357b90eb90a6",
+        "assets\\markdown\\paper_checklist.md": "7cd288b844886053c6204fc0185f04e2",
+        "assets\\markdown\\reviewer_response.md": "cfb658caf4ef508c91c7ad6ca137d4df",
+        "references\\citations_references.md": "ee21723c493542c05b67b6f925211cb6",
+        "references\\common_mistakes.md": "99d69652ab5ebe2c371b6faf86fad7fe",
+        "references\\journal_guidelines.md": "3ea6d5b55e06671daa8bf5fd7f9aaa23",
+        "references\\paper_structure.md": "0bad84baafd31aab84511e570babc324",
+        "references\\tables_figures.md": "1a3fa79dd6ef7c502ea66233fbeb15fc",
+        "references\\writing_abstracts.md": "c645d2be5ef0c3d219f9ef5dc1c71cd2",
+        "scripts\\__pycache__\\check_paper_structure.cpython-311.pyc": "4803c4da256b9ff67a123033c3a877ef",
+        "scripts\\__pycache__\\format_tables.cpython-311.pyc": "599ce3e3c7e403b763cc24145c079aa6",
+        "scripts\\check_paper_structure.py": "8a827d7ffc6b2d7a2658448a09769057",
+        "scripts\\format_tables.py": "8aa2f04dd82482924af5d41fc43dfd63",
+        "SKILL.md": "151ef1648b102e3b171df1a3d0084f8b",
+        "writing_guide.py": "affae936eb56b65e8f72de70012b86aa"
+      },
+      "deployed_at": "2026-01-21T16:34:09.651804",
+      "previous_version": null
+    },
+    "causal-concept-guide": {
+      "path": "classic-methods/causal-concept-guide",
+      "version": "2.0.0",
+      "checksum": "c6afcd409f62df7d3c37329a2ea6ef7e",
+      "files": {
+        "assets\\markdown\\method_comparison.md": "96a599e89406eebce408012da151b909",
+        "references\\common_pitfalls.md": "2ad2bd681796c67dd169612b6a92523c",
+        "references\\dags_and_graphs.md": "817527041e1664519e1c083da0e5ff43",
+        "references\\econometrics_vs_ml.md": "ae3bd6c4e4e69dadcf30e111050f2616",
+        "references\\glossary.md": "f49a04df8cd9c905c75076bf981d1d89",
+        "references\\potential_outcomes.md": "6e8cafb5a88b0f952c20fa1316a9aede",
+        "references\\selection_guide.md": "4c3ec7f23bc191418d8e4062244d71ab",
+        "SKILL.md": "6dd72d465dbb435ae1a1b64f12da3e59"
+      },
+      "deployed_at": "2026-01-21T16:34:09.768934",
+      "previous_version": null
+    },
+    "estimator-did": {
+      "path": "classic-methods/estimator-did",
+      "version": "2.0.0",
+      "checksum": "3c22028a4d44aec20ef9d8f0ce812a19",
+      "files": {
+        "__pycache__\\did_estimator.cpython-311.pyc": "a44f1678f96192c96e6c215728a60798",
+        "assets\\latex\\did_table.tex": "38434bf86c3d5853822aebecf2c5a1e2",
+        "assets\\markdown\\did_report.md": "8b93917d01f25c449b7407ce2e0a37a7",
+        "assets\\templates.md": "c20c1bdd292279cb5e00221dd5a43bb7",
+        "benchmark\\beck_levine_levkov_2010.csv": "00f326bf10ce501ef3c78048c44c0920",
+        "benchmark\\replication_targets.json": "012913c3ee06debe7441f2fc386cb2fd",
+        "did_estimator.py": "1a08fac167045014616124a76911c331",
+        "implementation\\core.py": "a2bacfda5243ebb651ca6d52997286dd",
+        "implementation\\diagnostics.py": "c200e54bc34c514b5b92caf585bbe6e4",
+        "implementation\\reporting.py": "1c3215dc03455f83b5dafc35c9986868",
+        "references\\common_errors.md": "7bf09954ea3bca54c74fc9d2e019d78f",
+        "references\\diagnostic_tests.md": "50434f3bd2fec62499fb9459bf3c8593",
+        "references\\estimation_methods.md": "66c32c60648610209fc1b71e063631cf",
+        "references\\extensions.md": "f066d4199cd704463391500171488173",
+        "references\\identification_assumptions.md": "c1d036b330ac316e2b0209aabc48be78",
+        "references\\reporting_standards.md": "b22e3b8785613a70d1a13a5587d77e6f",
+        "scripts\\__pycache__\\robustness_checks.cpython-311.pyc": "64f4da619916fcd0cfc8bc6b92132ebc",
+        "scripts\\__pycache__\\run_did_analysis.cpython-311.pyc": "37dc722637f892dd3468b81352b03226",
+        "scripts\\__pycache__\\test_parallel_trends.cpython-311.pyc": "06f3fb9cc052b32ecc0fd9c8b1b73637",
+        "scripts\\__pycache__\\visualize_event_study.cpython-311.pyc": "ae1a4e96ab69f05ee26698099323135c",
+        "scripts\\robustness_checks.py": "659a686527c14cf8d376bad43cd93c44",
+        "scripts\\run_did_analysis.py": "1b5cf78bfb34977d28a324f549def458",
+        "scripts\\test_parallel_trends.py": "343c57b66639166aa8ebc3af5da02721",
+        "scripts\\visualize_event_study.py": "43938c11cf7f32d2878a68bd23d2ed3e",
+        "SKILL.md": "cd6c5c0e1903dfe08986f8f4b3f72992"
+      },
+      "deployed_at": "2026-01-21T16:34:10.101749",
+      "previous_version": null
+    },
+    "estimator-rd": {
+      "path": "classic-methods/estimator-rd",
+      "version": "2.0.0",
+      "checksum": "b409e61716de542648be68237485cdba",
+      "files": {
+        "__pycache__\\rd_estimator.cpython-311.pyc": "e18f3ea1f51815c2a619a3795cac499d",
+        "assets\\latex\\rd_table.tex": "ee62db022f38542d59d9087b7b72a92e",
+        "assets\\markdown\\rd_report.md": "21836d37748e7b1d46cdf9ca986e3769",
+        "assets\\templates.md": "8b3e16407b4f14f0fe0183daab2ecdc2",
+        "rd_estimator.py": "9b6de0299d87a77d405d01ea0cc75659",
+        "references\\common_errors.md": "bd4ba60867021fb9590cdcfa6a8fce20",
+        "references\\diagnostic_tests.md": "66ee3c7eae248f2a47ede634a2ca82b0",
+        "references\\estimation_methods.md": "824249fec92d04d3faf81955192f1b86",
+        "references\\extensions.md": "5ae3dd428c380f13add427a32b8b670a",
+        "references\\identification_assumptions.md": "e43fa0a24bf1472cd204e5356af4f048",
+        "references\\reporting_standards.md": "f78e5e1562b1336bf97e8ded11b98ead",
+        "scripts\\__pycache__\\bandwidth_sensitivity.cpython-311.pyc": "52f38ce970ee173f19667350d1e05699",
+        "scripts\\__pycache__\\run_rd_analysis.cpython-311.pyc": "c16f67eee68978ae88713149a5b118ba",
+        "scripts\\__pycache__\\test_manipulation.cpython-311.pyc": "fef4e0d8c8c8967ce22559dd2ab173b4",
+        "scripts\\__pycache__\\visualize_rd_plot.cpython-311.pyc": "5950769e009799c3e52d5768856ebfae",
+        "scripts\\bandwidth_sensitivity.py": "f46036be17758a5fbebdaaf3e0462330",
+        "scripts\\run_rd_analysis.py": "7e31170e95ed7da407169d77d36e33d9",
+        "scripts\\test_manipulation.py": "ab9a3386badc987eae11d68092e9625a",
+        "scripts\\visualize_rd_plot.py": "9c0f1635a3614c5e8ae2cb2478ee3a84",
+        "SKILL.md": "b4c616e916a7fd03b5aba49e320a9412"
+      },
+      "deployed_at": "2026-01-21T16:34:10.354584",
+      "previous_version": null
+    },
+    "estimator-iv": {
+      "path": "classic-methods/estimator-iv",
+      "version": "2.0.0",
+      "checksum": "0b43d32d1802356ead612cd66b68af6c",
+      "files": {
+        "__pycache__\\iv_estimator.cpython-311.pyc": "b23bf48501142c4ac6ccea2da7dbde91",
+        "assets\\latex\\iv_table.tex": "d894f75e2bff8d5b9d0518ef176547c6",
+        "assets\\markdown\\iv_report.md": "6a5a9d45c663776536a56fce96a5b378",
+        "assets\\templates.md": "967e23bfe1e749d21fab78564d9359a1",
+        "iv_estimator.py": "6a61524cc61e914a8cab3ac6fc128556",
+        "references\\common_errors.md": "bba1bc0cc256d731e0e5dfda8f206cb4",
+        "references\\diagnostic_tests.md": "7c552e8fbbd5d816da9ef032f8bb2f2f",
+        "references\\estimation_methods.md": "58b245d65dbb6ae81989e9fae1f446f2",
+        "references\\identification_assumptions.md": "de4e8889279caa8ecfe3361e0dd66e14",
+        "references\\reporting_standards.md": "3ddf769b31c064a3d35c35d46f7af5b0",
+        "scripts\\__pycache__\\run_iv_analysis.cpython-311.pyc": "cf3f031e804477111e581f1f24772dab",
+        "scripts\\__pycache__\\test_instruments.cpython-311.pyc": "7161dc5806f4cb3500c2d1ab2e69c30a",
+        "scripts\\__pycache__\\visualize_first_stage.cpython-311.pyc": "4118597be04e6edea95a73c0f826dd46",
+        "scripts\\__pycache__\\weak_iv_robust.cpython-311.pyc": "e620a186bc42d54b1dac87836f9a647d",
+        "scripts\\run_iv_analysis.py": "7f9af75ec376aea187f179ac59aa63ce",
+        "scripts\\test_instruments.py": "fc43475735506d511c2a31249d697c09",
+        "scripts\\visualize_first_stage.py": "ac3fc6a8ddd774eb68a71c6b47a79ec8",
+        "scripts\\weak_iv_robust.py": "a178bff074622c23a893b646ce2acb0f",
+        "SKILL.md": "adaaae9d8895c75775564bff171e43bc"
+      },
+      "deployed_at": "2026-01-21T16:34:10.606442",
+      "previous_version": null
+    },
+    "estimator-psm": {
+      "path": "classic-methods/estimator-psm",
+      "version": "2.0.0",
+      "checksum": "002737bb3193d6c2a864f01b3a5266a6",
+      "files": {
+        "__pycache__\\psm_estimator.cpython-311.pyc": "5f7d41a8d8f9cb1b0c0410b4c5bb62e1",
+        "assets\\latex\\psm_table.tex": "06c52e26ca9b23fec6c5a1325ea84656",
+        "assets\\markdown\\psm_report.md": "4b0a6bd4adbf5125cf4d1ac983fe81db",
+        "assets\\templates.md": "3c621fd954b7ba70e61fde25a82faaf9",
+        "psm_estimator.py": "ee698f1db8f5be92a836871c194eb4e0",
+        "references\\common_errors.md": "68845e9ecfa250d067566662dbb5c34c",
+        "references\\diagnostic_tests.md": "ad664a55019b0e484abfbcc98098f8d9",
+        "references\\estimation_methods.md": "781ddd11c51b9c41a8562fff777aff8d",
+        "references\\identification_assumptions.md": "ef5b68dd5fd0afe49b4412a8c1f01606",
+        "references\\reporting_standards.md": "e6c41cd22dfcd65c00a29dde2ee388df",
+        "scripts\\__pycache__\\run_psm_analysis.cpython-311.pyc": "b5e7d141108b6e97cc5fc9ac7477c73f",
+        "scripts\\__pycache__\\sensitivity_analysis.cpython-311.pyc": "32f008a787e260a68452c39616881c13",
+        "scripts\\__pycache__\\test_balance.cpython-311.pyc": "5a2884f1ae31261151e4f1a79857c7ae",
+        "scripts\\__pycache__\\visualize_overlap.cpython-311.pyc": "8d9e920cb999fa5c2768c5f33eb32009",
+        "scripts\\run_psm_analysis.py": "fdba2b68d3afce81b3138410cda10562",
+        "scripts\\sensitivity_analysis.py": "6f0b2e72baa1b2b780269cf6cc0af5ff",
+        "scripts\\test_balance.py": "c20e742b07d2cd741d5ab47311a81ac2",
+        "scripts\\visualize_overlap.py": "d2392913f5851fbf59d50061dc2e2e94",
+        "SKILL.md": "24986cacad2f3d44787a7ff995dac8ea"
+      },
+      "deployed_at": "2026-01-21T16:34:10.808353",
+      "previous_version": null
+    },
+    "discrete-choice-models": {
+      "path": "classic-methods/discrete-choice-models",
+      "version": "2.0.0",
+      "checksum": "7e44394af8eaf55450b3c29f71a052e4",
+      "files": {
+        "__pycache__\\discrete_choice_estimator.cpython-311.pyc": "bb722c8755369ce93c204ba5f14f1578",
+        "assets\\latex\\discrete_table.tex": "7052a6dad1157e57db4e895638f8b8d4",
+        "discrete_choice_estimator.py": "e529df5b02a4650f9dd045d5b707610c",
+        "references\\binary_choice.md": "9111976c82f50556c49e53c925bf572a",
+        "references\\causal_interpretation.md": "f6375c2dfcf87f7f079d30aaad714730",
+        "references\\count_models.md": "b2b084addab2f8f9d91608e3044befa3",
+        "references\\multinomial_choice.md": "eb7937be5beee66859123284ece67f16",
+        "references\\ordered_choice.md": "7f3970c28cce09eb05e1d845ba1d8bf0",
+        "scripts\\__pycache__\\calculate_marginal_effects.cpython-311.pyc": "60875e9cc046d239387e8e9c471abe94",
+        "scripts\\__pycache__\\run_discrete_model.cpython-311.pyc": "9463327fa0fcb75c315a086ab98399a2",
+        "scripts\\__pycache__\\test_model_assumptions.cpython-311.pyc": "aef90911135967926ede4b8b08261698",
+        "scripts\\__pycache__\\visualize_predictions.cpython-311.pyc": "b760b9bdfb741545a83289101d1741f8",
+        "scripts\\calculate_marginal_effects.py": "b6dc96fce19ed9cfb3ce96c758aa6821",
+        "scripts\\run_discrete_model.py": "59c35ccf59e54bf8e7a0ffb501ec5ff1",
+        "scripts\\test_model_assumptions.py": "2cffe63708986387a2134db447169dd5",
+        "scripts\\visualize_predictions.py": "fc3a9a03861ddd0bacaa0b8f4f39ed36",
+        "SKILL.md": "2fb467c20a2359607ffe7ef971fe315b"
+      },
+      "deployed_at": "2026-01-21T16:34:10.961429",
+      "previous_version": null
+    },
+    "panel-data-models": {
+      "path": "classic-methods/panel-data-models",
+      "version": "2.0.0",
+      "checksum": "06957f1ec5b430d7d4fca59945c033b1",
+      "files": {
+        "__pycache__\\panel_estimator.cpython-311.pyc": "3a4a1a7e0593242e497477a0cb89aec1",
+        "assets\\latex\\panel_table.tex": "4d6c4bc4deca1197b997c8c4517e735d",
+        "panel_estimator.py": "da369a28f47a22b14a49f3e898a3fb2c",
+        "references\\causal_interpretation.md": "d867833faac6f1120e94c308d97f2409",
+        "references\\clustered_inference.md": "43e27cf649ed370022c2e58a497b6b5d",
+        "references\\dynamic_panels.md": "22a333abd216d2d5cc26a45ce942a3a7",
+        "references\\fe_re_models.md": "198a0373034744235196cc73a2d5ef98",
+        "references\\panel_diagnostics.md": "96596e4bc4593d6702c3da76c42b1bb0",
+        "scripts\\__pycache__\\cluster_robust_se.cpython-311.pyc": "0cc2e044b4367b2e54ed5e37565cec50",
+        "scripts\\__pycache__\\run_panel_model.cpython-311.pyc": "fa5711b12374fe4dc4aaedb0446aeec2",
+        "scripts\\__pycache__\\test_fe_vs_re.cpython-311.pyc": "c6a0255ddcb4be8c93d12ef2819f408f",
+        "scripts\\__pycache__\\visualize_panel.cpython-311.pyc": "7af87065bab146614042e8829fe8a46f",
+        "scripts\\cluster_robust_se.py": "bc4076ae2755cff9dc61e0d2b4906bc6",
+        "scripts\\run_panel_model.py": "c7f37697780a1aa4700ff5e717c0919b",
+        "scripts\\test_fe_vs_re.py": "0fbfe09fff91eda59c18a22a47fa12ab",
+        "scripts\\visualize_panel.py": "cfe513894b0b81212de13e968e68caab",
+        "SKILL.md": "45254bbdc4795348cde5f44f456510df"
+      },
+      "deployed_at": "2026-01-21T16:34:11.105342",
+      "previous_version": null
+    },
+    "time-series-econometrics": {
+      "path": "classic-methods/time-series-econometrics",
+      "version": "2.0.0",
+      "checksum": "86c10093514e790bce60155b265067f3",
+      "files": {
+        "__pycache__\\time_series_estimator.cpython-311.pyc": "795f053cf2fea20daaf75621f71258e5",
+        "assets\\markdown\\ts_report.md": "08112d6c1f35ac375b58bf2968c82efd",
+        "references\\arima_models.md": "6fdb0241dba859070a3fa0befaf073ec",
+        "references\\causal_interpretation.md": "ae95b0f85d2dd21aa000643b1ac4475d",
+        "references\\cointegration.md": "dda07a0aee503a7ad2e7c8d25f54eeeb",
+        "references\\stationarity.md": "4c8b439b5946aa6e6796f6f64653dd6f",
+        "references\\var_models.md": "6fb7ac1c1258336d49126db523772e47",
+        "scripts\\__pycache__\\fit_var_model.cpython-311.pyc": "6a01f69da6498027f75a7911c70a44f3",
+        "scripts\\__pycache__\\run_time_series.cpython-311.pyc": "3de59506e2297b5b3ece19ae83019118",
+        "scripts\\__pycache__\\test_stationarity.cpython-311.pyc": "90a17457dfb1b75af168bc4209f63a2e",
+        "scripts\\__pycache__\\visualize_ts.cpython-311.pyc": "d0e52239deec10033ebc2a58936f514d",
+        "scripts\\fit_var_model.py": "d21211f27080e12e0906560892e3f721",
+        "scripts\\run_time_series.py": "9b22e035000307d4af794d9ad31c6c11",
+        "scripts\\test_stationarity.py": "3ca91bdff4ceef504dce4c48b00a20fe",
+        "scripts\\visualize_ts.py": "b76449222106dce2733c8daa35f81ff8",
+        "SKILL.md": "d15bab55e59fc4f538021855c2f91ede",
+        "time_series_estimator.py": "548ea7bc2c78fde534c8aed89d289686"
+      },
+      "deployed_at": "2026-01-21T16:34:11.304635",
+      "previous_version": null
+    },
+    "ml-preprocessing": {
+      "path": "ml-foundation/ml-preprocessing",
+      "version": "2.0.0",
+      "checksum": "7b384e10a6562c889e721629d91fc45a",
+      "files": {
+        "__pycache__\\preprocessing.cpython-311.pyc": "7ef1cdd5094b303c0d8f4fc8f2c3af5f",
+        "assets\\markdown\\data_report.md": "671dae9b930ede1968ba13af3167109d",
+        "preprocessing.py": "d306b1d4409d54aa7c3b54f9296d32b7",
+        "references\\causal_considerations.md": "ed4c859970913158b254c9e81388988b",
+        "references\\data_cleaning.md": "52b144dbc82c936c01bcf86ea37f856f",
+        "references\\feature_engineering.md": "ed03d93582d58ca9682270c7e9db34cb",
+        "references\\scaling_encoding.md": "063f9ae90055187b7bfef4ec1fa254e8",
+        "scripts\\__pycache__\\diagnose_data_quality.cpython-311.pyc": "68c8272ed8797cde7070528483f28ba0",
+        "scripts\\__pycache__\\run_preprocessing.cpython-311.pyc": "7d246512327358cb0a7c585b04817051",
+        "scripts\\__pycache__\\visualize_distributions.cpython-311.pyc": "b7c51412959ab0bdfb7912c446b5026e",
+        "scripts\\diagnose_data_quality.py": "a8a90c7482a06c6b97a50b3ed3fdfd75",
+        "scripts\\run_preprocessing.py": "632388261c4e41ab1438d77b4449616f",
+        "scripts\\visualize_distributions.py": "d39a4b5950cfdede116572a3c5631f96",
+        "SKILL.md": "8ba69ab63e1332f39d78db69d612e215"
+      },
+      "deployed_at": "2026-01-21T16:34:11.461359",
+      "previous_version": null
+    },
+    "ml-model-linear": {
+      "path": "ml-foundation/ml-model-linear",
+      "version": "2.0.0",
+      "checksum": "90d103176fbd399847cb34fc96e266f6",
+      "files": {
+        "__pycache__\\linear_models.cpython-311.pyc": "0db2e65f40dde286b559f55977b38bd3",
+        "assets\\latex\\linear_table.tex": "77f45a39350455cb30e23dbe31453b65",
+        "assets\\markdown\\linear_report.md": "cd75927303be7dc7760d5d8cbae8a378",
+        "linear_models.py": "63497a46a0239b82d22902b031b9689e",
+        "references\\causal_applications.md": "7196a989df43dd125e4ea573598b235b",
+        "references\\diagnostics.md": "a100cf1130b15b5180da0fe9548a332e",
+        "references\\model_selection.md": "8573ba5787cc23cbb2d284dbb2e7fe01",
+        "references\\regularization.md": "1447df2eff6d9bde561a23ab2a075a16",
+        "scripts\\__pycache__\\diagnose_assumptions.cpython-311.pyc": "0ca37d8c216474a4da33e3fffacdd25b",
+        "scripts\\__pycache__\\run_linear_model.cpython-311.pyc": "ddf02d8fd8bd46cd133304721a3d0f8a",
+        "scripts\\__pycache__\\visualize_coefficients.cpython-311.pyc": "cfb845889adb4c599c1f2e4c53b1f64d",
+        "scripts\\diagnose_assumptions.py": "615c7592f9e52edb72f1537114093810",
+        "scripts\\run_linear_model.py": "2750bcb908a84526a6b6767a0f06c804",
+        "scripts\\visualize_coefficients.py": "c898fa8287e20baa8172b527581a12d5",
+        "SKILL.md": "66e58da99b7d4e641046d0c56663b428"
+      },
+      "deployed_at": "2026-01-21T16:34:11.661316",
+      "previous_version": null
+    },
+    "ml-model-tree": {
+      "path": "ml-foundation/ml-model-tree",
+      "version": "2.0.0",
+      "checksum": "5f01d4cbe52abafb30fd6040d91a1f07",
+      "files": {
+        "__pycache__\\tree_models.cpython-311.pyc": "6da0d8915b6bb2412a21ea89e45c80b9",
+        "assets\\markdown\\tree_report.md": "f1a1be13b24900b11050ceb71d113741",
+        "references\\causal_applications.md": "eed476856f685c936541a1ebcf38a1df",
+        "references\\feature_importance.md": "d0fb8cd6110c98712e47c6204b3a970f",
+        "references\\hyperparameters.md": "408db3523bddc75a54ae9d0479b08ea8",
+        "references\\model_selection.md": "0c09b71b5b9a469a38a579c09d86005f",
+        "scripts\\__pycache__\\analyze_importance.cpython-311.pyc": "95df14d0dc3a963a835780b48128162e",
+        "scripts\\__pycache__\\run_tree_model.cpython-311.pyc": "f22d16f0b85cafbe41fb1b0d3faa6ba0",
+        "scripts\\__pycache__\\visualize_trees.cpython-311.pyc": "be4fc49cd0930ccbc63a59386ca48804",
+        "scripts\\analyze_importance.py": "4f65db052ff193a067d8390eec712a61",
+        "scripts\\run_tree_model.py": "27df9182f3c7e1c8c32fee7c38bf813a",
+        "scripts\\visualize_trees.py": "11ddaa1071b1b9d1a46786952fe3cea5",
+        "SKILL.md": "02c08cf2f4d27238f6b0baf369c253ef",
+        "tree_models.py": "688a9b290004593e2c35b8194081d447"
+      },
+      "deployed_at": "2026-01-21T16:34:11.826990",
+      "previous_version": null
+    },
+    "ml-model-advanced": {
+      "path": "ml-foundation/ml-model-advanced",
+      "version": "2.0.0",
+      "checksum": "408bfaff2645a6a863d051bd986feb52",
+      "files": {
+        "__pycache__\\advanced_models.cpython-311.pyc": "d4e31f2813955f9fb5e0a2e4d3fd7a83",
+        "advanced_models.py": "d760eebebe992c7ef405831e23345c7a",
+        "assets\\markdown\\advanced_report.md": "c086e4f6ce5637d4a8908f89c19f248f",
+        "references\\causal_applications.md": "5c54fca0b27f126ca347d05d4a050115",
+        "references\\ensemble_methods.md": "b63bb591504c78b9da692ae1e6dc70a9",
+        "references\\neural_networks.md": "ed08c37b2708a48e9a5a6df812dfe273",
+        "references\\svm_kernel.md": "cbb204fe8d94a24710264cf302f3047e",
+        "scripts\\__pycache__\\model_comparison.cpython-311.pyc": "aa9314dfb220889e937d84cab5ff0a87",
+        "scripts\\__pycache__\\run_advanced_model.cpython-311.pyc": "45ebc0cfeea2d1705a3365ff24476d9d",
+        "scripts\\__pycache__\\visualize_learning.cpython-311.pyc": "27b27778fd0defa82338e2e3554b1243",
+        "scripts\\model_comparison.py": "3c1fc11b7d45b1f0ac6c1a559897ea31",
+        "scripts\\run_advanced_model.py": "4a007bef7fa2a445a9d0eb8de48cc3f0",
+        "scripts\\visualize_learning.py": "074e49e77410d562cc707b891a24f7c0",
+        "SKILL.md": "f8e9e4aea80db7434403c190f5c75c7b"
+      },
+      "deployed_at": "2026-01-21T16:34:11.999958",
+      "previous_version": null
+    },
+    "statistical-analysis": {
+      "path": "ml-foundation/statistical-analysis",
+      "version": "2.0.0",
+      "checksum": "2e0db439c027d8daf3d637d2bb92c311",
+      "files": {
+        "__pycache__\\statistical_analysis.cpython-311.pyc": "bd7a6f42c91e78f5919fbd302fee89be",
+        "assets\\markdown\\stats_report.md": "991de80d4874f6ae6c46394b4bf2b17c",
+        "references\\common_errors.md": "6d3591320323bc3cc3b3898a4402ff2f",
+        "references\\effect_sizes.md": "bdc511fcb7b41b6e5af44d44b9fb530d",
+        "references\\hypothesis_testing.md": "6c4ddd9b0e8ed576c03b1bd0e234b89a",
+        "references\\power_analysis.md": "3b96a41b73481a000d66fef625014f0b",
+        "scripts\\__pycache__\\calculate_effect_sizes.cpython-311.pyc": "fc29d8ca65d757a5f067de17ea92cde5",
+        "scripts\\__pycache__\\power_analysis.cpython-311.pyc": "a68236dcf7c7ba8d35f9e0c219cb9f52",
+        "scripts\\__pycache__\\run_statistical_tests.cpython-311.pyc": "b6cab81b0d385b7b6dc9b183d9beff70",
+        "scripts\\__pycache__\\visualize_distributions.cpython-311.pyc": "d0622df6672b78234753a321b7b74803",
+        "scripts\\calculate_effect_sizes.py": "aea7a1b1173044a4f288ad1175be28ca",
+        "scripts\\power_analysis.py": "05ed565dee5f0828a1dd6cc69de6c538",
+        "scripts\\run_statistical_tests.py": "0387391531cb7aa97c033e77c3d3220c",
+        "scripts\\visualize_distributions.py": "5e5541151cc432955ed9b665b56c02cf",
+        "SKILL.md": "d7f121464bfcd2cc4f1ef102f343e902",
+        "statistical_analysis.py": "b0f252e5b6ba9282ecff14707269d7f2"
+      },
+      "deployed_at": "2026-01-21T16:34:12.156589",
+      "previous_version": null
+    },
+    "econometric-eda": {
+      "path": "ml-foundation/econometric-eda",
+      "version": "2.0.0",
+      "checksum": "6091a5f254cff6b4999b35a7afb21ecc",
+      "files": {
+        "__pycache__\\econometric_eda.cpython-311.pyc": "1198a758c39007a38eefeaeaec65bd5c",
+        "assets\\markdown\\eda_report.md": "3907aaf5a91a7ccc20b781798000b923",
+        "econometric_eda.py": "a2f09a7df767839db34bdcaedb165c22",
+        "references\\data_quality.md": "90a11e013121a49444a7056a527c2afb",
+        "references\\outlier_detection.md": "57a4ada47ceb7cabc3804e5ef846504f",
+        "references\\panel_eda.md": "19a5c22d17df5f94b27cf358b3d22036",
+        "references\\variable_relationships.md": "1af725e6ae11ea0cdd93a60e8df5d939",
+        "scripts\\__pycache__\\detect_outliers.cpython-311.pyc": "e982ed0a49ea1d4f43446187c9a69d91",
+        "scripts\\__pycache__\\diagnose_missing.cpython-311.pyc": "52d93f4f255e6118e8893347c30a4a72",
+        "scripts\\__pycache__\\run_eda.cpython-311.pyc": "e5dc160452982adc9fd2fb0929bab3ea",
+        "scripts\\__pycache__\\visualize_eda.cpython-311.pyc": "4fe65ff5996e4fff5a7b30ace8b6cbc5",
+        "scripts\\detect_outliers.py": "61bacd0cce329d564b821c8f2f1456ba",
+        "scripts\\diagnose_missing.py": "33f09a87242193d59dec6615552a5405",
+        "scripts\\run_eda.py": "98a112c455a0997aa10ccc1f477a65f6",
+        "scripts\\visualize_eda.py": "92455a27f1b4a24d0e164f563ddca269",
+        "SKILL.md": "8326023fb9ef80497a4e278cb3268809"
+      },
+      "deployed_at": "2026-01-21T16:34:12.327445",
+      "previous_version": null
+    },
+    "causal-ddml": {
+      "path": "causal-ml/causal-ddml",
+      "version": "2.0.0",
+      "checksum": "6416a03c8ff93f17d7e05a6ff9e2fa94",
+      "files": {
+        "__pycache__\\ddml_estimator.cpython-311.pyc": "469e40d869793266e37faf1a0f8fee20",
+        "assets\\latex\\ddml_table.tex": "8bda9702a4e3648545d834ea0be87223",
+        "assets\\markdown\\ddml_report.md": "d43781ba374a92efdbf2d8f4ff6498dc",
+        "assets\\templates.md": "0e9371ef9af61a51cb952628d5c88fae",
+        "ddml_estimator.py": "077ffed326a700f9ec890ccc5ce5c2be",
+        "references\\common_errors.md": "a76a7fc825fa7e659a3c14152142c6af",
+        "references\\diagnostic_tests.md": "6099cca203070ca8b033ada22587f4d7",
+        "references\\estimation_methods.md": "defda26e88429e704706e0ba3945b6b6",
+        "references\\identification_assumptions.md": "b50b726553862b1885881c3b116c486e",
+        "references\\model_selection.md": "722169fa37198d8b8521f1e94c212127",
+        "references\\reporting_standards.md": "2a15e429c42566c3f56a983cf9a078b8",
+        "scripts\\__pycache__\\compare_estimators.cpython-311.pyc": "d004f75a7e7d8c0cfc7d7f94d6f0b309",
+        "scripts\\__pycache__\\cross_fit_diagnostics.cpython-311.pyc": "1ee7cce8eeff74342ac52c5d2b3dc61c",
+        "scripts\\__pycache__\\run_ddml_analysis.cpython-311.pyc": "480370dd6cf92ac2436a0a2798b62435",
+        "scripts\\__pycache__\\sensitivity_analysis.cpython-311.pyc": "85a6509d068b9e51f8a375018c4813c7",
+        "scripts\\__pycache__\\tune_nuisance_models.cpython-311.pyc": "18857e868c2f1fd193becf1235a5205f",
+        "scripts\\compare_estimators.py": "8ccda39191fa16cd249e4daf3b4e08e6",
+        "scripts\\cross_fit_diagnostics.py": "3d553f30ae369f079b6b5487863788a9",
+        "scripts\\run_ddml_analysis.py": "125d65e3bce6cf6db1200fa69eea8918",
+        "scripts\\sensitivity_analysis.py": "d004e8acf19484122f94843998eeb65b",
+        "scripts\\tune_nuisance_models.py": "8b47e267497afde03e50823c89c4dbf6",
+        "SKILL.md": "2746dd3f26ff70af1d6ebc5cfdb5b879"
+      },
+      "deployed_at": "2026-01-21T16:34:12.586168",
+      "previous_version": null
+    },
+    "causal-forest": {
+      "path": "causal-ml/causal-forest",
+      "version": "2.0.0",
+      "checksum": "0bc0d8741a59ff99cab80f2a4cf17810",
+      "files": {
+        "__pycache__\\causal_forest.cpython-311.pyc": "447f617de685808dbdd777b8f937a522",
+        "assets\\markdown\\causal_forest_report.md": "982a6be532bf854fd3dfa09ed27b13c3",
+        "assets\\templates.md": "1f9951b573aaefb4ff5fc51acf65dec5",
+        "causal_forest.py": "18b4ac7f4e086049ea125af480c01f17",
+        "references\\diagnostic_tests.md": "573f8ffb6b7e4539e0af1b748592ac8e",
+        "references\\estimation_methods.md": "e85220a515c49dddac33e8916e1cd826",
+        "references\\heterogeneity_analysis.md": "6e5a5f91ea0c5be95f371ab816f92fe9",
+        "references\\identification_assumptions.md": "32bfe50f76eb8b1ed3a5fe7a1a776273",
+        "references\\reporting_standards.md": "8cc01e076f3576ecdde3f1f234af836d",
+        "scripts\\__pycache__\\estimate_cate.cpython-311.pyc": "c310609e5fbb9ead2a31bd061de38561",
+        "scripts\\__pycache__\\policy_evaluation.cpython-311.pyc": "7fcbdcb7a5d72f4967571d00f4c048d0",
+        "scripts\\__pycache__\\run_causal_forest.cpython-311.pyc": "ac6a2e4fba2b4a03e1df79e9e478f865",
+        "scripts\\__pycache__\\visualize_heterogeneity.cpython-311.pyc": "c88079d785f744c995e70da7efa9192b",
+        "scripts\\estimate_cate.py": "f0d65eba99bd9f4b9cab53260473dde4",
+        "scripts\\policy_evaluation.py": "bff447a5d6419ceea3d6170b617f3257",
+        "scripts\\run_causal_forest.py": "fc416cdb91f528529d27fe2f91c5be39",
+        "scripts\\visualize_heterogeneity.py": "22c9c1f496d2f7dd61cfa85ece8852ab",
+        "SKILL.md": "ccc64b20c47f90a6ac488d4ae0b3489b"
+      },
+      "deployed_at": "2026-01-21T16:34:12.781162",
+      "previous_version": null
+    },
+    "causal-mediation-ml": {
+      "path": "causal-ml/causal-mediation-ml",
+      "version": "2.0.0",
+      "checksum": "721e8d4291058f16c6d2bef7be1e6b2a",
+      "files": {
+        "__pycache__\\mediation_estimator.cpython-311.pyc": "1a168fe8b628d797c5d70e5c10e68344",
+        "assets\\markdown\\mediation_report.md": "405d472eb8ea215582d5a918f426619a",
+        "assets\\templates.md": "7c427101e63cc1af35b7c2ec2ceb3cf6",
+        "mediation_estimator.py": "faba8bb4565e254bf1af30b31d22b8ed",
+        "references\\diagnostic_tests.md": "d7cf84acd6c34e0213a700596181c602",
+        "references\\effect_decomposition.md": "2ecdb34b65e1ddb1e5b16e0363bef6e2",
+        "references\\estimation_methods.md": "7400bb6962faac40ccf80aead99303db",
+        "references\\identification_assumptions.md": "189bccc4afda4b9640da9389507f6dee",
+        "references\\reporting_standards.md": "005ae612f40ae3f61d6c25ba2bc78742",
+        "scripts\\__pycache__\\decompose_effects.cpython-311.pyc": "cb173da5d7db13699b33d814631e1e10",
+        "scripts\\__pycache__\\run_mediation_analysis.cpython-311.pyc": "36c7505232d381c3c5d83ec8c48c46e5",
+        "scripts\\__pycache__\\sensitivity_analysis.cpython-311.pyc": "75e247e8e29fde8661a18abad1adbcb7",
+        "scripts\\__pycache__\\visualize_pathways.cpython-311.pyc": "a51548c95d76276984845f9100d6e2e2",
+        "scripts\\decompose_effects.py": "0154edb94dd0accf9978bfd41df3113d",
+        "scripts\\run_mediation_analysis.py": "d8b3d8a1c2579152317b8423053c40b1",
+        "scripts\\sensitivity_analysis.py": "5371356cb14cd9e3b33e6b079648c29a",
+        "scripts\\visualize_pathways.py": "048d623257aa4bed2348c21c5aed86cf",
+        "SKILL.md": "f3c4c96a15d10f407c54973cf4c55bde"
+      },
+      "deployed_at": "2026-01-21T16:34:12.973185",
+      "previous_version": null
+    },
+    "paper-replication-workflow": {
+      "path": "causal-ml/paper-replication-workflow",
+      "version": "2.0.0",
+      "checksum": "88ba405169c075805e4be3dbf03741e2",
+      "files": {
+        "__pycache__\\replication_workflow.cpython-311.pyc": "121ee4f2cc20478c5a826c1a4e41137c",
+        "assets\\markdown\\data_dictionary.md": "986ae2d2adc2d597b338ba0b79dbba80",
+        "assets\\markdown\\replication_readme.md": "c17523d6e6887fe46223cd004d13e17d",
+        "assets\\templates.md": "679e86cb43673e0cceba8789eaa53915",
+        "references\\code_organization.md": "3c9f53265edb84a894107404fb4996c4",
+        "references\\data_management.md": "00b1cdae7628a1c09dcccf7cf83f964b",
+        "references\\documentation_checklist.md": "360fc0afc50edde20d738535eeaba41f",
+        "references\\replication_standards.md": "c215d304e099c2c683342f562ae27f04",
+        "replication_workflow.py": "ea504252c670b888d99bbe5e620f4cbc",
+        "scripts\\__pycache__\\generate_comparison.cpython-311.pyc": "45fb8c5fb81f07e7aff03627d8532c9b",
+        "scripts\\__pycache__\\setup_replication_project.cpython-311.pyc": "6e3c4570df0e26aa5f2f8057b58e9d90",
+        "scripts\\__pycache__\\validate_replication.cpython-311.pyc": "ee4a57caf2743a7f84f4259ea9c56bf2",
+        "scripts\\generate_comparison.py": "fd619f9934187dc5613535e5b8cf9fab",
+        "scripts\\setup_replication_project.py": "326fd07210ea15477b1e73b79d4a8d37",
+        "scripts\\validate_replication.py": "c744bd4805d3a9977ed3e632f01b7c80",
+        "SKILL.md": "7262e6e1784c78cd0be148227aa48684"
+      },
+      "deployed_at": "2026-01-21T16:34:13.110203",
+      "previous_version": null
+    },
+    "bayesian-econometrics": {
+      "path": "causal-ml/bayesian-econometrics",
+      "version": "2.0.0",
+      "checksum": "2f5a974d66f04669435b15463ab3a5b5",
+      "files": {
+        "__pycache__\\bayesian_estimator.cpython-311.pyc": "a8f5588c3ccc0c0be4a7552ad9803a2f",
+        "assets\\markdown\\bayesian_report.md": "b780cdd224f0c4d480097623f5515d36",
+        "bayesian_estimator.py": "23ebc4a90406540badf597762ad5ca77",
+        "references\\bayesian_basics.md": "c8071f8c2bc1126dce8ddc6eda5546e1",
+        "references\\bayesian_causal.md": "1380436e88d6673b0c0100e81cfa3641",
+        "references\\hierarchical_models.md": "314f3c178030eb34abba994bca124471",
+        "references\\mcmc_diagnostics.md": "3603223beec7bbaa767a548cfa2e5d73",
+        "references\\prior_selection.md": "3c571444a657895b848ccf429c687934",
+        "scripts\\__pycache__\\diagnose_mcmc.cpython-311.pyc": "1bd138878aac5dd4b2e223614fb6200e",
+        "scripts\\__pycache__\\prior_sensitivity.cpython-311.pyc": "844a7c8b8c1cf511e063449b626f3692",
+        "scripts\\__pycache__\\run_bayesian_model.cpython-311.pyc": "a742defaee9cbcd5a3c980ac5e0699c0",
+        "scripts\\__pycache__\\visualize_posteriors.cpython-311.pyc": "27259ef972c348d58ddf3a5a45a88a5a",
+        "scripts\\diagnose_mcmc.py": "3690db5782ee9c74d514de139eb24ca2",
+        "scripts\\prior_sensitivity.py": "b63f547d7bf2f43e9ccd250fc54d97f8",
+        "scripts\\run_bayesian_model.py": "271172da5fb0f5292bdd950e7842a961",
+        "scripts\\visualize_posteriors.py": "f2c721d9706160cba12d63714d531d8f",
+        "SKILL.md": "db5710c28f0b705a9fefec0691745959"
+      },
+      "deployed_at": "2026-01-21T16:34:13.233675",
+      "previous_version": null
+    }
+  },
+  "history": [
+    {
+      "timestamp": "2026-01-21T16:34:09.497075",
+      "action": "deploy",
+      "skill": "setup-causal-ml-env",
+      "version": "2.0.0"
+    },
+    {
+      "timestamp": "2026-01-21T16:34:09.651804",
+      "action": "deploy",
+      "skill": "scientific-writing-econ",
+      "version": "2.0.0"
+    },
+    {
+      "timestamp": "2026-01-21T16:34:09.768934",
+      "action": "deploy",
+      "skill": "causal-concept-guide",
+      "version": "2.0.0"
+    },
+    {
+      "timestamp": "2026-01-21T16:34:10.101749",
+      "action": "deploy",
+      "skill": "estimator-did",
+      "version": "2.0.0"
+    },
+    {
+      "timestamp": "2026-01-21T16:34:10.354584",
+      "action": "deploy",
+      "skill": "estimator-rd",
+      "version": "2.0.0"
+    },
+    {
+      "timestamp": "2026-01-21T16:34:10.606442",
+      "action": "deploy",
+      "skill": "estimator-iv",
+      "version": "2.0.0"
+    },
+    {
+      "timestamp": "2026-01-21T16:34:10.808353",
+      "action": "deploy",
+      "skill": "estimator-psm",
+      "version": "2.0.0"
+    },
+    {
+      "timestamp": "2026-01-21T16:34:10.961429",
+      "action": "deploy",
+      "skill": "discrete-choice-models",
+      "version": "2.0.0"
+    },
+    {
+      "timestamp": "2026-01-21T16:34:11.105342",
+      "action": "deploy",
+      "skill": "panel-data-models",
+      "version": "2.0.0"
+    },
+    {
+      "timestamp": "2026-01-21T16:34:11.304635",
+      "action": "deploy",
+      "skill": "time-series-econometrics",
+      "version": "2.0.0"
+    },
+    {
+      "timestamp": "2026-01-21T16:34:11.461359",
+      "action": "deploy",
+      "skill": "ml-preprocessing",
+      "version": "2.0.0"
+    },
+    {
+      "timestamp": "2026-01-21T16:34:11.661316",
+      "action": "deploy",
+      "skill": "ml-model-linear",
+      "version": "2.0.0"
+    },
+    {
+      "timestamp": "2026-01-21T16:34:11.826990",
+      "action": "deploy",
+      "skill": "ml-model-tree",
+      "version": "2.0.0"
+    },
+    {
+      "timestamp": "2026-01-21T16:34:11.999958",
+      "action": "deploy",
+      "skill": "ml-model-advanced",
+      "version": "2.0.0"
+    },
+    {
+      "timestamp": "2026-01-21T16:34:12.156589",
+      "action": "deploy",
+      "skill": "statistical-analysis",
+      "version": "2.0.0"
+    },
+    {
+      "timestamp": "2026-01-21T16:34:12.327445",
+      "action": "deploy",
+      "skill": "econometric-eda",
+      "version": "2.0.0"
+    },
+    {
+      "timestamp": "2026-01-21T16:34:12.586168",
+      "action": "deploy",
+      "skill": "causal-ddml",
+      "version": "2.0.0"
+    },
+    {
+      "timestamp": "2026-01-21T16:34:12.781162",
+      "action": "deploy",
+      "skill": "causal-forest",
+      "version": "2.0.0"
+    },
+    {
+      "timestamp": "2026-01-21T16:34:12.973185",
+      "action": "deploy",
+      "skill": "causal-mediation-ml",
+      "version": "2.0.0"
+    },
+    {
+      "timestamp": "2026-01-21T16:34:13.110203",
+      "action": "deploy",
+      "skill": "paper-replication-workflow",
+      "version": "2.0.0"
+    },
+    {
+      "timestamp": "2026-01-21T16:34:13.233675",
+      "action": "deploy",
+      "skill": "bayesian-econometrics",
+      "version": "2.0.0"
+    }
+  ]
+}

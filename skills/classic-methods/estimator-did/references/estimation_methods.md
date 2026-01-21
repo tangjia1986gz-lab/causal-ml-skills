@@ -150,28 +150,188 @@ At t=4, TWFE uses:
 
 Estimate group-time average treatment effects $ATT(g,t)$ separately for each treatment cohort $g$ and time period $t$, then aggregate.
 
-### Model
+### Notation
 
-For each $(g,t)$ combination:
+| Symbol | Definition |
+|--------|------------|
+| $G_g$ | Indicator for cohort $g$ (units first treated at time $g$) |
+| $C$ | Indicator for never-treated units |
+| $\mathcal{G}$ | Set of all treatment cohorts |
+| $\mathcal{T}$ | Last time period in the panel |
+| $Y_t(g)$ | Potential outcome at time $t$ if first treated at $g$ |
+| $Y_t(0)$ | Potential outcome at time $t$ if never treated |
+
+### Target Parameter: ATT(g,t)
+
+**Definition**:
 $$
-ATT(g,t) = E[Y_t - Y_{g-1} | G = g] - E[Y_t - Y_{g-1} | G \in \text{Control}]
+ATT(g,t) = E[Y_t(g) - Y_t(0) | G_g = 1]
+$$
+
+This is the average treatment effect at time $t$ for units that were first treated at time $g$.
+
+### Identification (Theorem 1 in C-S)
+
+Under Assumptions 1-6 (random sampling, overlap, conditional parallel trends, limited anticipation, irreversibility), the $ATT(g,t)$ is identified as:
+
+**Inverse Probability Weighting (IPW) Formula**:
+$$
+ATT(g,t) = E\left[\left(\frac{G_g}{E[G_g]} - \frac{\frac{p_g(X) \cdot C}{1-p_g(X)}}{E\left[\frac{p_g(X) \cdot C}{1-p_g(X)}\right]}\right)(Y_t - Y_{g-\delta-1})\right]
+$$
+
+Where:
+- $p_g(X) = P(G_g = 1 | X, G_g + C = 1)$ is the generalized propensity score
+- $\delta$ is the anticipation parameter (periods before treatment with potential effects)
+- $g - \delta - 1$ is the last "clean" pre-treatment period
+
+**Outcome Regression (OR) Formula**:
+$$
+ATT(g,t) = E\left[\frac{G_g}{E[G_g]}\left((Y_t - Y_{g-\delta-1}) - (m_{g,t}(X) - m_{g,g-\delta-1}(X))\right)\right]
+$$
+
+Where $m_{g,t}(X) = E[Y_t | X, C = 1]$ is the conditional mean for never-treated units.
+
+**Doubly Robust (DR) Formula**:
+$$
+ATT(g,t) = E\left[\left(\frac{G_g}{E[G_g]} - \frac{\frac{p_g(X) \cdot C}{1-p_g(X)}}{E\left[\frac{p_g(X) \cdot C}{1-p_g(X)}\right]}\right)\left((Y_t - Y_{g-\delta-1}) - (m_{g,t}(X) - m_{g,g-\delta-1}(X))\right)\right]
+$$
+
+The doubly robust estimator is consistent if **either** the propensity score model **or** the outcome regression model is correctly specified.
+
+### Simplified Model (Unconditional)
+
+For each $(g,t)$ combination with no covariates:
+$$
+ATT(g,t) = E[Y_t - Y_{g-1} | G = g] - E[Y_t - Y_{g-1} | C = 1]
 $$
 
 Where:
 - $g$ = treatment cohort (time when group was first treated)
-- Control = never-treated or not-yet-treated units
+- Control = never-treated units (C = 1)
 
-### Aggregation
+### Aggregation Schemes
 
-**Overall ATT**:
+The $ATT(g,t)$ estimates can be aggregated in different ways depending on the research question.
+
+#### 3.1 Overall Simple Aggregation
+
 $$
-ATT = \sum_{g,t} w_{g,t} \cdot ATT(g,t)
+ATT = \sum_{g \in \mathcal{G}} \sum_{t=g}^{\mathcal{T}} w_{g,t} \cdot ATT(g,t)
 $$
 
-**Event-time ATT**:
+#### 3.2 Selective Treatment Timing (θ^S)
+
+**Question**: What is the average effect for a unit that was treated at a randomly drawn treatment time?
+
+**Group-level average**:
+$$
+\theta^S(g) = \frac{1}{\mathcal{T} - g + 1} \sum_{t=g}^{\mathcal{T}} ATT(g,t)
+$$
+
+**Overall selective timing effect**:
+$$
+\theta^S = \sum_{g \in \mathcal{G}} \theta^S(g) \cdot P(G = g | G \in \mathcal{G})
+$$
+
+Where $P(G = g | G \in \mathcal{G})$ is the share of units in cohort $g$ among all eventually-treated units.
+
+**Interpretation**: The average effect across all treated cohorts, where each cohort is weighted by its size.
+
+#### 3.3 Dynamic Treatment Effects (θ^D)
+
+**Question**: How does the treatment effect evolve with exposure length?
+
+**Definition** (Effect at exposure $e$):
+$$
+\theta^D(e) = \sum_{g \in \mathcal{G}} \mathbf{1}\{g + e \leq \mathcal{T}\} \cdot ATT(g, g+e) \cdot P(G = g | G + e \leq \mathcal{T})
+$$
+
+Where:
+- $e$ = length of exposure (periods since treatment started)
+- $e = 0$ is the first period of treatment
+- $e < 0$ represents pre-treatment periods (for pre-trends analysis)
+
+**Interpretation**: The average treatment effect among units that have been exposed to treatment for exactly $e$ periods.
+
+**Python Implementation**:
+```python
+def aggregate_dynamic_effects(att_gt, data, time_id, treatment_time, max_e=5):
+    """
+    Compute dynamic treatment effects θ^D(e).
+
+    Parameters
+    ----------
+    att_gt : dict
+        Dictionary of ATT(g,t) estimates: {(g, t): estimate}
+    data : DataFrame
+        Panel data
+    time_id : str
+        Time variable name
+    treatment_time : str
+        Variable indicating when unit was first treated
+    max_e : int
+        Maximum exposure length to compute
+
+    Returns
+    -------
+    dict
+        {e: theta_D(e)} for e in range(-max_e, max_e+1)
+    """
+    import numpy as np
+
+    T = data[time_id].max()
+    cohorts = data[treatment_time].dropna().unique()
+
+    theta_d = {}
+
+    for e in range(-max_e, max_e + 1):
+        # Find cohorts that can contribute to this exposure
+        valid_cohorts = [g for g in cohorts if g + e <= T and g + e >= 1]
+
+        if not valid_cohorts:
+            continue
+
+        # Weight by cohort size
+        weights = {}
+        total_weight = 0
+        for g in valid_cohorts:
+            n_g = (data[treatment_time] == g).sum() / len(data[data[treatment_time] == g][time_id].unique())
+            weights[g] = n_g
+            total_weight += n_g
+
+        # Normalize weights
+        weights = {g: w / total_weight for g, w in weights.items()}
+
+        # Compute weighted average
+        theta = 0
+        for g in valid_cohorts:
+            t = g + e
+            if (g, t) in att_gt:
+                theta += weights[g] * att_gt[(g, t)]
+
+        theta_d[e] = theta
+
+    return theta_d
+```
+
+#### 3.4 Calendar Time Effects (θ^C)
+
+**Question**: What is the average effect at a specific calendar time?
+
+**Definition**:
+$$
+\theta^C(t) = \sum_{g \in \mathcal{G}} \mathbf{1}\{g \leq t\} \cdot ATT(g,t) \cdot P(G = g | G \leq t)
+$$
+
+**Interpretation**: The average treatment effect at calendar time $t$ across all cohorts that have been treated by time $t$.
+
+#### 3.5 Event-Time Aggregation (Simplified)
+
 $$
 ATT(e) = \sum_g w_g \cdot ATT(g, g+e)
 $$
+
+Where $w_g$ is the share of cohort $g$ among cohorts that can be observed at exposure $e$.
 
 ### Implementation
 
@@ -201,6 +361,112 @@ for (g, t), att in att_gt.items():
 |--------|-------------|------|------|
 | `nevertreated` | Only never-treated units | Avoids contamination | May have limited overlap |
 | `notyettreated` | Never-treated + not-yet-treated | More comparison units | May violate no-anticipation |
+
+### Two-Step Semiparametric Estimation
+
+Callaway & Sant'Anna (2021) propose a two-step estimation procedure:
+
+**Step 1: Estimate Generalized Propensity Score**
+
+For each cohort $g$, estimate:
+$$
+\hat{p}_g(X) = P(G_g = 1 | X, G_g + C = 1)
+$$
+
+Using logistic regression or other flexible methods on the subsample of cohort $g$ and never-treated units.
+
+**Step 2: Compute ATT(g,t) Estimates**
+
+Using the estimated propensity scores, compute the sample analog of the identification formula:
+
+$$
+\widehat{ATT}(g,t) = \frac{1}{n} \sum_{i=1}^{n} \left(\frac{G_{g,i}}{\hat{p}_g} - \frac{\frac{\hat{p}_g(X_i) \cdot C_i}{1-\hat{p}_g(X_i)}}{\frac{1}{n}\sum_j \frac{\hat{p}_g(X_j) \cdot C_j}{1-\hat{p}_g(X_j)}}\right)(Y_{i,t} - Y_{i,g-\delta-1})
+$$
+
+Where $\hat{p}_g = \frac{1}{n}\sum_i G_{g,i}$ is the sample share of cohort $g$.
+
+### Inference: Multiplier Bootstrap
+
+Standard errors and confidence intervals are computed using the **multiplier bootstrap**, which is computationally efficient and valid for simultaneous inference across multiple ATT(g,t) parameters.
+
+**Procedure**:
+1. Compute the influence function $\psi_i(g,t)$ for each observation
+2. Generate i.i.d. weights $\xi_i \sim N(0,1)$ (or Rademacher)
+3. Compute bootstrap statistic: $T_b = \frac{1}{\sqrt{n}} \sum_i \xi_i \cdot \psi_i(g,t)$
+4. Repeat $B$ times to obtain bootstrap distribution
+5. Use bootstrap quantiles for confidence bands
+
+**Pointwise vs. Simultaneous Confidence Bands**:
+
+| Type | Use Case | Coverage |
+|------|----------|----------|
+| Pointwise | Individual ATT(g,t) | 95% for each parameter separately |
+| Simultaneous | Multiple ATT(g,t) jointly | 95% that ALL parameters are covered |
+
+**Python Implementation**:
+```python
+def multiplier_bootstrap_inference(
+    att_gt, influence_functions, n_bootstrap=1000, alpha=0.05
+):
+    """
+    Compute simultaneous confidence bands via multiplier bootstrap.
+
+    Parameters
+    ----------
+    att_gt : dict
+        Point estimates {(g,t): estimate}
+    influence_functions : dict
+        {(g,t): array of influence function values}
+    n_bootstrap : int
+        Number of bootstrap replications
+    alpha : float
+        Significance level
+
+    Returns
+    -------
+    dict
+        Confidence bands for each (g,t)
+    """
+    import numpy as np
+
+    n = len(list(influence_functions.values())[0])
+    gt_pairs = list(att_gt.keys())
+
+    # Store bootstrap statistics
+    boot_stats = {gt: [] for gt in gt_pairs}
+
+    for b in range(n_bootstrap):
+        # Generate multiplier weights
+        xi = np.random.normal(0, 1, n)
+
+        for gt in gt_pairs:
+            psi = influence_functions[gt]
+            t_b = np.sum(xi * psi) / np.sqrt(n)
+            boot_stats[gt].append(t_b)
+
+    # Compute critical value for simultaneous inference
+    # Use supremum of t-statistics across all parameters
+    sup_stats = []
+    for b in range(n_bootstrap):
+        max_t = max(abs(boot_stats[gt][b]) for gt in gt_pairs)
+        sup_stats.append(max_t)
+
+    c_alpha = np.quantile(sup_stats, 1 - alpha)
+
+    # Construct confidence bands
+    results = {}
+    for gt in gt_pairs:
+        se = np.std(boot_stats[gt])
+        est = att_gt[gt]
+        results[gt] = {
+            'estimate': est,
+            'se': se,
+            'ci_pointwise': (est - 1.96 * se, est + 1.96 * se),
+            'ci_simultaneous': (est - c_alpha * se, est + c_alpha * se)
+        }
+
+    return results
+```
 
 ### When to Use
 

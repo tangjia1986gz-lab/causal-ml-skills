@@ -1,7 +1,8 @@
 # Diagnostic Tests for Difference-in-Differences
 
-> **Document Type**: Reference | **Last Updated**: 2025-01
+> **Document Type**: Reference | **Last Updated**: 2026-01
 > **Related**: [identification_assumptions.md](identification_assumptions.md), [robustness_checks.py](../scripts/robustness_checks.py)
+> **Key Reference**: Callaway & Sant'Anna (2021), Journal of Econometrics
 
 ## Overview
 
@@ -109,7 +110,168 @@ print(f"Conclusion: {'PASS' if result.passed else 'FAIL'}")
 - H1: Groups trending differently (slope != 0)
 - Rejection (p < 0.05) suggests parallel trends violation
 
-### 1.4 Rambachan-Roth Sensitivity Analysis
+### 1.4 Integrated Conditional Moments (ICM) Pre-Test
+
+**Purpose**: Test the conditional parallel trends assumption (Callaway & Sant'Anna 2021).
+
+**Concept**: Test whether the conditional mean of outcome changes is the same for the treatment cohort and never-treated units, across all values of covariates.
+
+**Hypothesis**:
+$$
+H_0: E[Y_t(0) - Y_{t-1}(0) | X, G_g = 1] = E[Y_t(0) - Y_{t-1}(0) | X, C = 1] \quad \text{a.s.}
+$$
+
+**Test Statistics**:
+
+1. **Cramér-von Mises (CvM)**: Measures average squared deviation
+$$
+CvM = \int \left(\hat{F}_{g}(x) - \hat{F}_{C}(x)\right)^2 d\hat{F}(x)
+$$
+
+2. **Kolmogorov-Smirnov (KS)**: Measures maximum deviation
+$$
+KS = \sup_x \left|\hat{F}_{g}(x) - \hat{F}_{C}(x)\right|
+$$
+
+Where $\hat{F}_{g}$ and $\hat{F}_{C}$ are the empirical distributions of the outcome change weighted by the inverse propensity score.
+
+**Implementation**:
+```python
+def icm_pretest(
+    data, outcome, treatment_time, unit_id, time_id,
+    covariates, cohort, pre_period, test_type='cvm'
+):
+    """
+    Integrated Conditional Moments pre-test for parallel trends.
+
+    Parameters
+    ----------
+    data : DataFrame
+        Panel data
+    outcome : str
+        Outcome variable
+    treatment_time : str
+        Variable indicating when unit was first treated
+    cohort : int
+        Treatment cohort to test
+    pre_period : int
+        Pre-treatment period to use as baseline
+    test_type : str
+        'cvm' for Cramér-von Mises, 'ks' for Kolmogorov-Smirnov
+
+    Returns
+    -------
+    dict
+        Test statistic and bootstrap p-value
+    """
+    import numpy as np
+    from sklearn.linear_model import LogisticRegression
+
+    # Get cohort and never-treated observations
+    df = data.copy()
+    df['cohort_g'] = (df[treatment_time] == cohort).astype(int)
+    df['never_treated'] = df[treatment_time].isna().astype(int)
+
+    # Subset to cohort g or never-treated, pre-treatment periods only
+    mask = ((df['cohort_g'] == 1) | (df['never_treated'] == 1)) & (df[time_id] <= pre_period)
+    df_test = df[mask]
+
+    # Compute outcome changes
+    df_test = df_test.sort_values([unit_id, time_id])
+    df_test['y_change'] = df_test.groupby(unit_id)[outcome].diff()
+
+    # Drop first period (no change computed)
+    df_test = df_test.dropna(subset=['y_change'])
+
+    # Estimate propensity score
+    X = df_test[covariates].values
+    y = df_test['cohort_g'].values
+
+    ps_model = LogisticRegression(max_iter=1000)
+    ps_model.fit(X, y)
+    p_score = ps_model.predict_proba(X)[:, 1]
+
+    # Compute weighted residuals
+    cohort_mask = df_test['cohort_g'] == 1
+    control_mask = df_test['never_treated'] == 1
+
+    # IPW residuals
+    y_change = df_test['y_change'].values
+
+    # Cohort g contribution
+    w_g = cohort_mask / cohort_mask.mean()
+
+    # Control contribution (reweighted)
+    w_c = (p_score * control_mask / (1 - p_score)) / ((p_score * control_mask / (1 - p_score)).mean())
+
+    # Compute test statistic
+    diff = w_g * y_change - w_c * y_change
+
+    if test_type == 'cvm':
+        test_stat = np.mean(diff ** 2)
+    elif test_type == 'ks':
+        test_stat = np.max(np.abs(diff))
+    else:
+        raise ValueError("test_type must be 'cvm' or 'ks'")
+
+    # Bootstrap p-value
+    n_boot = 999
+    boot_stats = []
+    n = len(diff)
+
+    for _ in range(n_boot):
+        idx = np.random.choice(n, n, replace=True)
+        boot_diff = diff[idx]
+        if test_type == 'cvm':
+            boot_stats.append(np.mean(boot_diff ** 2))
+        else:
+            boot_stats.append(np.max(np.abs(boot_diff)))
+
+    p_value = np.mean(np.array(boot_stats) >= test_stat)
+
+    return {
+        'test_type': test_type,
+        'test_statistic': test_stat,
+        'p_value': p_value,
+        'passed': p_value > 0.05,
+        'interpretation': 'PASS: No evidence against parallel trends' if p_value > 0.05
+                         else 'WARNING: Possible parallel trends violation'
+    }
+
+# Usage
+result = icm_pretest(
+    data=df,
+    outcome='y',
+    treatment_time='first_treated',
+    unit_id='id',
+    time_id='year',
+    covariates=['x1', 'x2', 'x3'],
+    cohort=2015,
+    pre_period=2014,
+    test_type='cvm'
+)
+print(f"ICM Pre-Test ({result['test_type']})")
+print(f"  Test statistic: {result['test_statistic']:.4f}")
+print(f"  P-value: {result['p_value']:.4f}")
+print(f"  {result['interpretation']}")
+```
+
+**When to Use ICM vs Event Study**:
+
+| Method | Strengths | Limitations |
+|--------|-----------|-------------|
+| Event Study | Visual, easy to interpret | May miss covariate-dependent violations |
+| ICM Pre-Test | Tests conditional PT formally | Requires covariates, less intuitive |
+| Joint F-Test | Simple, standard | Only tests unconditional PT |
+
+**Recommendation**: Use ICM pre-test when:
+- You are using conditional parallel trends assumption
+- Covariates are important for identification
+- You want to formally test the assumption underlying your estimator
+
+---
+
+### 1.5 Rambachan-Roth Sensitivity Analysis
 
 **Purpose**: Assess sensitivity to parallel trends violations.
 
@@ -518,11 +680,13 @@ latex_table = report.to_latex()
 | Visual parallel trends | REQUIRED | Plot and inspect |
 | Event study pre-coefficients | REQUIRED | All should be insignificant |
 | Parallel trends test | REQUIRED | p > 0.05 |
+| ICM pre-test (if using covariates) | RECOMMENDED | p > 0.05 for conditional PT |
 | Placebo timing test | RECOMMENDED | No fake effects |
 | Balance tests | RECOMMENDED | Std diff < 0.25 |
 | Bacon decomposition | Required if staggered | Check for bad comparisons |
 | Cluster robustness | RECOMMENDED | Results stable |
 | Wild bootstrap | If few clusters | Check inference |
+| Multiplier bootstrap | For simultaneous inference | Uniform confidence bands |
 
 ---
 
